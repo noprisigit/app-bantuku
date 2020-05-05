@@ -65,14 +65,43 @@ $(document).ready(function () {
 
     $(document).on('click', '.btn-disable-category', function() {
         const CategoryID = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This category will be disabled",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "category/disable-category",
+                    data: { category_id : CategoryID },
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Category",
+                            text: "Category has been disabled",
+                            icon: 'success'
+                        });
+                        table.ajax.reload();
+                    }
+                });
+            }
+        })
+    });
+
+    $(document).on('click', '.btn-enable-category', function() {
+        const CategoryID = $(this).data('id');
         $.ajax({
             type: "POST",
-            url: "category/disable-category",
+            url: "category/enable-category",
             data: { category_id : CategoryID },
             success: function (res) {
                 Swal.fire({
                     title: "Category",
-                    text: "Category has been disabled",
+                    text: "Category has been enable",
                     icon: 'success'
                 });
                 table.ajax.reload();
