@@ -18,32 +18,18 @@ class Category extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function enable_category($id)
+    public function enable_category()
     {
-        $update = $this->category->enableCategory($id);
-
-        if ($update > 0) {
-            $this->session->set_flashdata('message', 'Category Status Succesfully Enable');
-            redirect('category');
-        } else {
-            $this->session->set_flashdata('message', 'Category Status Failed to Enable');
-            redirect('category');
-            echo $this->db->error();
-        }
+        $this->db->set('CategoryStatus', 1);
+        $this->db->where('CategoryID', $this->input->post('category_id'));
+        $this->db->update('categories');
     }
 
-    public function disable_category($id)
+    public function disable_category()
     {
-        $update = $this->category->disableCategory($id);
-
-        if ($update > 0) {
-            $this->session->set_flashdata('message', 'Category Status Succesfully Disabled');
-            redirect('category');
-        } else {
-            $this->session->set_flashdata('message', 'Category Status Failed to Disable');
-            redirect('category');
-            echo $this->db->error();
-        }
+        $this->db->set('CategoryStatus', 0);
+        $this->db->where('CategoryID', $this->input->post('category_id'));
+        $this->db->update('categories');
     }
 
     public function delete_category()
@@ -57,11 +43,11 @@ class Category extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($categories as $field) {
-            $button1 = '<a class="btn btn-sm btn-danger" href="category/disable-category/'.$field->CategoryID.'"><i class="fas fa-power-off"></i> Disable</a>' .
+            $button1 = '<a class="btn btn-sm btn-danger btn-disable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Disable</a>' .
             '&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>' . 
             '&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
-            $button2 = '<a class="btn btn-sm btn-primary" href="category/enable-category/'.$field->CategoryID.'"><i class="fas fa-power-off"></i> Enable</a>' .
+            $button2 = '<a class="btn btn-sm btn-primary btn-enable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Enable</a>' .
             '&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>' . 
             '&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
             

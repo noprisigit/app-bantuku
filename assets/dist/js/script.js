@@ -62,6 +62,23 @@ $(document).ready(function () {
             }
         })
     });
+
+    $(document).on('click', '.btn-disable-category', function() {
+        const CategoryID = $(this).data('id');
+        $.ajax({
+            type: "POST",
+            url: "category/disable-category",
+            data: { category_id : CategoryID },
+            success: function (res) {
+                Swal.fire({
+                    title: "Category",
+                    text: "Category has been disabled",
+                    icon: 'success'
+                });
+                table.ajax.reload();
+            }
+        });
+    });
 });
 
 
