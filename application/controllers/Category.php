@@ -18,6 +18,33 @@ class Category extends CI_Controller {
         $this->load->view('template/footer');
     }
 
+    public function create_category()
+    {
+        $config['upload_path']="./assets/dist/img/categories"; //path folder file upload
+        $config['allowed_types']='gif|jpg|png'; //type file yang boleh di upload
+        $config['encrypt_name'] = TRUE; //enkripsi file name upload
+         
+        $this->load->library('upload',$config); //call library upload 
+        if($this->upload->do_upload("category_icon")){ //upload file
+            $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+ 
+            $name = $this->input->post('category_name'); //get judul image
+            $description = $this->input->post('category_description');
+            $image = $data['upload_data']['file_name']; //set file name ke variable image
+
+            $input = [
+                'CategoryName'          => $name,
+                'CategoryDescription'   => $description,
+                'CategoryIcon'          => $image,
+                'CategoryStatus'        => 0
+            ];
+
+            $this->db->insert('categories', $input);
+            // $result= $this->m_upload->simpan_upload($judul,$image); //kirim value ke model m_upload
+            // echo json_decode($result);
+        }
+    }
+
     public function enable_category()
     {
         $this->db->set('CategoryStatus', 1);
@@ -52,11 +79,11 @@ class Category extends CI_Controller {
             $row[] = $no;
             $row[] = $field->CategoryName;
             $row[] = $field->CategoryDescription;
-            $row[] = $field->CategoryIcon;
+            $row[] = '<img src="assets/dist/img/categories/'.$field->CategoryIcon.'" width="128px" alt="Category Icon"/>';
             if ($field->CategoryStatus == 1) {
-                $row[] = '<p class="text-success">Active</p>';
+                $row[] = '<span class="badge badge-success">Active</span>';
             } else {
-                $row[] = '<p class="text-danger">Not Active</p>';
+                $row[] = '<span class="badge badge-danger">Not Active</span>';
             }
             if ($field->CategoryStatus == 1) {
                 $row[] = $button1;

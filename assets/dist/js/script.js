@@ -15,7 +15,7 @@ $(document).ready(function () {
                 "className": "text-center"
             },
             {
-                "targets": [4,5],
+                "targets": [3,4,5],
                 "className": "text-center"
             }
         ],
@@ -63,6 +63,7 @@ $(document).ready(function () {
         })
     });
 
+    //disable category
     $(document).on('click', '.btn-disable-category', function() {
         const CategoryID = $(this).data('id');
         Swal.fire({
@@ -92,6 +93,7 @@ $(document).ready(function () {
         })
     });
 
+    //enable category
     $(document).on('click', '.btn-enable-category', function() {
         const CategoryID = $(this).data('id');
         $.ajax({
@@ -107,6 +109,38 @@ $(document).ready(function () {
                 table.ajax.reload();
             }
         });
+    });
+
+    //create category
+    $('#form-save-category').submit(function(e) {
+        var name = $('#category_name').val();
+        var description = $('#category_description').val();
+        var icon = $('#category_icon').val();
+
+        if (name == "" || description == "" || icon == "") {
+            e.preventDefault();
+            alert('Harap isi seluruh field');
+        } else {
+            $.ajax({
+                url: 'category/create-category',
+                type: 'post',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                async: false,
+                success: function() {
+                    $('#modal-add').modal('hide');
+                    Swal.fire({
+                        title: "Category",
+                        text: "Category has been added",
+                        icon: 'success'
+                    });
+                    table.ajax.reload();
+                }
+            });
+            return false;
+        }
     });
 });
 

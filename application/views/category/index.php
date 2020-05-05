@@ -3,11 +3,11 @@
             <!-- Main content -->
             <section class="content">
 
-            <div class="flash-data" data-flashdata="<?= $this->session->flashdata('message'); ?>" data-title="Category"></div>
+            <!-- <div class="flash-data" data-flashdata="<?= $this->session->flashdata('message'); ?>" data-title="Category"></div> -->
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
+                    <button type="button" data-toggle="modal" data-target="#modal-add" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Category</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -41,4 +41,46 @@
 
             </section>
             <!-- /.content -->
+
+            <div class="modal fade" id="modal-add">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Tambah Kategori</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form id="form-save-category" type="post">
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Category Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <input type="text" class="form-control" name="category_description" id="category_description" placeholder="Category Description">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="icon">Icon</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="category_icon" id="category_icon" accept="image/png, image/jpg, image/gif">
+                                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" id="btn-save-category" class="btn btn-primary">Tambah</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         

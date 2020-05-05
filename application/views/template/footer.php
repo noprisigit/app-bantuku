@@ -33,30 +33,10 @@
     <!-- AdminLTE for demo purposes -->
     <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
     <script type="text/javascript">
-        // var table;
-        // $(document).ready(function () {
-            
-        //     table = $('#category').DataTable({ 
-        //         "processing": true, 
-        //         "serverSide": true, 
-        //         "order": [], 
-        //         "ajax": {
-        //             "url": "<?php echo site_url('category/show-list-category')?>",
-        //             "type": "POST"
-        //         },
-        //         "columnDefs": [
-        //             { 
-        //                 "targets": [ 0 ], 
-        //                 "orderable": false, 
-        //                 "className": "text-center"
-        //             },
-        //             {
-        //                 "targets": [4,5],
-        //                 "className": "text-center"
-        //             }
-        //         ],
-        //     });
-        // });
+        $('.custom-file-input').on('change', function () {
+            let filename = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass('selected').html(filename);
+        });
     </script>
 </body>
 
