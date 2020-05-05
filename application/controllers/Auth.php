@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
         parent::__construct();
         $this->load->library('form_validation');
     }
+
     public function index()
     {
         $this->form_validation->set_rules('username', 'username', 'trim|required', [
@@ -34,6 +35,8 @@ class Auth extends CI_Controller {
                             'AdminStatus'   => $data['AdminStatus']
                         ];
 
+                        $this->session->set_userdata($session);
+
                         $this->db->set('login_time', date('Y-m-d H:i:s'));
                         $this->db->where('AdminUsername', $username);
                         $this->db->update('admins');
@@ -58,5 +61,19 @@ class Auth extends CI_Controller {
                 redirect('auth');
             }
         }
+    }
+
+    public function logout() {
+        $data = [
+            'AdminID',
+            'AdminName',
+            'AdminStatus',
+        ];
+        $this->session->unset_userdata($data);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">
+            You have been logout.
+        </div>');
+        redirect('auth');
     }
 }

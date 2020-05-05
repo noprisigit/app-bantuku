@@ -1,4 +1,6 @@
 var table;
+var table_partner;
+
 $(document).ready(function () {   
     table = $('#category').DataTable({ 
         "processing": true, 
@@ -16,6 +18,31 @@ $(document).ready(function () {
             },
             {
                 "targets": [3,4,5],
+                "className": "text-center"
+            }
+        ],
+    });
+
+    table_partner = $('#partner').DataTable({
+        "processing": true, 
+        "serverSide": true, 
+        "order": [], 
+        "ajax": {
+            "url": "partner/show-list-partner",
+            "type": "POST"
+        },
+        "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+                "className": "text-center"
+            },
+            {
+                "targets": [3,4,5],
+                "className": "text-center"
+            },
+            {
+                "targets": [-1],
                 "className": "text-center"
             }
         ],
@@ -185,6 +212,66 @@ $(document).ready(function () {
             });
             return false;
         }
+    });
+
+    //tambah mitra
+    $('#form-save-partner').submit(function(e) {
+        var nama_toko = $('#nama_toko').val();
+        var nama_pemilik = $('#nama_pemilik').val();
+        var phone = $('#phone').val();
+        var email = $('#email').val();
+        var alamat = $('#alamat').val();
+
+        if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "") {
+            e.preventDefault();
+            alert('Field tidak boleh ada yang kosong');
+        } else {
+            $.ajax({
+                url: 'partner/save-partner',
+                type: 'post',
+                data: { nama_toko: nama_toko, nama_pemilik: nama_pemilik, phone: phone, email: email, alamat: alamat },
+                success: function() {
+                    $('[name="nama_toko"]').val("");
+                    $('[name="nama_pemilik"]').val("");
+                    $('[name="phone"]').val("");
+                    $('[name="email"]').val("");
+                    $('[name="alamat"]').val("");
+
+                    $('#modal-add-partner').modal('hide');
+                    Swal.fire({
+                        title: "Partners",
+                        text: "Partners has been added",
+                        icon: 'success'
+                    });
+                    table_partner.ajax.reload();
+                }
+            });
+            return false
+        }
+    });
+
+    $(document).on('click', '.btn-detail-partner', function() {
+        const uniqueID = $(this).data('uniqueid');
+        const nama_toko = $(this).data('nama_toko');
+        const nama_pemilik = $(this).data('nama_pemilik');
+        const alamat = $(this).data('alamat');
+        const phone = $(this).data('phone');
+        const email = $(this).data('email');
+
+        $('#det-part-uniqueID').empty();
+        $('#det-part-nama-toko').empty();
+        $('#det-part-nama-pemilik').empty();
+        $('#det-part-alamat').empty();
+        $('#det-part-phone').empty();
+        $('#det-part-email').empty();
+
+        $('#det-part-uniqueID').html(": " + uniqueID);
+        $('#det-part-nama-toko').html(": " + nama_toko);
+        $('#det-part-nama-pemilik').html(": " + nama_pemilik);
+        $('#det-part-alamat').html(": " + alamat);
+        $('#det-part-phone').html(": " + phone);
+        $('#det-part-email').html(": " + email);
+
     });
 });
 
