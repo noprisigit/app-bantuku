@@ -31,7 +31,7 @@
     <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
     <script>
         $(document).ready(function () {
-            table = $('#category').DataTable({ 
+            var table = $('#category').DataTable({ 
                 "processing": true, 
                 "serverSide": true, 
                 "order": [], 
@@ -50,7 +50,6 @@
                         "className": "text-center"
                     }
                 ],
-
             });
         });
     </script>

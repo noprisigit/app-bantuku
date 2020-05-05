@@ -65,4 +65,22 @@ class Category_m extends CI_Model
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    public function enableCategory($id)
+    {
+        $this->db->set('CategoryStatus', 1);
+        $this->db->where('CategoryID', $id);
+        $this->db->update($this->table);
+
+        return $this->db->affected_rows();
+    }
+
+    public function disableCategory($id)
+    {
+        $this->db->set('CategoryStatus', 0);
+        $this->db->where('CategoryID', $id);
+        $this->db->update($this->table);
+
+        return $this->db->affected_rows();
+    }
 }
