@@ -46,6 +46,11 @@ class Category extends CI_Controller {
         }
     }
 
+    public function delete_category()
+    {
+        $this->db->delete('categories', ['CategoryID' => $this->input->post('category_id')]);
+    }
+
     public function show_list_category()
     {
         $categories = $this->category->get_datatables();
@@ -54,13 +59,11 @@ class Category extends CI_Controller {
         foreach ($categories as $field) {
             $button1 = '<a class="btn btn-sm btn-danger" href="category/disable-category/'.$field->CategoryID.'"><i class="fas fa-power-off"></i> Disable</a>' .
             '&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>' . 
-            '&nbsp;<a class="btn btn-sm btn-danger" href="category/delete-category/'.$field->CategoryID.'" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            '&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
             $button2 = '<a class="btn btn-sm btn-primary" href="category/enable-category/'.$field->CategoryID.'"><i class="fas fa-power-off"></i> Enable</a>' .
             '&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>' . 
-            '&nbsp;<a class="btn btn-sm btn-danger" href="category/delete-category/'.$field->CategoryID.'" ><i class="fas fa-trash-alt"></i> Delete</a>';
-           
-            $url = "<?= base_url('category/edit-category/') ?>" . $field->CategoryID;
+            '&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
             
             $no++;
             $row = array();
