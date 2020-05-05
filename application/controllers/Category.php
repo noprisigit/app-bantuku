@@ -23,9 +23,11 @@ class Category extends CI_Controller {
         $update = $this->category->enableCategory($id);
 
         if ($update > 0) {
-            echo "berhasil diubah";
+            $this->session->set_flashdata('message', 'Category Status Succesfully Enable');
             redirect('category');
         } else {
+            $this->session->set_flashdata('message', 'Category Status Failed to Enable');
+            redirect('category');
             echo $this->db->error();
         }
     }
@@ -35,9 +37,11 @@ class Category extends CI_Controller {
         $update = $this->category->disableCategory($id);
 
         if ($update > 0) {
-            echo "berhasil diubah";
+            $this->session->set_flashdata('message', 'Category Status Succesfully Disabled');
             redirect('category');
         } else {
+            $this->session->set_flashdata('message', 'Category Status Failed to Disable');
+            redirect('category');
             echo $this->db->error();
         }
     }

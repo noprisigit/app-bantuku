@@ -3,6 +3,8 @@
             <!-- Main content -->
             <section class="content">
 
+            <div class="flash-data" data-flashdata="<?= $this->session->flashdata('message'); ?>" data-title="Category"></div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">DataTable with default features</h3>
