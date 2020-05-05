@@ -271,7 +271,97 @@ $(document).ready(function () {
         $('#det-part-alamat').html(": " + alamat);
         $('#det-part-phone').html(": " + phone);
         $('#det-part-email').html(": " + email);
+    });
 
+    $(document).on('click', '.btn-edit-partner', function() {
+        const id = $(this).data('id');
+        const uniqueID = $(this).data('uniqueid');
+        const nama_toko = $(this).data('nama_toko');
+        const nama_pemilik = $(this).data('nama_pemilik');
+        const alamat = $(this).data('alamat');
+        const phone = $(this).data('phone');
+        const email = $(this).data('email');
+
+        $('#modal-edit-partner').modal('show');
+        $('[name="partner_id"]').val(id);
+        $('[name="partner_uniqueid_edit"]').val(uniqueID);
+        $('[name="partner_nama_toko_edit"]').val(nama_toko);
+        $('[name="partner_nama_pemilik_edit"]').val(nama_pemilik);
+        $('[name="partner_alamat_edit"]').val(alamat);
+        $('[name="partner_phone_edit"]').val(phone);
+        $('[name="partner_email_edit"]').val(email);
+    });
+
+    $('#form-edit-partner').submit(function(e) {
+        var id = $('#partner_id').val();
+        var uniqueID = $('#partner_uniqueid_edit').val();
+        var nama_toko = $('#partner_nama_toko_edit').val();
+        var nama_pemilik = $('#partner_nama_pemilik_edit').val();
+        var phone = $('#partner_phone_edit').val();
+        var email = $('#partner_email_edit').val();
+        var alamat = $('#partner_alamat_edit').val();
+
+        if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "") {
+            e.preventDefault();
+            alert('Field tidak boleh ada yang kosong');
+        } else {
+            $.ajax({
+                url: 'partner/edit-partner',
+                type: 'post',
+                data: { uniqueid: uniqueID, nama_toko: nama_toko, nama_pemilik: nama_pemilik, phone: phone, email: email, alamat: alamat },
+                success: function() {
+                    $('[name="partner_id"]').val("");
+                    $('[name="partner_uniqueid_edit"]').val("");
+                    $('[name="partner_nama_toko_edit"]').val("");
+                    $('[name="partner_nama_pemilik_edit"]').val("");
+                    $('[name="partner_alamat_edit"]').val("");
+                    $('[name="partner_phone_edit"]').val("");
+                    $('[name="partner_email_edit"]').val("");
+
+                    $('#modal-edit-partner').modal('hide');
+                    Swal.fire({
+                        title: "Partners",
+                        text: "Partners has been updated",
+                        icon: 'success'
+                    });
+                    table_partner.ajax.reload();
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+            return false
+        }
+    });
+
+    $(document).on('click', '.btn-delete-partner', function(e){
+        e.preventDefault();
+        const PartnerID = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This partner will be deleted",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "partner/delete-partner",
+                    data: { partner_id : PartnerID },
+                    success: function () {
+                        Swal.fire({
+                            title: "Partner",
+                            text: "Partner has been deleted",
+                            icon: 'success'
+                        });
+                        table_partner.ajax.reload();
+                    }
+                });
+            }
+        })
     });
 });
 

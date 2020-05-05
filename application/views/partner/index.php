@@ -140,4 +140,56 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+
+            <div class="modal fade" id="modal-edit-partner">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Edit Mitra</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form id="form-edit-partner">
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input type="hidden" name="partner_id" id="partner_id">
+                                        <div class="form-group">
+                                            <label for="name">UniqueID</label>
+                                            <input type="text" class="form-control" name="partner_uniqueid_edit" id="partner_uniqueid_edit" placeholder="Unique ID" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Nama Toko</label>
+                                            <input type="text" class="form-control" name="partner_nama_toko_edit" id="partner_nama_toko_edit" placeholder="Nama Toko">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Nama Pemilik</label>
+                                            <input type="text" class="form-control" name="partner_nama_pemilik_edit" id="partner_nama_pemilik_edit" placeholder="Nama Pemilik">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">No. Handphone</label>
+                                            <input type="text" class="form-control" name="partner_phone_edit" id="partner_phone_edit" placeholder="Phone">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Email</label>
+                                            <input type="text" class="form-control" name="partner_email_edit" id="partner_email_edit" placeholder="Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Alamat</label>
+                                            <input type="text" class="form-control" name="partner_alamat_edit" id="partner_alamat_edit" placeholder="Alamat">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Perbaharui</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         

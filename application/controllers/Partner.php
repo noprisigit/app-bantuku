@@ -17,16 +17,6 @@ class Partner extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function create_partner()
-    {
-        $data['main_title'] = "Partner";
-        $data['title'] = "Tambah Partner";
-
-        $this->load->view('template/header', $data);
-        $this->load->view('partner/create-partner');
-        $this->load->view('template/footer');
-    }
-
     public function save_partner()
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -43,6 +33,24 @@ class Partner extends CI_Controller {
         $this->db->insert('partners', $data);
     }
 
+    public function edit_partner()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $this->db->set('CompanyName', $this->input->post('nama_toko'));
+        $this->db->set('PartnerName', $this->input->post('nama_pemilik'));
+        $this->db->set('Address', $this->input->post('alamat'));
+        $this->db->set('Phone', $this->input->post('phone'));
+        $this->db->set('Email', $this->input->post('email'));
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('PartnerUniqueID', $this->input->post('uniqueid'));
+        $this->db->update('partners');
+    }
+
+    public function delete_partner()
+    {
+        $this->db->delete('partners', ['PartnerID' => $this->input->post('partner_id')]);
+    }
+
     function show_list_partner()
     {
 
@@ -50,7 +58,7 @@ class Partner extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $button = '<button type="button" data-toggle="modal" data-target="#modal-detail-partner" class="btn btn-sm btn-primary btn-detail-partner" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'"><i class="fas fa-folder"></i> Detail</button>'.'&nbsp;<button type="button" data-id="'.$field->PartnerID.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->PartnerID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $button = '<button type="button" data-toggle="modal" data-target="#modal-detail-partner" class="btn btn-sm btn-primary btn-detail-partner" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'"><i class="fas fa-folder"></i> Detail</button>'.'&nbsp;<button type="button" data-id="'.$field->PartnerID.'" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" class="btn btn-sm btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-partner" data-id="'.$field->PartnerID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
             $no++;
             $row = array();

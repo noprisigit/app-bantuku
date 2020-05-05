@@ -117,7 +117,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" id="btn-edit-category" class="btn btn-primary">Perbaharui</button>
+                                <button type="submit" class="btn btn-primary">Perbaharui</button>
                             </div>
                         </form>
                     </div>
