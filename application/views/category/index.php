@@ -65,7 +65,7 @@
                                         <div class="form-group">
                                             <label for="icon">Icon</label>
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="category_icon" id="category_icon" accept="image/png, image/jpg, image/gif">
+                                                <input type="file" class="custom-file-input" name="category_icon" id="category_icon" accept="image/png, image/jpeg, image/gif">
                                                 <label class="custom-file-label" for="customFile">Choose file</label>
                                             </div>
                                         </div>
@@ -75,6 +75,49 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" id="btn-save-category" class="btn btn-primary">Tambah</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <div class="modal fade" id="modal-edit-category">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Edit Kategori</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form id="form-edit-category" type="post">
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input type="hidden" name="category_id">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" name="category_name_edit" id="category_name_edit" placeholder="Category Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <input type="text" class="form-control" name="category_description_edit" id="category_description_edit" placeholder="Category Description">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="icon">Icon</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="category_icon_edit" id="category_icon_edit" accept="image/png, image/jpeg, image/gif">
+                                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" id="btn-edit-category" class="btn btn-primary">Perbaharui</button>
                             </div>
                         </form>
                     </div>

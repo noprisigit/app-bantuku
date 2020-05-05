@@ -142,6 +142,50 @@ $(document).ready(function () {
             return false;
         }
     });
+
+    //show data category in model
+    $(document).on('click', '.btn-edit-category', function() {
+        const id = $(this).data('id');
+        const name = $(this).data('name');
+        const description = $(this).data('description');
+
+        $('#modal-edit-category').modal('show');
+        $('[name="category_id"]').val(id);
+        $('[name="category_name_edit"]').val(name);
+        $('[name="category_description_edit"]').val(description);
+    });
+
+    //edit category
+    $('#form-edit-category').submit(function(e) {
+        
+        var name = $('#category_name_edit').val();
+        var description = $('#category_description_edit').val();
+
+        if (name == "" || description == "") {
+            e.preventDefault();
+            alert('Harap isi seluruh field');
+        } else {
+            $.ajax({
+                url: 'category/edit-category',
+                type: 'post',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                cache: false,
+                async: false,
+                success: function() {
+                    $('#modal-edit-category').modal('hide');
+                    Swal.fire({
+                        title: "Category",
+                        text: "Category has been updated",
+                        icon: 'success'
+                    });
+                    table.ajax.reload();
+                }
+            });
+            return false;
+        }
+    });
 });
 
 

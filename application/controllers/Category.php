@@ -45,6 +45,35 @@ class Category extends CI_Controller {
         }
     }
 
+    public function edit_category()
+    {
+        $category = $this->db->get_where('categories', ['CategoryID' => $this->input->post('category_id')])->row_array();
+
+        $image = $_FILES['category_icon_edit']['name'];
+        if ($image != "") {
+            $config['upload_path']="./assets/dist/img/categories"; //path folder file upload
+            $config['allowed_types']='gif|jpg|png'; //type file yang boleh di upload
+            $config['encrypt_name'] = TRUE; //enkripsi file name upload
+
+            $this->load->library('upload',$config); //call library upload 
+
+            if ($this->upload->do_upload('category_icon_edit')) {
+                $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+
+                $new_image = $data['upload_data']['file_name'];
+                if ($new_image != $category['CategoryIcon']) {
+                    unlink(FCPATH . "/assets/dist/img/categories/" . $category['CategoryIcon']);
+                    $this->db->set('CategoryIcon', $new_image);
+                }
+            }
+        } 
+        $this->db->set('CategoryName', $this->input->post('category_name_edit'));
+        $this->db->set('CategoryDescription', $this->input->post('category_description_edit'));
+        $this->db->where('CategoryID', $this->input->post('category_id'));
+        $this->db->update('categories');
+        
+    }
+
     public function enable_category()
     {
         $this->db->set('CategoryStatus', 1);
@@ -70,9 +99,9 @@ class Category extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($categories as $field) {
-            $button1 = '<a class="btn btn-sm btn-danger btn-disable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Disable</a>'.'&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $button1 = '<a class="btn btn-sm btn-danger btn-disable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Disable</a>'.'&nbsp;<button type="button" data-id="'.$field->CategoryID.'" data-name="'.$field->CategoryName.'" data-description="'.$field->CategoryDescription.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
-            $button2 = '<a class="btn btn-sm btn-primary btn-enable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Enable</a>'.'&nbsp;<a class="btn btn-sm btn-info" href="category/edit-category/'.$field->CategoryID.'"><i class="fas fa-pencil-alt"></i> Edit</a>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $button2 = '<a class="btn btn-sm btn-primary btn-enable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Enable</a>'.'&nbsp;<button type="button" data-id="'.$field->CategoryID.'" data-name="'.$field->CategoryName.'" data-description="'.$field->CategoryDescription.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
             
             $no++;
             $row = array();
