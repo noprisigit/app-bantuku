@@ -6,6 +6,9 @@ class Slider extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Slider_m', 'slider');
+
+        if (!$this->session->userdata('AdminName'))
+            redirect('auth');
     }
 
     public function index()
@@ -46,6 +49,54 @@ class Slider extends CI_Controller {
         echo json_encode($res);
     }
 
+    public function slider_edit()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        // $input = [
+        //     'SliderID'          => $this->input->post('slider_id'),
+        //     'SliderName'        => $this->input->post('edit_slider_name'),
+        //     'SliderDescription' => $this->input->post('edit_slider_description'),
+        //     'start_date'        => $this->input->post('edit_slider_start_date'),
+        //     'end_date'          => $this->input->post('edit_slider_end_date'),
+        //     'SliderPicture'     => $_FILES['edit_slider_picture']['name']
+        // ];
+
+        $slider = $this->db->get_where('sliders', ['SliderID' => $this->input->post('slider_id')])->row_array();
+        $image = $_FILES['edit_slider_picture']['name'];
+        if ($image != "") {
+            $config['upload_path']="./assets/dist/img/sliders"; //path folder file upload
+            $config['allowed_types']='gif|jpg|jpeg|png'; //type file yang boleh di upload
+            $config['encrypt_name'] = TRUE; //enkripsi file name upload
+
+            $this->load->library('upload',$config); //call library upload 
+
+            if ($this->upload->do_upload('edit_slider_picture')) {
+                $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+
+                $new_image = $data['upload_data']['file_name'];
+                if ($new_image != $slider['SliderPicture']) {
+                    unlink(FCPATH . "/assets/dist/img/sliders/" . $slider['SliderPicture']);
+                    $this->db->set('SliderPicture', $new_image);
+                }
+            } else {
+                $res['status'] = false;
+                $res['msg'] = $this->upload->display_errors();
+            }
+        } 
+        $res['status'] = true;
+        
+        $this->db->set('SliderName', $this->input->post('edit_slider_name'));
+        $this->db->set('SliderDescription', $this->input->post('edit_slider_description'));
+        $this->db->set('start_date', $this->input->post('edit_slider_start_date'));
+        $this->db->set('end_date', $this->input->post('edit_slider_end_date'));
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('SliderID', $this->input->post('slider_id'));
+        $this->db->update('sliders');
+
+        echo json_encode($res);
+    }
+
     public function show_list_slider()
     {
         $list = $this->slider->get_datatables();
@@ -54,7 +105,7 @@ class Slider extends CI_Controller {
         foreach ($list as $field) {
             $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i> Detail</button>';
             
-            $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i> Edit</button>';
+            $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
             $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-partner" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 

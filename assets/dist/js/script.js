@@ -437,6 +437,7 @@ $(document).ready(function () {
                                 text: "Slider has been added",
                                 icon: 'success'
                             });
+                            table_slider.ajax.reload();
                         }
                     }
                 });
@@ -459,6 +460,77 @@ $(document).ready(function () {
         $('#det-slider-description').html(': ' + description);
         $('#det-slider-start').html(': ' + start);
         $('#det-slider-end').html(': ' + end);
+    });
+
+    $(document).on('click', '.btn-edit-slider', function() {
+        $('#modal-edit-slider').modal('show');
+
+        const id = $(this).data('id');
+        const name = $(this).data('name');
+        const description = $(this).data('description');
+        const start = $(this).data('start');
+        const end = $(this).data('end');
+
+        $('#slider_id').val(id);
+        $('#edit-slider-name').val(name);
+        $('#edit-slider-description').val(description);
+        $('#edit-slider-start').val(start);
+        $('#edit-slider-end').val(end);
+    });
+
+    $('#form-edit-slider').on('submit', function(e) {
+        const name = $('#edit-slider-name').val();
+        const description = $('#edit-slider-description').val();
+        const start_date = $('#edit-slider-start').val();
+        const end_date = $('#edit-slider-end').val();
+
+        const checkStartDate = new Date($('#edit-slider-start').val());
+        const checkEndDate = new Date($('#edit-slider-end').val());
+        const currentDate = new Date();
+
+        if (name == "" || description == "" || start_date == "" || end_date == "") {
+            e.preventDefault();
+            toastr.error('Please fill all the field');
+        } else {
+            if (checkStartDate < currentDate) {
+                e.preventDefault();
+                toastr.error('Tanggal mulai sudah lewat');
+            } else if (checkStartDate > checkEndDate) {
+                e.preventDefault();
+                toastr.error('Tanggal mulai tidak boleh lebih besar dari tanggal berakhir');
+            } else {
+                $.ajax({
+                    url: 'slider/slider-edit',
+                    method: 'post',
+                    data: new FormData(this),
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(res) {
+                        if(res.status == false) {
+                            toastr.error(res.msg);
+                        } else {
+                            $('[name="edit_slider_name"]').val("");
+                            $('[name="edit_slider_description"]').val("");
+                            $('[name="edit_slider_start_date"]').val("");
+                            $('[name="edit_slider_end_date"]').val("");
+                            $('[name="edit_slider_picture"]').val("");
+    
+                            $('#modal-edit-slider').modal('hide');
+    
+                            Swal.fire({
+                                title: "Slider",
+                                text: "Slider has been updated",
+                                icon: 'success'
+                            });
+                            table_slider.ajax.reload();
+                        }
+                    }
+                });
+                return false;
+            }
+        }
     });
 });
 
