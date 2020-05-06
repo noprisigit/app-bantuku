@@ -52,19 +52,22 @@ class Slider extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider"><i class="fas fa-folder"></i> Detail</button>';
+            $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i> Detail</button>';
             
             $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
             $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-partner" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
-            
+
+            $date_start = date_create($field->start_date);
+            $date_end = date_create($field->end_date);
+
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $field->SliderName;
             $row[] = $field->SliderDescription;
-            $row[] = $field->start_date;
-            $row[] = $field->end_date;
+            $row[] = date_format($date_start, 'd-m-Y');
+            $row[] = date_format($date_end, 'd-m-Y');
             $row[] = $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
  
             $data[] = $row;

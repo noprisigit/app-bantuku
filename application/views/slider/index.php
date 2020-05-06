@@ -95,4 +95,47 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+
+            <div class="modal fade" id="modal-detail-slider">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Detail Mitra</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img class="img-fluid" id="img-slider" alt="">
+                                    <table class="table table-bordered mt-3">
+                                        <tr>
+                                            <td>Name</td>
+                                            <td id="det-slider-name"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td id="det-slider-description"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Start Date</td>
+                                            <td id="det-slider-start"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>End Date</td>
+                                            <td id="det-slider-end"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         

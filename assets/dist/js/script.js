@@ -444,6 +444,22 @@ $(document).ready(function () {
             }
         }
     });
+
+    $(document).on('click', '.btn-detail-slider', function() {
+        $('#modal-detail-slider').modal('show');
+
+        const name = $(this).data('name');
+        const description = $(this).data('description');
+        const start = $(this).data('start');
+        const end = $(this).data('end');
+        const picture = $(this).data('picture');
+
+        $('#img-slider').attr('src', 'assets/dist/img/sliders/' + picture);
+        $('#det-slider-name').html(': ' + name);
+        $('#det-slider-description').html(': ' + description);
+        $('#det-slider-start').html(': ' + start);
+        $('#det-slider-end').html(': ' + end);
+    });
 });
 
 
