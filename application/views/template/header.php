@@ -191,10 +191,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Partner" or $title == "Tambah Partner") ? 'active' : '' ?>">
+                            <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Partner") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Master Partners
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('slider') ?>" class="nav-link <?= ($title == "Slider") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Master Slider
                                 </p>
                             </a>
                         </li>
