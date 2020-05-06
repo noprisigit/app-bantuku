@@ -532,6 +532,36 @@ $(document).ready(function () {
             }
         }
     });
+
+    $(document).on('click', '.btn-delete-slider', function(e){
+        e.preventDefault();
+        const SliderID = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This slider will be deleted",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "slider/slider-delete",
+                    data: { SliderID : SliderID },
+                    success: function () {
+                        Swal.fire({
+                            title: "Slider",
+                            text: "Slider has been deleted",
+                            icon: 'success'
+                        });
+                        table_slider.ajax.reload();
+                    }
+                });
+            }
+        })
+    });
 });
 
 

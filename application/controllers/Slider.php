@@ -53,15 +53,6 @@ class Slider extends CI_Controller {
     {
         date_default_timezone_set('Asia/Jakarta');
 
-        // $input = [
-        //     'SliderID'          => $this->input->post('slider_id'),
-        //     'SliderName'        => $this->input->post('edit_slider_name'),
-        //     'SliderDescription' => $this->input->post('edit_slider_description'),
-        //     'start_date'        => $this->input->post('edit_slider_start_date'),
-        //     'end_date'          => $this->input->post('edit_slider_end_date'),
-        //     'SliderPicture'     => $_FILES['edit_slider_picture']['name']
-        // ];
-
         $slider = $this->db->get_where('sliders', ['SliderID' => $this->input->post('slider_id')])->row_array();
         $image = $_FILES['edit_slider_picture']['name'];
         if ($image != "") {
@@ -97,6 +88,13 @@ class Slider extends CI_Controller {
         echo json_encode($res);
     }
 
+    public function slider_delete()
+    {
+        $slider = $this->db->get_where('sliders', ['SliderID' => $this->input->post('SliderID')])->row_array();
+        unlink(FCPATH . "/assets/dist/img/sliders/" . $slider['SliderPicture']);
+        $this->db->delete('sliders', ['SliderID' => $this->input->post('SliderID')]);
+    }
+
     public function show_list_slider()
     {
         $list = $this->slider->get_datatables();
@@ -107,7 +105,7 @@ class Slider extends CI_Controller {
             
             $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
-            $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-partner" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-slider" data-id="'.$field->SliderID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
             $date_start = date_create($field->start_date);
             $date_end = date_create($field->end_date);
