@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="<?= base_url('assets') ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="<?= base_url('assets') ?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="<?= base_url('assets') ?>/plugins/toastr/toastr.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="<?= base_url('assets') ?>/dist/css/adminlte.css">
     <!-- Google Font: Source Sans Pro -->

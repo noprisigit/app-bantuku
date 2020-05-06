@@ -64,10 +64,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="icon">Icon</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="category_icon" id="category_icon" accept="image/png, image/jpeg, image/gif">
-                                                <label class="custom-file-label" for="customFile">Choose file</label>
-                                            </div>
+                                            <input type="file" class="form-control" name="category_icon" id="category_icon" accept="image/png, image/jpeg, image/gif">
                                         </div>
                                     </div>
                                 </div>
