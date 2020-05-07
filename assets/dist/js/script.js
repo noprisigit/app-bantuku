@@ -247,21 +247,33 @@ $(document).ready(function () {
         var phone = $('#phone').val();
         var email = $('#email').val();
         var alamat = $('#alamat').val();
+        var provinsi = $('#provinsi').val();
+        var kabupaten = $('#kabupaten').val();
+        var kode_pos = $('#kode-pos').val();
+        var gambar = $('#gambar_toko').val();
 
-        if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "") {
+        if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "" || provinsi == "" || kabupaten == "" || kode_pos == "" || gambar == "") {
             e.preventDefault();
-            alert('Field tidak boleh ada yang kosong');
+            toastr.error('Please fill all the field');
         } else {
             $.ajax({
                 url: 'partner/save-partner',
                 type: 'post',
-                data: { nama_toko: nama_toko, nama_pemilik: nama_pemilik, phone: phone, email: email, alamat: alamat },
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
                 success: function() {
                     $('[name="nama_toko"]').val("");
                     $('[name="nama_pemilik"]').val("");
                     $('[name="phone"]').val("");
                     $('[name="email"]').val("");
                     $('[name="alamat"]').val("");
+                    $('[name="provinsi"]').val("");
+                    $('[name="kabupaten"]').val("");
+                    $('[name="kode_pos"]').val("");
+                    $('[name="gambar_toko"]').val("");
 
                     $('#modal-add-partner').modal('hide');
                     Swal.fire({
@@ -283,6 +295,10 @@ $(document).ready(function () {
         const alamat = $(this).data('alamat');
         const phone = $(this).data('phone');
         const email = $(this).data('email');
+        const provinsi = $(this).data('provinsi');
+        const kabupaten = $(this).data('kabupaten');
+        const pos = $(this).data('pos');
+        const gambar = $(this).data('gambar');
 
         $('#det-part-uniqueID').empty();
         $('#det-part-nama-toko').empty();
@@ -294,9 +310,10 @@ $(document).ready(function () {
         $('#det-part-uniqueID').html(": " + uniqueID);
         $('#det-part-nama-toko').html(": " + nama_toko);
         $('#det-part-nama-pemilik').html(": " + nama_pemilik);
-        $('#det-part-alamat').html(": " + alamat);
+        $('#det-part-alamat').html(": " + alamat + " " + kabupaten + " " + provinsi + " " + pos);
         $('#det-part-phone').html(": " + phone);
         $('#det-part-email').html(": " + email);
+        $('#shop-picture').attr('src', 'assets/dist/img/partners/' + gambar);
     });
 
     $(document).on('click', '.btn-edit-partner', function() {

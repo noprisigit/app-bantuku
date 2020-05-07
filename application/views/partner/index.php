@@ -127,7 +127,7 @@
             <!-- /.modal -->
 
             <div class="modal fade" id="modal-detail-partner">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
                             <h4 class="modal-title">Detail Mitra</h4>
@@ -137,32 +137,39 @@
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <td width="30%">Unique ID</td>
-                                            <td id="det-part-uniqueID"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama Toko</td>
-                                            <td id="det-part-nama-toko"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama Pemilik</td>
-                                            <td id="det-part-nama-pemilik"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Phone</td>
-                                            <td id="det-part-phone"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td id="det-part-email"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Alamat</td>
-                                            <td id="det-part-alamat"></td>
-                                        </tr>
-                                    </table>
+                                    <div class="row">
+                                        <div class="col-md-4 d-flex justify-content-center">
+                                            <img src="" class="img-fluid img-thumbnail" width="256" id="shop-picture" alt="Gambar Toko">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <td width="30%">Unique ID</td>
+                                                    <td id="det-part-uniqueID"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Toko</td>
+                                                    <td id="det-part-nama-toko"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Pemilik</td>
+                                                    <td id="det-part-nama-pemilik"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Phone</td>
+                                                    <td id="det-part-phone"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email</td>
+                                                    <td id="det-part-email"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alamat</td>
+                                                    <td id="det-part-alamat"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
