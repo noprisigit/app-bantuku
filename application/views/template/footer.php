@@ -49,7 +49,6 @@
 
         $('.province').on('change', function() {
             const ProvinceID = $(this).val();
-            console.log(ProvinceID);
 
             $('.district').empty();
             $.ajax({

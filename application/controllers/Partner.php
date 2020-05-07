@@ -54,6 +54,7 @@ class Partner extends CI_Controller {
                     'ShopPicture'       => $data['file_name']
                 ];
                 $res['status'] = true;
+                $res['provinsi'] = $this->db->get('provinces')->result_array();
                 $this->db->insert('partners', $input);
             }
         }
@@ -76,12 +77,13 @@ class Partner extends CI_Controller {
 
     public function delete_partner()
     {
+        $partner = $this->db->get_where('partners', ['PartnerID' => $this->input->post('partner_id')])->row_array();
+        unlink(FCPATH . "/assets/dist/img/partners/" . $partner['ShopPicture']);
         $this->db->delete('partners', ['PartnerID' => $this->input->post('partner_id')]);
     }
 
     function show_list_partner()
     {
-
         $list = $this->partner->get_datatables();
         $data = array();
         $no = $_POST['start'];

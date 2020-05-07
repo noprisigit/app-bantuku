@@ -70,16 +70,6 @@ $(document).ready(function () {
         ],
     });
 
-    // const flashData = $('.flash-data').data('flashdata');
-    // const title = $('.flash-data').data('title');
-
-    // if (flashData) {
-    //     Swal.fire({
-    //         title: title,
-    //         text: flashData,
-    //         icon: 'success'
-    //     });
-    // }
 
     //delete category
     $(document).on('click', '.btn-delete-category', function(e){
@@ -264,24 +254,35 @@ $(document).ready(function () {
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function() {
-                    $('[name="nama_toko"]').val("");
-                    $('[name="nama_pemilik"]').val("");
-                    $('[name="phone"]').val("");
-                    $('[name="email"]').val("");
-                    $('[name="alamat"]').val("");
-                    $('[name="provinsi"]').val("");
-                    $('[name="kabupaten"]').val("");
-                    $('[name="kode_pos"]').val("");
-                    $('[name="gambar_toko"]').val("");
-
-                    $('#modal-add-partner').modal('hide');
-                    Swal.fire({
-                        title: "Partners",
-                        text: "Partners has been added",
-                        icon: 'success'
-                    });
-                    table_partner.ajax.reload();
+                success: function(res) {
+                    if (res.status == false) {
+                        toastr.error(res.msg);
+                    } else {
+                        
+                        $('[name="nama_toko"]').val("");
+                        $('[name="nama_pemilik"]').val("");
+                        $('[name="phone"]').val("");
+                        $('[name="email"]').val("");
+                        $('[name="alamat"]').val("");
+                        $('[name="provinsi"]').empty();
+                        $('[name="provinsi"]').append('<option selected disabled>Provinsi</option>');
+                        for (var i = 0; i < res.provinsi.length; i++) {
+                            $('[name="provinsi"]').append('<option value="' + res.provinsi[i]['ProvinceID'] + '">' + res.provinsi[i]['ProvinceName'] + '</option>')
+                        }
+                            
+                        $('[name="kabupaten"]').empty();
+                        $('[name="kabupaten"]').append('<option selected disabled>Kabupaten</option>')
+                        $('[name="kode_pos"]').val("");
+                        $('[name="gambar_toko"]').val("");
+    
+                        $('#modal-add-partner').modal('hide');
+                        Swal.fire({
+                            title: "Partners",
+                            text: "Partners has been added",
+                            icon: 'success'
+                        });
+                        table_partner.ajax.reload();
+                    }
                 }
             });
             return false

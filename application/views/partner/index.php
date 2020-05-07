@@ -92,7 +92,7 @@
                                                         <option selected="selected" disabled>Provinsi</option>
                                                         <?php foreach ($provinsi as $item) : ?>
                                                             <option value="<?= $item['ProvinceID'] ?>"><?= $item['ProvinceName'] ?></option>
-                                                        <?php endforeach; ?>
+                                                        <?php endforeach; ?>                   
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
