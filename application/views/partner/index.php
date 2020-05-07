@@ -184,41 +184,70 @@
             <!-- /.modal -->
 
             <div class="modal fade" id="modal-edit-partner">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
                             <h4 class="modal-title">Edit Mitra</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
-                        <form id="form-edit-partner">
+                        <form id="form-edit-partner" method="post" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="card">
                                     <div class="card-body">
                                         <input type="hidden" name="partner_id" id="partner_id">
-                                        <div class="form-group">
-                                            <label for="name">UniqueID</label>
-                                            <input type="text" class="form-control" name="partner_uniqueid_edit" id="partner_uniqueid_edit" placeholder="Unique ID" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Nama Toko</label>
-                                            <input type="text" class="form-control" name="partner_nama_toko_edit" id="partner_nama_toko_edit" placeholder="Nama Toko">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Nama Pemilik</label>
-                                            <input type="text" class="form-control" name="partner_nama_pemilik_edit" id="partner_nama_pemilik_edit" placeholder="Nama Pemilik">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">No. Handphone</label>
-                                            <input type="text" class="form-control" name="partner_phone_edit" id="partner_phone_edit" placeholder="Phone">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Email</label>
-                                            <input type="text" class="form-control" name="partner_email_edit" id="partner_email_edit" placeholder="Email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Alamat</label>
-                                            <input type="text" class="form-control" name="partner_alamat_edit" id="partner_alamat_edit" placeholder="Alamat">
+                                        <div class="row">
+                                            <div class="col-md-6">    
+                                                <div class="form-group">
+                                                    <label for="name">UniqueID</label>
+                                                    <input type="text" class="form-control" name="partner_uniqueid_edit" id="partner_uniqueid_edit" placeholder="Unique ID" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Nama Toko</label>
+                                                    <input type="text" class="form-control" name="partner_nama_toko_edit" id="partner_nama_toko_edit" placeholder="Nama Toko">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Nama Pemilik</label>
+                                                    <input type="text" class="form-control" name="partner_nama_pemilik_edit" id="partner_nama_pemilik_edit" placeholder="Nama Pemilik">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">No. Handphone</label>
+                                                    <input type="text" class="form-control" name="partner_phone_edit" id="partner_phone_edit" placeholder="Phone">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Email</label>
+                                                    <input type="text" class="form-control" name="partner_email_edit" id="partner_email_edit" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="description">Alamat</label>
+                                                    <input type="text" class="form-control" name="partner_alamat_edit" id="partner_alamat_edit" placeholder="Alamat">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nama-toko">Provinsi</label>
+                                                    <select class="form-control select2bs4 province" name="partner_provinsi_edit" id="partner_provinsi_edit" style="width: 100%;">
+                                                        <option selected="selected" disabled>Provinsi</option>
+                                                        <?php foreach ($provinsi as $item) : ?>
+                                                            <option value="<?= $item['ProvinceID'] ?>"><?= $item['ProvinceName'] ?></option>
+                                                        <?php endforeach; ?>                   
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nama-pemilik">Kabupaten</label>
+                                                    <select class="form-control select2bs4 district" name="partner_kabupaten_edit" id="partner_kabupaten_edit" style="width: 100%;">
+                                                        <option selected="selected" disabled>Kabupaten</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="phone">Kode Pos</label>
+                                                    <input type="text" class="form-control" name="partner_kode_pos_edit" id="partner_kode_pos_edit" placeholder="Kode Pos">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Gambar Toko (Jika Diperlukan)</label>
+                                                    <input type="file" class="form-control" name="partner_gambar_toko_edit" id="partner_gambar_toko_edit">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

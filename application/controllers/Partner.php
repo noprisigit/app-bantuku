@@ -65,14 +65,45 @@ class Partner extends CI_Controller {
     public function edit_partner()
     {
         date_default_timezone_set('Asia/Jakarta');
-        $this->db->set('CompanyName', $this->input->post('nama_toko'));
-        $this->db->set('PartnerName', $this->input->post('nama_pemilik'));
-        $this->db->set('Address', $this->input->post('alamat'));
-        $this->db->set('Phone', $this->input->post('phone'));
-        $this->db->set('Email', $this->input->post('email'));
+        $partner = $this->db->get_where('partners', ['PartnerID' => $this->input->post('partner_id')])->row_array();
+        $image = $_FILES['partner_gambar_toko_edit']['name'];
+        if ($image != "") {
+            $config['upload_path']="./assets/dist/img/partners"; //path folder file upload
+            $config['allowed_types']='gif|jpg|jpeg|png'; //type file yang boleh di upload
+            $config['encrypt_name'] = TRUE; //enkripsi file name upload
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('partner_gambar_toko_edit')) {
+                $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+
+                $new_image = $data['upload_data']['file_name'];
+                if ($new_image != $partner['ShopPicture']) {
+                    unlink(FCPATH . "/assets/dist/img/partners/" . $partner['ShopPicture']);
+                    $this->db->set('ShopPicture', $new_image);
+                } else {
+                    $res['status'] = false;
+                    $res['msg'] = $this->upload->display_errors();
+                }
+            }
+        }
+        $res['status'] = true;
+
+        $province = $this->db->get_where('provinces', ['ProvinceID' => $this->input->post('partner_provinsi_edit')])->row_array();
+
+        $this->db->set('CompanyName', $this->input->post('partner_nama_toko_edit'));
+        $this->db->set('PartnerName', $this->input->post('partner_nama_pemilik_edit'));
+        $this->db->set('Address', $this->input->post('partner_alamat_edit'));
+        $this->db->set('Phone', $this->input->post('partner_phone_edit'));
+        $this->db->set('Email', $this->input->post('partner_email_edit'));
+        $this->db->set('Province', $province['ProvinceName']);
+        $this->db->set('District', $this->input->post('partner_kabupaten_edit'));
+        $this->db->set('PostalCode', $this->input->post('partner_kode_pos_edit'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
-        $this->db->where('PartnerUniqueID', $this->input->post('uniqueid'));
+        $this->db->where('PartnerUniqueID', $this->input->post('partner_uniqueid_edit'));
         $this->db->update('partners');
+
+        echo json_encode($res);
     }
 
     public function delete_partner()
@@ -90,7 +121,7 @@ class Partner extends CI_Controller {
         foreach ($list as $field) {
             $btn_detail = '<button type="button" data-toggle="modal" data-target="#modal-detail-partner" class="btn btn-sm btn-primary btn-detail-partner" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'"><i class="fas fa-folder"></i> Detail</button>';
             
-            $btn_edit = '<button type="button" data-id="'.$field->PartnerID.'" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" class="btn btn-sm btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i> Edit</button>';
+            $btn_edit = '<button type="button" data-id="'.$field->PartnerID.'" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" class="btn btn-sm btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
             $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-partner" data-id="'.$field->PartnerID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
             
@@ -122,6 +153,14 @@ class Partner extends CI_Controller {
     {
         $data = $this->db->get_where('districts', ['ProvinceID' => $this->input->post('ProvinceID')])->result_array();
     
+        echo json_encode($data);
+    }
+
+    public function province_get_by_name()
+    {
+        $data['all_provinsi'] = $this->db->get('provinces')->result_array();
+        $data['provinsi'] = $this->db->get_where('provinces', ['ProvinceName' => $this->input->post('ProvinceName')])->row_array();
+        $data['kabupaten'] = $this->db->get_where('districts', ['ProvinceID' => $data['provinsi']['ProvinceID']])->result_array();
         echo json_encode($data);
     }
 }
