@@ -29,6 +29,8 @@
     <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?= base_url('assets') ?>/plugins/toastr/toastr.min.js"></script>
+    <!-- Select2 -->
+    <script src="<?= base_url('assets') ?>/plugins/select2/js/select2.full.min.js"></script>
     <!-- Sript -->
     <script src="<?= base_url('assets') ?>/dist/js/script.js"></script>
     <!-- AdminLTE App -->
@@ -40,6 +42,29 @@
             let filename = $(this).val().split('\\').pop();
             $(this).next('.custom-file-label').addClass('selected').html(filename);
         });
+
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+
+        $('.province').on('change', function() {
+            const ProvinceID = $(this).val();
+            console.log(ProvinceID);
+
+            $('.district').empty();
+            $.ajax({
+                url: "<?= base_url('partner/district_get') ?>",
+                type: "post",
+                data: { ProvinceID: ProvinceID },
+                dataType: "json",
+                success: function(res) {
+                    $('.district').append('<option selected="selected" disabled>Kabupaten</option>');
+                    for (var i = 0; i < res.length; i++) {
+                        $('.district').append('<option value="' + res[i]['DistrictName'] + '">' + res[i]['DistrictName'] + '</option>');
+                    }
+                }
+            });
+        })
     </script>
 </body>
 

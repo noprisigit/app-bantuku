@@ -5,6 +5,9 @@ class Partner extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Partner_m', 'partner');
+
+        if (!$this->session->userdata('AdminName'))
+            redirect('auth');
     }
 
     public function index()
@@ -12,8 +15,10 @@ class Partner extends CI_Controller {
         $data['main_title'] = "Partner";
         $data['title'] = "Partner";
 
+        $data['provinsi'] = $this->db->get('provinces')->result_array();
+
         $this->load->view('template/header', $data);
-        $this->load->view('partner/index');
+        $this->load->view('partner/index', $data);
         $this->load->view('template/footer');
     }
 
@@ -82,5 +87,12 @@ class Partner extends CI_Controller {
         );
         //output dalam format JSON
         echo json_encode($output);
+    }
+
+    public function district_get()
+    {
+        $data = $this->db->get_where('districts', ['ProvinceID' => $this->input->post('ProvinceID')])->result_array();
+    
+        echo json_encode($data);
     }
 }

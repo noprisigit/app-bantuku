@@ -6,6 +6,8 @@ class Category extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Category_m', 'category');
+        if (!$this->session->userdata('AdminName'))
+            redirect('auth');
     }
 
     public function index()
