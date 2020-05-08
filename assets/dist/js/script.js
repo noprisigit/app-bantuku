@@ -834,6 +834,109 @@ $(document).ready(function () {
             }
         })
     });
+
+    $(document).on('click', '.btn-edit-product', function() {
+        const uniqueID = $(this).data('id');
+        const nama = $(this).data('nama');
+        const price = $(this).data('price');
+        const stock = $(this).data('stock');
+        const weight = $(this).data('weight');
+        const desc = $(this).data('desc');
+        const image = $(this).data('image');
+        const toko = $(this).data('toko');
+        const kategori = $(this).data('kategori');
+        const partnerID = $(this).data('partnerid');
+
+        $('#modal-edit-product').modal('show');
+
+        $('#product_unique_edit').val(uniqueID);
+        $('#product_name_edit').val(nama);
+        $('#product_price_edit').val(price);
+        $('#product_stock_edit').val(stock);
+        $('#product_weight_edit').val(weight);
+        $('#product_desc_edit').html(desc);
+
+        $('#product_category_edit').empty()
+        $('#product_category_edit').append('<option selected disabled>Kategori Produk</option>');
+        
+        $('#product_partner_edit').empty()
+        $('#product_partner_edit').append('<option selected disabled>Nama Toko</option>');
+        
+        $.ajax({
+            url: 'product/load_data_edit',
+            type: 'get',
+            dataType: 'json',
+            success: function (res) {
+                var category = res.categories;
+                var partner = res.partners;
+
+                for (var i = 0; i < category.length; i++) {
+                    if (category[i]['CategoryName'] == kategori) {
+                        $('#product_category_edit').append('<option value="'+ category[i]['CategoryID'] +'" selected>'+ category[i]['CategoryName'] +'</option>');
+                    } else {
+                        $('#product_category_edit').append('<option value="'+ category[i]['CategoryID'] +'">'+ category[i]['CategoryName'] +'</option>');
+                    }
+                }
+
+                for (var i = 0; i < partner.length; i++) {
+                    if (partner[i]['PartnerUniqueID'] == partnerID) {
+                        $('#product_partner_edit').append('<option value="'+ partner[i]['PartnerID'] +'" selected>'+ partner[i]['CompanyName'] +'</option>');
+                    } else {
+                        $('#product_partner_edit').append('<option value="'+ partner[i]['PartnerID'] +'">'+ partner[i]['CompanyName'] +'</option>');
+                    }
+                }
+            }
+        });
+    });
+
+    $('#form-edit-product').submit(function(e) {
+        const name = $('#product_name_edit').val();
+        const price = $('#product_name_edit').val();
+        const stock = $('#product_stock_edit').val();
+        const weight = $('#product_weight_edit').val();
+        const category = $('#product_category_edit').val();
+        const partner = $('#product_partner_edit').val();
+        const image = $('#product_image_edit').val();
+        const desc = $('#product_desc_edit').val();
+
+        if (name == "" || price == "" || stock == "" || weight == "" || category == "" || partner == "" || desc == "") {
+            e.preventDefault();
+            toastr.error('Please fill all the fields');
+        } else {
+            e.preventDefault();
+            $.ajax({
+                url: 'product/product-edit',
+                type: 'post',
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(res) {
+                    if (res.status == false) {
+                        e.preventDefault();
+                        toastr.error(res.msg);
+                    } else {
+                        $('[name="product_name"]').val("");
+                        $('[name="product_price"]').val("");
+                        $('[name="product_stock"]').val("");
+                        $('[name="product_weight"]').val("");                    
+                        $('[name="product_image"]').val("");
+                        $('[name="product_desc"]').val("");
+                        
+                        $('#modal-edit-product').modal('hide');
+                        Swal.fire({
+                            title: "Product",
+                            text: "Product has been updated",
+                            icon: 'success'
+                        });
+                        table_product.ajax.reload();
+                    }
+                }
+            });
+            return false
+        }
+    });
 });
 
 

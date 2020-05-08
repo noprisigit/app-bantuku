@@ -81,10 +81,10 @@ class Partner extends CI_Controller {
                 if ($new_image != $partner['ShopPicture']) {
                     unlink(FCPATH . "/assets/dist/img/partners/" . $partner['ShopPicture']);
                     $this->db->set('ShopPicture', $new_image);
-                } else {
-                    $res['status'] = false;
-                    $res['msg'] = $this->upload->display_errors();
                 }
+            } else {
+                $res['status'] = false;
+                $res['msg'] = $this->upload->display_errors();
             }
         }
         $res['status'] = true;

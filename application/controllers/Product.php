@@ -75,6 +75,55 @@ class Product extends CI_Controller {
         echo json_encode($res);
     }
 
+    public function product_edit()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->db->select('ProductImage, ProductThumbnail');
+        $product = $this->db->get_where('products', ['ProductUniqueID' => $this->input->post('product_unique_id')])->row_array();
+        
+        $image = $_FILES['product_image']['name'];
+
+        if ($image != "") {
+            $config['upload_path']="./assets/dist/img/products"; //path folder file upload
+            $config['allowed_types']='png|jpg|jpeg'; //type file yang boleh di upload
+            $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
+
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('product_image')) {
+                $data = $this->upload->data();
+                resizeImage($data['file_name'], 'products');
+
+                $new_image = $data['file_name'];
+                if ($new_image != $product['ProductImage']) {
+                    unlink(FCPATH . "/assets/dist/img/products/" . $product['ProductImage']);
+                    unlink(FCPATH . "/assets/dist/img/products/thumbnail/" . $product['ProductThumbnail']);
+                    $this->db->set('ProductImage', $new_image);
+                    $this->db->set('ProductThumbnail', $data['raw_name'] . '_thumb' . $data['file_ext']);
+                }
+            } else {
+                $res['status'] = false;
+                $res['msg'] = $this->upload->display_errors();
+            }
+        }
+
+        $this->db->set('ProductName', $this->input->post('product_name'));
+        $this->db->set('ProductPrice', $this->input->post('product_price'));
+        $this->db->set('ProductStock', $this->input->post('product_stock'));
+        $this->db->set('ProductWeight', $this->input->post('product_weight'));
+        $this->db->set('CategoryID', $this->input->post('product_category'));
+        $this->db->set('PartnerID', $this->input->post('product_partner'));
+        $this->db->set('ProductDesc', $this->input->post('product_desc'));
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('product_unique_id'));
+        $this->db->update('products');
+
+        $res['status'] = true;
+
+        echo json_encode($res);
+    }
+
     public function product_delete()
     {
 
@@ -117,12 +166,9 @@ class Product extends CI_Controller {
 
             $btn_detail = '<button type="button" class="btn btn-xs btn-primary btn-detail-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i> Detail</button>';
             
-            // $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
+            $btn_edit = '<button type="button" class="btn btn-xs btn-info btn-edit-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-partnerid="'.$field->PartnerUniqueID.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
             $btn_delete = '<a class="btn btn-xs btn-danger btn-delete-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
-
-            // $date_start = date_create($field->start_date);
-            // $date_end = date_create($field->end_date);
 
             $no++;
             $row = array();
@@ -141,9 +187,9 @@ class Product extends CI_Controller {
             }
 
             if ($field->ProductStatus == 0) {
-                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_delete;
+                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
             } else {
-                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_delete;
+                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
             }
 
             $data[] = $row;
@@ -159,36 +205,14 @@ class Product extends CI_Controller {
         echo json_encode($output);
     }
 
-    public function load_product_detail()
+    public function load_data_edit()
     {
-        $data = $this->product->getProductsByID($this->input->post('uniqueID'));
-        
-        $response .= "<tr>";
-        $response .= "<td width='100%'>Unique ID</td><td> :".$data['ProductName']."</td>";
-        $response .= "</tr>";
+        $this->db->select('CategoryID, CategoryName');
+        $data['categories'] = $this->db->get('categories')->result_array();
 
-        $response .= "<tr>";
-        $response .= "<td>Nama Produk</td><td> :".$data['ProductName']."</td>";
-        $response .= "</tr>";
+        $this->db->select('PartnerID, PartnerUniqueID, CompanyName');
+        $data['partners'] = $this->db->get('partners')->result_array();
 
-        $response .= "<tr>";
-        $response .= "<td>Salary : </td><td> :".$salary."</td>";
-        $response .= "</tr>";
-
-        $response .= "<tr>";
-        $response .= "<td>Gender : </td><td> :".$gender."</td>";
-        $response .= "</tr>";
-
-        $response .= "<tr>";
-        $response .= "<td>City : </td><td> :".$city."</td>";
-        $response .= "</tr>";
-
-        $response .= "<tr>"; 
-        $response .= "<td>Email : </td><td> :".$email."</td>"; 
-        $response .= "</tr>";
-
-        dd($res['data']);
-
-        echo json_encode($res);
+        echo json_encode($data);
     }
 }
