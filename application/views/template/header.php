@@ -196,6 +196,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Product") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Master Products
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Partner") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>

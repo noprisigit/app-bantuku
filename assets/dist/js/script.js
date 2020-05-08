@@ -1,6 +1,7 @@
 var table;
 var table_partner;
 var table_slider;
+var table_product;
 
 $(document).ready(function () {   
     table = $('#category').DataTable({ 
@@ -67,6 +68,38 @@ $(document).ready(function () {
                 "targets": [3,4,5],
                 "className": "text-center"
             }
+        ],
+    });
+
+    table_product = $('#product').DataTable({
+        // "scrollX":        true,
+        // "scrollCollapse": true,
+        // "width": "100%",
+        "processing": true, 
+        "serverSide": true, 
+        "order": [], 
+        "ajax": {
+            "url": "product/show-list-products",
+            "type": "POST"
+        },
+        "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+                "className": "text-center"
+            },
+            { 
+                "targets": [ 1 ], 
+                "className": "text-center"
+            },
+            {
+                "targets": [ 3,4,5,6 ],
+                "className": "text-center"
+            },
+            { 
+                "targets": [ 8,9 ], 
+                "className": "text-center"
+            },
         ],
     });
 
@@ -624,6 +657,104 @@ $(document).ready(function () {
                             icon: 'success'
                         });
                         table_slider.ajax.reload();
+                    }
+                });
+            }
+        })
+    });
+
+    $('#form-save-product').submit(function(e) {
+        const name = $('#product_name_save').val();
+        const price = $('#product_name_save').val();
+        const stock = $('#product_stock_save').val();
+        const weight = $('#product_weight_save').val();
+        const category = $('#product_category_save').val();
+        const partner = $('#product_partner_save').val();
+        const image = $('#product_image_save').val();
+        const desc = $('#product_desc_save').val();
+
+        if (name == "" || price == "" || stock == "" || weight == "" || category == "" || partner == "" || image == "" || desc == "") {
+            e.preventDefault();
+            toastr.error('Please fill all the fields');
+        } else {
+            $.ajax({
+                url: 'product/product-save',
+                type: 'post',
+                dataType: 'json',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(res) {
+                    if (res.status == false) {
+                        e.preventDefault();
+                        toastr.error(res.msg);
+                    } else {
+                        $('[name="product_name"]').val("");
+                        $('[name="product_price"]').val("");
+                        $('[name="product_stock"]').val("");
+                        $('[name="product_weight"]').val("");                    
+                        $('[name="product_image"]').val("");
+                        $('[name="product_desc"]').val("");
+    
+                        $('[name="product_category"]').empty();
+                        $('[name="product_category"]').append('<option selected="selected" disabled>Kategori Produk</option>');
+                        
+                        for (var i = 0; i < res.categories.length; i++) {
+                            $('[name="product_category"]').append('<option value="'+ res.categories[i]['CategoryID'] +'">'+ res.categories[i]['CategoryName'] +'</option>');
+                        }
+
+                        $('[name="product_partner"]').empty();
+                        $('[name="product_partner"]').append('<option selected="selected" disabled>Nama Toko</option>');
+                        
+                        for (var i = 0; i < res.partners.length; i++) {
+                            $('[name="product_partner"]').append('<option value="'+ res.partners[i]['PartnerID'] +'">'+ res.partners[i]['CompanyName'] +'</option>');
+                        }
+
+                        $('#modal-add-product').modal('hide');
+
+                        Swal.fire({
+                            title: "Product",
+                            text: "Product has been added",
+                            icon: 'success'
+                        });
+
+                        table_product.ajax.reload();
+                    }
+
+                },
+                error: function(err) {
+                    console.log(err.responseText);
+                }
+            });
+            return false;
+        }
+    });
+
+    $(document).on('click', '.btn-delete-product', function(e){
+        e.preventDefault();
+        const id = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This product will be deleted",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "product/product-delete",
+                    data: { uniqueID : id },
+                    success: function () {
+                        Swal.fire({
+                            title: "Product",
+                            text: "Product has been deleted",
+                            icon: 'success'
+                        });
+                        table_product.ajax.reload();
                     }
                 });
             }
