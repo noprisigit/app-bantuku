@@ -86,6 +86,24 @@ class Product extends CI_Controller {
         $this->db->delete('products', ['ProductUniqueID' => $this->input->post('uniqueID')]);
     }
 
+    public function product_activated()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $this->db->set('ProductStatus', 1);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
+        $this->db->update('products');
+    }
+
+    public function product_deactivated()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $this->db->set('ProductStatus', 0);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
+        $this->db->update('products');
+    }
+
     public function show_list_products()
     {
         $list = $this->product->get_datatables();
@@ -93,7 +111,11 @@ class Product extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            // $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i> Detail</button>';
+            $btn_activated = '<a class="btn btn-xs btn-info btn-activated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Activated Product</a>';
+
+            $btn_deactivated = '<a class="btn btn-xs btn-danger btn-deactivated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i> Deactivated Product</a>';
+
+            $btn_detail = '<button type="button" class="btn btn-xs btn-primary btn-detail-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i> Detail</button>';
             
             // $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
             
@@ -117,7 +139,12 @@ class Product extends CI_Controller {
             } else {
                 $row[] = '<span class="badge badge-success">Active</span>';
             }
-            $row[] = $btn_delete;
+
+            if ($field->ProductStatus == 0) {
+                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_delete;
+            } else {
+                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_delete;
+            }
 
             $data[] = $row;
         }
@@ -130,5 +157,38 @@ class Product extends CI_Controller {
         );
         //output dalam format JSON
         echo json_encode($output);
+    }
+
+    public function load_product_detail()
+    {
+        $data = $this->product->getProductsByID($this->input->post('uniqueID'));
+        
+        $response .= "<tr>";
+        $response .= "<td width='100%'>Unique ID</td><td> :".$data['ProductName']."</td>";
+        $response .= "</tr>";
+
+        $response .= "<tr>";
+        $response .= "<td>Nama Produk</td><td> :".$data['ProductName']."</td>";
+        $response .= "</tr>";
+
+        $response .= "<tr>";
+        $response .= "<td>Salary : </td><td> :".$salary."</td>";
+        $response .= "</tr>";
+
+        $response .= "<tr>";
+        $response .= "<td>Gender : </td><td> :".$gender."</td>";
+        $response .= "</tr>";
+
+        $response .= "<tr>";
+        $response .= "<td>City : </td><td> :".$city."</td>";
+        $response .= "</tr>";
+
+        $response .= "<tr>"; 
+        $response .= "<td>Email : </td><td> :".$email."</td>"; 
+        $response .= "</tr>";
+
+        dd($res['data']);
+
+        echo json_encode($res);
     }
 }

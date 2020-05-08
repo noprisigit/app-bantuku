@@ -74,4 +74,11 @@ class Product_m extends CI_Model {
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
+
+    public function getProductsByID($uniqueID) {
+        $this->db->from('products');
+        $this->db->join('categories', 'categories.CategoryID = products.CategoryID');
+        $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
+        return $this->db->get()->row_array();
+    }
 }

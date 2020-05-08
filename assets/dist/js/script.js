@@ -760,6 +760,80 @@ $(document).ready(function () {
             }
         })
     });
+
+    $(document).on('click', '.btn-detail-product', function() {
+        const uniqueID = $(this).data('id');
+        const nama = $(this).data('nama');
+        const price = $(this).data('price');
+        const stock = $(this).data('stock');
+        const weight = $(this).data('weight');
+        const desc = $(this).data('desc');
+        const image = $(this).data('image');
+        const toko = $(this).data('toko');
+        const kategori = $(this).data('kategori');       
+                
+        $('#modal-detail-product').modal('show');
+
+        $('#img-product').attr('src', 'assets/dist/img/products/' + image);
+        $('#det-product-uniqueID').html(': ' + uniqueID);
+        $('#det-product-name').html(': ' + nama);
+        $('#det-product-price').html(': Rp ' + price);
+        $('#det-product-stock').html(': ' + stock + ' buah');
+        $('#det-product-weight').html(': ' + weight + ' gram');
+        $('#det-product-shop').html(': ' + toko);
+        $('#det-product-category').html(': ' + kategori);
+        $('#det-product-desc').html(': ' + desc);
+    });
+
+    $(document).on('click', '.btn-activated-product', function() {
+        const uniqueID = $(this).data('id');
+        
+        $.ajax({
+            type: "POST",
+            url: "product/product-activated",
+            data: { uniqueID : uniqueID },
+            success: function (res) {
+                Swal.fire({
+                    title: "Product",
+                    text: "Product has been activated",
+                    icon: 'success'
+                });
+                table_product.ajax.reload();
+            }
+        });
+        return false;
+    });
+
+    $(document).on('click', '.btn-deactivated-product', function() {
+        const uniqueID = $(this).data('id');
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This product will be deactivated",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "product/product-deactivated",
+                    data: { uniqueID : uniqueID },
+                    success: function (res) {
+                        Swal.fire({
+                            title: "Product",
+                            text: "Product has been deactivated",
+                            icon: 'success'
+                        });
+                        table_product.ajax.reload();
+                    }
+                });
+                return false;
+            }
+        })
+    });
 });
 
 

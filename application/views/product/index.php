@@ -128,3 +128,64 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+
+            <div class="modal fade" id="modal-detail-product">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Detail Product</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center">
+                                        <img class="img-fluid img-thumbnail" id="img-product" alt="Product Image">
+                                    </div>
+                                    <table class="table table-bordered mt-3">
+                                        <tr>
+                                            <td width="30%">Unique ID</td>
+                                            <td id="det-product-uniqueID">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Produk</td>
+                                            <td id="det-product-name">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Harga per Satuan</td>
+                                            <td id="det-product-price">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Stock</td>
+                                            <td id="det-product-stock">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Berat</td>
+                                            <td id="det-product-weight">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Toko</td>
+                                            <td id="det-product-shop">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kategori</td>
+                                            <td id="det-product-category">Loading...</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Deskripsi</td>
+                                            <td id="det-product-desc">Loading...</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
