@@ -148,6 +148,40 @@ class Product extends CI_Controller {
     {
         date_default_timezone_set('Asia/Jakarta');
         $this->db->set('ProductStatus', 0);
+        $this->db->set('ProductStatusPromo', 0);
+        $this->db->set('ProductPromo', 0);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
+        $this->db->update('products');
+    }
+
+    public function product_promo_deactivated() 
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->db->set('ProductStatusPromo', 0);
+        $this->db->set('ProductPromo', 0);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
+        $this->db->update('products');
+    }
+
+    public function product_promo_save()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->db->set('ProductStatusPromo', 1);
+        $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
+        $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
+        $this->db->update('products');
+    }
+
+    public function product_promo_edit()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
         $this->db->update('products');
@@ -170,6 +204,12 @@ class Product extends CI_Controller {
             
             $btn_delete = '<a class="btn btn-xs btn-danger btn-delete-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
 
+            $btn_activated_promo = '<button type="button" class="btn btn-xs btn-success btn-activated-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'">Tambahkan Promo</button>';
+
+            $btn_deactivated_promo = '<a class="btn btn-xs btn-danger btn-deactivated-promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)">Matikan Promo</a>';
+
+            $btn_edit_promo = '<button type="button" class="btn btn-xs btn-info btn-edit-product-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'">Edit Nilai Promo</button>';
+
             $no++;
             $row = array();
             $row[] = $no;
@@ -181,15 +221,25 @@ class Product extends CI_Controller {
             $row[] = $field->CategoryName;
             $row[] = $field->CompanyName;
             if ($field->ProductStatus == 0) {
-                $row[] = '<span class="badge badge-danger">Not Active</span>';
+                $row[] = '<span class="badge badge-danger">Tidak Aktif</span>';
             } else {
-                $row[] = '<span class="badge badge-success">Active</span>';
+                $row[] = '<span class="badge badge-success">Aktif</span>';
             }
 
-            if ($field->ProductStatus == 0) {
-                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
+            if ($field->ProductStatusPromo == 0) {
+                $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
             } else {
-                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
+                $row[] = '<span class="badge badge-success">Ada Promo '. $field->ProductPromo .' %</span>';
+            }
+
+            if ($field->ProductStatus == 0 && $field->ProductStatusPromo == 0) {
+                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
+            } elseif ($field->ProductStatus == 0 && $field->ProductStatusPromo == 1) {
+                $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
+            } elseif ($field->ProductStatus == 1 && $field->ProductStatusPromo == 0) {
+                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_activated_promo;
+            } else {
+                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_deactivated_promo . "&nbsp" . $btn_edit_promo;
             }
 
             $data[] = $row;

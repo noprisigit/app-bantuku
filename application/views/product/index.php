@@ -19,7 +19,8 @@
                                         <th class="text-center">Stock</th>
                                         <th class="text-center">Kategori</th>
                                         <th class="text-center">Nama Toko</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Status Produk</th>
+                                        <th class="text-center">Status Promo Produk</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -268,6 +269,176 @@
                                 <button type="submit" class="btn btn-primary">Perbaharui</button>
                             </div>
                         </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <div class="modal fade" id="modal-add-product-promo">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Tambah Promo Produk</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img class="img-fluid img-thumbnail promo-img-product" id="promo-img-product" width="256px" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <td width="30%">Unique ID</td>
+                                                    <td class="promo-product-uniqueID">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Produk</td>
+                                                    <td class="promo-product-name">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Harga per Satuan</td>
+                                                    <td class="promo-product-price">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Stock</td>
+                                                    <td class="promo-product-stock">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Berat</td>
+                                                    <td class="promo-product-weight">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Toko</td>
+                                                    <td class="promo-product-shop">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kategori</td>
+                                                    <td class="promo-product-category">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Deskripsi</td>
+                                                    <td class="promo-product-desc">Loading...</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="form-add-product-promo" method="post">
+                                        <label for="">Tambahkan Nilai Promo (dalam Persen)</label>
+                                        <input type="hidden" name="product_uniqueID" id="promo_uniqueID">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" name="product_nilai_promo" id="product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <button type="submit" id="btn-submit-promo" class="btn btn-primary btn-block">Tambah Promo</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <div class="modal fade" id="modal-edit-product-promo">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Edit Promo Produk</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img class="img-fluid img-thumbnail promo-img-product" id="promo-img-product" width="256px" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <td width="30%">Unique ID</td>
+                                                    <td class="promo-product-uniqueID">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Produk</td>
+                                                    <td class="promo-product-name">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Harga per Satuan</td>
+                                                    <td class="promo-product-price">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Stock</td>
+                                                    <td class="promo-product-stock">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Berat</td>
+                                                    <td class="promo-product-weight">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Toko</td>
+                                                    <td class="promo-product-shop">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kategori</td>
+                                                    <td class="promo-product-category">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Deskripsi</td>
+                                                    <td class="promo-product-desc">Loading...</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <form id="form-edit-product-promo" method="post">
+                                        <label for="">Edit Nilai Promo (dalam Persen)</label>
+                                        <input type="hidden" name="product_uniqueID" id="edt_promo_uniqueID">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" name="product_nilai_promo" id="edt_product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <button type="submit" id="btn-edit-promo" class="btn btn-primary btn-block">Perbaharui Promo</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                     <!-- /.modal-content -->
                 </div>
