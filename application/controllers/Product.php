@@ -32,7 +32,7 @@ class Product extends CI_Controller {
 
         if ($_FILES['product_image']['name']) {
             $config['upload_path'] = "./assets/dist/img/products"; //path folder file upload
-            $config['allowed_types'] = 'gif|jpg|jpeg|png'; //type file yang boleh di upload
+            $config['allowed_types'] = 'png|jpg|jpeg'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
             $config['max_size'] = 5048;
 
@@ -55,7 +55,7 @@ class Product extends CI_Controller {
                     'ProductWeight'     => $this->input->post('product_weight'),
                     'ProductDesc'       => $this->input->post('product_desc'),
                     'ProductImage'      => $data['file_name'],
-                    'ProductThumbnail'  => $data['file_name'],
+                    'ProductThumbnail'  => $data['raw_name'] . '_thumb' . $data['file_ext'],
                     'ProductStatus'     => 0,
                     'date_created'      => date('Y-m-d H:i:s'),
                     'date_updated'      => date('Y-m-d H:i:s')
@@ -82,6 +82,7 @@ class Product extends CI_Controller {
 
         unlink(FCPATH . "/assets/dist/img/products/" . $product['ProductImage']);
         unlink(FCPATH . "/assets/dist/img/products/thumbnail/" . $product['ProductThumbnail']);
+
         $this->db->delete('products', ['ProductUniqueID' => $this->input->post('uniqueID')]);
     }
 
