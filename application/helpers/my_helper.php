@@ -17,6 +17,18 @@ function random_strings($length_of_string)
     return substr(str_shuffle($str_result),  0, $length_of_string); 
 } 
 
+function generate_code($length)
+{
+    $str_result = '0123456789';
+
+    return substr(str_shuffle($str_result), 0, $length);
+}
+
+function generateTokenLogin()
+{
+    return substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(256))), 0, 256);
+}
+
 function resizeImage($filename, $folder_name)
 {
     $th = get_instance();
