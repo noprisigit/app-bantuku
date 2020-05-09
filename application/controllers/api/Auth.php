@@ -33,7 +33,7 @@ class Auth extends REST_Controller
 
                         $this->db->set('CustomerLoginToken', $loginToken);
                         $this->db->where('CustomerUniqueID', $customer['CustomerUniqueID']);
-                        $this->db->update('customers_access');
+                        $this->db->update('customers');
 
                         $this->response([
                             'status' => false,
@@ -97,13 +97,13 @@ class Auth extends REST_Controller
                     'CustomerVerificationCode'  => $generateCode
                 ];
     
-                $emailToken = base64_encode(random_bytes(64));
+                // $emailToken = base64_encode(random_bytes(64));
 
-                $access = [
-                    'CustomerUniqueID'      => $uniqueID,
-                    'CustomerEmailToken'    => $emailToken
-                ];
-                $this->auth->registration_token($access);
+                // $access = [
+                //     'CustomerUniqueID'      => $uniqueID,
+                //     'CustomerEmailToken'    => $emailToken
+                // ];
+                // $this->auth->registration_token($access);
 
                 $this->_sendEmail($generateCode, 'verify');
     

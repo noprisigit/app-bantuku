@@ -72,8 +72,8 @@ $(document).ready(function () {
     });
 
     table_product = $('#product').DataTable({
-        "scrollX":        true,
-        "scrollCollapse": true,
+        // "scrollX":        true,
+        // "scrollCollapse": true,
         // "width": "100%",
         "processing": true, 
         "serverSide": true, 
