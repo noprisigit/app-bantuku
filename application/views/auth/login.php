@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Log in</title>
+    <title>BANTUKU | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Favicon -->
+    <link rel="shorcut icon" href="<?= base_url('assets') ?>/dist/img/icon.ico">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url('assets') ?>/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -23,12 +25,15 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <!-- <img src="<?= base_url('assets/dist/img/pemprov.png') ?>" width="64px" class="img-fluid" alt="Logo Bantuku"> -->
+            <!-- <a href="../../index2.html"><b>Admin</b>LTE</a> -->
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">
+                    <img src="<?= base_url('assets/dist/img/bantuku.png') ?>" class="img-fluid" alt="Logo Bantuku">
+                </p>
                 <?= $this->session->flashdata('message'); ?>
                 
                 <form action="<?= base_url('auth') ?>" method="post">

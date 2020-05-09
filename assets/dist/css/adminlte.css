@@ -11763,17 +11763,17 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
 }
 
 .brand-link .brand-image {
-  float: left;
+  /* float: left; */
   line-height: .8;
   margin-left: .8rem;
   margin-right: .5rem;
   margin-top: -3px;
-  max-height: 33px;
+  /* max-height: 33px; */
   width: auto;
 }
 
 .brand-link .brand-image-xs {
-  float: left;
+  /* float: left; */
   line-height: .8;
   margin-top: -.1rem;
   max-height: 33px;
