@@ -4,7 +4,7 @@ var table_slider;
 var table_product;
 
 $(document).ready(function () {   
-    table = $('#category').DataTable({ 
+    table = $('#category').DataTable({
         "processing": true, 
         "serverSide": true, 
         "order": [], 
@@ -51,6 +51,9 @@ $(document).ready(function () {
     });
 
     table_slider = $('#slider').DataTable({
+        "scrollX":        true,
+        "scrollCollapse": true,
+        "autoWidth":         true,
         "processing": true, 
         "serverSide": true, 
         "order": [], 
@@ -72,9 +75,10 @@ $(document).ready(function () {
     });
 
     table_product = $('#product').DataTable({
-        // "scrollX":        true,
-        // "scrollCollapse": true,
-        // "width": "100%",
+        "scrollX":        true,
+        "scrollCollapse": true,
+        "width": "100%",
+        "autoWidth": true,
         "processing": true, 
         "serverSide": true, 
         "order": [], 
@@ -85,12 +89,18 @@ $(document).ready(function () {
         "columnDefs": [
             { 
                 "targets": [ 0 ], 
-                "orderable": false, 
+                "orderable": false,
+                "width": "100px", 
                 "className": "text-center"
             },
             { 
                 "targets": [ 1 ], 
+                "width": "50px",
                 "className": "text-center"
+            },
+            {
+                "targets": [ 2 ],
+                "width": "400px"
             },
             {
                 "targets": [ 3,4,5,6 ],

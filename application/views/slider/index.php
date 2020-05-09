@@ -9,29 +9,31 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="slider" class="table table-bordered table-striped" width="100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">Name</th>
-                                    <th class="text-center">Description</th>
-                                    <th class="text-center">Start Date</th>
-                                    <th class="text-center">End Date</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">Name</th>
-                                    <th class="text-center">Description</th>
-                                    <th class="text-center">Start Date</th>
-                                    <th class="text-center">Start Date</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="slider" class="table table-bordered table-striped nowrap" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">Start Date</th>
+                                        <th class="text-center">End Date</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">Start Date</th>
+                                        <th class="text-center">Start Date</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -107,7 +109,7 @@
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
-                                    <img class="img-fluid" id="img-slider" alt="">
+                                    <img class="img-fluid img-thumbnail" id="img-slider" alt="foto slider">
                                     <table class="table table-bordered mt-3">
                                         <tr>
                                             <td>Name</td>

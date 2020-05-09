@@ -8,7 +8,7 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="product" class="table table-bordered table-striped" width="100%">
+                            <table id="product" class="table table-bordered table-striped nowrap" width="100%">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -25,20 +25,6 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
-                                <!-- <tfoot>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">Unique ID</th>
-                                        <th class="text-center">Nama Produk</th>
-                                        <th class="text-center">Harga per Satuan</th>
-                                        <th class="text-center">Berat</th>
-                                        <th class="text-center">Stock</th>
-                                        <th class="text-center">Kategori</th>
-                                        <th class="text-center">Nama Toko</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </tfoot> -->
                             </table>
                         </div>
                     </div>

@@ -133,7 +133,7 @@ class Partner extends CI_Controller {
             $row[] = $field->PartnerName;
             $row[] = $field->Phone;
             $row[] = $field->Email;
-            $row[] = $field->Address . ' ' . $field->District . ' ' . $field->Province;
+            // $row[] = $field->Address . ' ' . $field->District . ' ' . $field->Province;
             $row[] = $btn_detail . '&nbsp' . $btn_edit . '&nbsp' . $btn_delete;
 
             $data[] = $row;
