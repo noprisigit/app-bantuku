@@ -223,6 +223,14 @@
                         </li>
                         <?php if ($this->session->userdata('AccessID') == 1) : ?>
                         <li class="nav-item">
+                            <a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Management User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('role') ?>" class="nav-link <?= ($title == "Role Access") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
