@@ -51,9 +51,6 @@ $(document).ready(function () {
     });
 
     table_slider = $('#slider').DataTable({
-        "scrollX":        true,
-        "scrollCollapse": true,
-        "autoWidth":         true,
         "processing": true, 
         "serverSide": true, 
         "order": [], 
@@ -113,6 +110,26 @@ $(document).ready(function () {
         ],
     });
 
+    var table_role = $('#role').DataTable({
+        "processing": true, 
+        "serverSide": true, 
+        "order": [], 
+        "ajax": {
+            "url": "role/show-list-role",
+            "type": "POST"
+        },
+        "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false,
+                "className": "text-center"
+            },
+            { 
+                "targets": [ 2 ],
+                "className": "text-center" 
+            },
+        ],
+    });
 
     //delete category
     $(document).on('click', '.btn-delete-category', function(e){
@@ -1088,6 +1105,43 @@ $(document).ready(function () {
                 }
             });
             return false;
+        }
+    });
+
+    $(document).on('click', '.btn-edit-role', function() {
+        $('#modal-edit-role').modal('show');
+
+        $('#edit_access_id').val($(this).data('id'));
+        $('#edit_access_name').val($(this).data('name'));
+    });
+
+    $('#form-edit-role').submit(function(e) {
+        var id = $('#edit_access_id').val();
+        var name = $('#edit_access_name').val();
+
+        if (name == "") {
+            e.preventDefault();
+            toastr.error('Please fill all the field');
+        } else {
+            $.ajax({
+                url: 'role/role_edit',
+                type: 'post',
+                data: { id: id, name: name },
+                success: function() {
+                    $('[name="access_id"]').val("");
+                    $('[name="access_name"]').val("");
+
+                    $('#modal-edit-role').modal('hide');
+
+                    Swal.fire({
+                        title: "Role",
+                        text: "Role telah diperbaharui",
+                        icon: 'success'
+                    });
+                    table_role.ajax.reload();
+                }
+            });
+            return false
         }
     });
 });

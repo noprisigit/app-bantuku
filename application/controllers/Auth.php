@@ -32,7 +32,7 @@ class Auth extends CI_Controller {
                         $session = [
                             'AdminID'       => $data['AdminID'],
                             'AdminName'     => $data['AdminName'],
-                            'AdminStatus'   => $data['AdminStatus']
+                            'AccessID'   => $data['AccessID']
                         ];
 
                         $this->session->set_userdata($session);

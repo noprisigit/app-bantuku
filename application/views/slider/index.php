@@ -3,7 +3,7 @@
             <!-- Main content -->
             <section class="content">
 
-            <div class="card">
+                <div class="card">
                     <div class="card-header">
                         <button type="button" data-toggle="modal" data-target="#modal-add-slider" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Slider</button>
                     </div>
