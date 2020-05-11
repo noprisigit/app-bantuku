@@ -191,7 +191,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('category') ?>" class="nav-link <?= ($title == "Category") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>
                                     Master Categories
                                 </p>
@@ -199,7 +199,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Product") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-cubes"></i>
                                 <p>
                                     Master Products
                                 </p>
@@ -207,7 +207,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Partner") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-store-alt"></i>
                                 <p>
                                     Master Partners
                                 </p>
@@ -217,27 +217,27 @@
                             <a href="<?= base_url('slider') ?>" class="nav-link <?= ($title == "Slider") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Master Slider
+                                    Master Sliders
                                 </p>
                             </a>
                         </li>
                         <?php if ($this->session->userdata('AccessID') == 1) : ?>
                         <li class="nav-item">
                             <a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-users"></i>
                                 <p>
-                                    Management User
+                                    Management Users
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?= base_url('role') ?>" class="nav-link <?= ($title == "Role Access") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Role Access
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <?php endif; ?>
                     </ul>
                 </nav>

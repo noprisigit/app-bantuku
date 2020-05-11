@@ -33,6 +33,9 @@
     <script src="<?= base_url('assets') ?>/plugins/select2/js/select2.full.min.js"></script>
     <!-- Sript -->
     <script src="<?= base_url('assets') ?>/dist/js/script.js"></script>
+    <?php foreach($js as $item) : ?>
+        <script src="<?= base_url($item) ?>"></script>
+    <?php endforeach; ?>
     <!-- AdminLTE App -->
     <script src="<?= base_url('assets') ?>/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
