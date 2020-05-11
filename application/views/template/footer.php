@@ -31,8 +31,7 @@
     <script src="<?= base_url('assets') ?>/plugins/toastr/toastr.min.js"></script>
     <!-- Select2 -->
     <script src="<?= base_url('assets') ?>/plugins/select2/js/select2.full.min.js"></script>
-    <!-- Sript -->
-    <!-- <script src="<?= base_url('assets') ?>/dist/js/script.js"></script> -->
+    <!-- Script -->
     <?php foreach($js as $item) : ?>
         <script src="<?= base_url($item) ?>"></script>
     <?php endforeach; ?>

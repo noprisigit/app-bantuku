@@ -15,12 +15,16 @@ class User extends CI_Controller {
 
     public function index()
     {
-        $data['main_title'] = "User";
+        $data['main_title'] = "Home";
         $data['title'] = "Management Users";
+
+        $data['js'] = [
+            'assets/dist/js/user.js'
+        ];
 
         $this->load->view('template/header', $data);
         $this->load->view('user/index');
-        $this->load->view('template/footer');
+        $this->load->view('template/footer', $data);
     }
 
     public function user_save()
