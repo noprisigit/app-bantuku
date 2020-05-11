@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     function showCartCustomers() {
         $.ajax({
-            url: 'dashboard/countingCustomersByYear',
+            url: 'dashboard/countingCustomersByCurrentYear',
             type: 'get',
             dataType: 'json',
             success: function(res) {

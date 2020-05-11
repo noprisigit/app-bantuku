@@ -29,13 +29,11 @@ class Dashboard extends CI_Controller {
 		$res['countPartners'] = $this->dashboard->countingPartner();
 		$res['countCustomers'] = $this->dashboard->countingCustomer();
 		$res['countCategories'] = $this->dashboard->countingCategories();
-		// $res['countCustomerByYear'] = $this->dashboard->countingCustomersByYear();
-		// dd($res['countCustomerByYear']);
-
+	
 		echo json_encode($res);
 	}
 
-	public function countingCustomersByYear() {
+	public function countingCustomersByCurrentYear() {
 		$total = $this->dashboard->countingCustomersByCurrentYear();
 		
 		echo json_encode($total);
