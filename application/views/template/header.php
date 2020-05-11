@@ -198,7 +198,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Product") ? 'active' : '' ?>">
+                            <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Produk") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cubes"></i>
                                 <p>
                                     Master Produk
