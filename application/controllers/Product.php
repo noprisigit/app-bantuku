@@ -13,11 +13,15 @@ class Product extends CI_Controller {
 
     public function index()
     {
-        $data['main_title'] = 'Product';
-        $data['title'] = 'Product';
+        $data['main_title'] = 'Home';
+        $data['title'] = 'Produk';
+
+        $data['js'] = [
+            'assets/dist/js/product.js'
+        ];
 
         $this->db->select('CategoryID, CategoryName');
-        $data['categories'] = $this->db->get('categories')->result_array();
+        $data['categories'] = $this->db->get_where('categories', ['CategoryStatus' => 1])->result_array();
 
         $this->db->select('PartnerID, PartnerUniqueID, CompanyName');
         $data['partners'] = $this->db->get('partners')->result_array();
@@ -194,9 +198,9 @@ class Product extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_activated = '<a class="btn btn-xs btn-info btn-activated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Activated Product</a>';
+            $btn_activated = '<a class="btn btn-xs btn-info btn-activated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Aktifkan Produk</a>';
 
-            $btn_deactivated = '<a class="btn btn-xs btn-danger btn-deactivated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i> Deactivated Product</a>';
+            $btn_deactivated = '<a class="btn btn-xs btn-danger btn-deactivated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i> Nonaktifkan Produk</a>';
 
             $btn_detail = '<button type="button" class="btn btn-xs btn-primary btn-detail-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i> Detail</button>';
             

@@ -3,7 +3,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" data-toggle="modal" data-target="#modal-add-product" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Product</button>
+                        <button type="button" data-toggle="modal" data-target="#modal-add-product" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Produk</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -21,7 +21,7 @@
                                         <th class="text-center">Nama Toko</th>
                                         <th class="text-center">Status Produk</th>
                                         <th class="text-center">Status Promo Produk</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -39,7 +39,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Tambah Product</h4>
+                            <h4 class="modal-title">Tambah Produk</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 <button type="submit" id="btn-save-product" class="btn btn-primary">Tambah</button>
                             </div>
                         </form>
@@ -120,7 +120,7 @@
                 <div class="modal-dialog modal-lg modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Detail Product</h4>
+                            <h4 class="modal-title">Detail Produk</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -181,7 +181,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Edit Product</h4>
+                            <h4 class="modal-title">Edit Produk</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-primary">Perbaharui</button>
                             </div>
                         </form>
@@ -338,7 +338,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -423,7 +423,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
