@@ -27,4 +27,13 @@ class Dashboard_m extends CI_Model {
         // return $this->db->query($sql)->result_array();
         return $data;
     }
+
+    // public function countingCustomersByCurrentMonth()
+    // {
+    //     $tanggal = [];
+    //     for ($i = 0; $i < 30; $i++) {
+    //         $tanggal[$i] = $i + 1; 
+    //     }
+    //     return $tanggal;
+    // }
 }

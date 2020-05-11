@@ -62,6 +62,18 @@ $(document).ready(function() {
             }
         });
     }
+
+    // function countingCustomersByCurrentMonth() 
+    // {
+    //     $.ajax({
+    //         url: 'dashboard/countingCustomersByCurrentMonth',
+    //         type: 'get',
+    //         dataType: 'json',
+    //         success: function(res) {
+    //             console.log(res)
+    //         }
+    //     });
+    // }
     
     setInterval(function(){
         getDashboardData();
