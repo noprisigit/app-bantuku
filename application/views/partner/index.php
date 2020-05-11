@@ -20,7 +20,7 @@
                                         <th class="text-center">Phone</th>
                                         <th class="text-center">Email</th>
                                         <!-- <th class="text-center">Alamat</th> -->
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -33,7 +33,7 @@
                                         <th class="text-center">Phone</th>
                                         <th class="text-center">Email</th>
                                         <!-- <th class="text-center">Alamat</th> -->
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 <button type="submit" id="btn-save-partner" class="btn btn-primary">Tambah</button>
                             </div>
                         </form>
@@ -176,7 +176,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -255,7 +255,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 <button type="submit" class="btn btn-primary">Perbaharui</button>
                             </div>
                         </form>

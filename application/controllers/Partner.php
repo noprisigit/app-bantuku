@@ -12,14 +12,18 @@ class Partner extends CI_Controller {
 
     public function index()
     {
-        $data['main_title'] = "Partner";
-        $data['title'] = "Partner";
+        $data['main_title'] = "Home";
+        $data['title'] = "Mitra";
+
+        $data['js'] = [
+            'assets/dist/js/partner.js'
+        ];
 
         $data['provinsi'] = $this->db->get('provinces')->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('partner/index', $data);
-        $this->load->view('template/footer');
+        $this->load->view('template/footer', $data);
     }
 
     public function save_partner()
