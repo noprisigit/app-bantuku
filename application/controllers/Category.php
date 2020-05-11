@@ -12,12 +12,16 @@ class Category extends CI_Controller {
 
     public function index()
     {
-        $data['main_title'] = "Category";
-        $data['title'] = "Category";
+        $data['main_title'] = "Home";
+        $data['title'] = "Kategori";
+
+        $data['js'] = [
+            'assets/dist/js/category.js'
+        ];
 
         $this->load->view('template/header', $data);
         $this->load->view('category/index');
-        $this->load->view('template/footer');
+        $this->load->view('template/footer', $data);
     }
 
     public function create_category()

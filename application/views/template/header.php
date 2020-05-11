@@ -190,10 +190,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('category') ?>" class="nav-link <?= ($title == "Category") ? 'active' : '' ?>">
+                            <a href="<?= base_url('category') ?>" class="nav-link <?= ($title == "Kategori") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>
-                                    Master Categories
+                                    Master Kategori
                                 </p>
                             </a>
                         </li>
@@ -201,7 +201,7 @@
                             <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Product") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cubes"></i>
                                 <p>
-                                    Master Products
+                                    Master Produk
                                 </p>
                             </a>
                         </li>
@@ -209,7 +209,7 @@
                             <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Partner") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-store-alt"></i>
                                 <p>
-                                    Master Partners
+                                    Master Mitra
                                 </p>
                             </a>
                         </li>
