@@ -13,12 +13,16 @@ class Slider extends CI_Controller {
 
     public function index()
     {
-        $data['main_title'] = "Slider";
+        $data['main_title'] = "Home";
         $data['title'] = "Slider";
+
+        $data['js'] = [
+            'assets/dist/js/slider.js'
+        ];
 
         $this->load->view('template/header', $data);
         $this->load->view('slider/index');
-        $this->load->view('template/footer');
+        $this->load->view('template/footer', $data);
     }
     
     public function slider_save()
