@@ -57,7 +57,7 @@
                                             <input type="text" class="form-control" name="category_description" id="category_description" placeholder="Masukkan deskripsi kategori">
                                         </div>
                                         <div class="form-group">
-                                            <label for="icon">Icon</label>
+                                            <label for="icon">Icon (Maksimal 5 MB)</label>
                                             <input type="file" class="form-control" name="category_icon" id="category_icon" accept="image/png, image/jpeg, image/gif">
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@
                                             <input type="text" class="form-control" name="category_description_edit" id="category_description_edit" placeholder="Category Description">
                                         </div>
                                         <div class="form-group">
-                                            <label for="icon">Icon (jika diperlukan)</label>
+                                            <label for="icon">Icon (jika diperlukan) (Maksimal 5 MB)</label>
                                             <input type="file" class="form-control" name="category_icon_edit" id="category_icon_edit" accept="image/png, image/jpeg, image/gif">
                                         </div>
                                     </div>

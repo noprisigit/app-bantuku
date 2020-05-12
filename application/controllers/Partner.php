@@ -34,6 +34,7 @@ class Partner extends CI_Controller {
             $config['upload_path'] = "./assets/dist/img/partners"; //path folder file upload
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
 
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('gambar_toko')) {
@@ -41,6 +42,7 @@ class Partner extends CI_Controller {
                 $res['msg'] = $this->upload->display_errors();
             } else {
                 $data = $this->upload->data();
+                resizeImage($data['file_name'], 'partners');
 
                 $provinsi = $this->db->get_where('provinces', ['ProvinceID' => $this->input->post('provinsi')])->row_array();
                 
@@ -55,7 +57,8 @@ class Partner extends CI_Controller {
                     'PostalCode'        => $this->input->post('kode_pos'),
                     'Phone'             => $this->input->post('phone'),
                     'Email'             => $this->input->post('email'),
-                    'ShopPicture'       => $data['file_name']
+                    'ShopPicture'       => $data['file_name'],
+                    'ShopThumbnail'     => $data['raw_name'] . '_thumb' . $data['file_ext']
                 ];
                 $res['status'] = true;
                 $res['provinsi'] = $this->db->get('provinces')->result_array();
@@ -75,16 +78,20 @@ class Partner extends CI_Controller {
             $config['upload_path']="./assets/dist/img/partners"; //path folder file upload
             $config['allowed_types']='gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
 
             $this->load->library('upload', $config);
 
             if ($this->upload->do_upload('partner_gambar_toko_edit')) {
                 $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+                resizeImage($data['upload_data']['file_name'], 'partners');
 
                 $new_image = $data['upload_data']['file_name'];
                 if ($new_image != $partner['ShopPicture']) {
                     unlink(FCPATH . "/assets/dist/img/partners/" . $partner['ShopPicture']);
+                    unlink(FCPATH . "/assets/dist/img/partners/thumbnail/" . $partner['ShopThumbnail']);
                     $this->db->set('ShopPicture', $new_image);
+                    $this->db->set('ShopThumbnail', $data['upload_data']['raw_name'] . '_thumb' . $data['upload_data']['file_ext']);
                 }
             } else {
                 $res['status'] = false;
@@ -114,6 +121,7 @@ class Partner extends CI_Controller {
     {
         $partner = $this->db->get_where('partners', ['PartnerID' => $this->input->post('partner_id')])->row_array();
         unlink(FCPATH . "/assets/dist/img/partners/" . $partner['ShopPicture']);
+        unlink(FCPATH . "/assets/dist/img/partners/thumbnail/" . $partner['ShopThumbnail']);
         $this->db->delete('partners', ['PartnerID' => $this->input->post('partner_id')]);
     }
 

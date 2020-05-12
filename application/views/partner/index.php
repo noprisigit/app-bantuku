@@ -108,7 +108,7 @@
                                                     <input type="text" class="form-control" name="kode_pos" id="kode-pos" placeholder="Kode Pos">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="email">Gambar Toko</label>
+                                                    <label for="email">Gambar Toko (Maksimal 5 MB)</label>
                                                     <input type="file" class="form-control" name="gambar_toko" id="gambar_toko">
                                                 </div>
                                             </div>
@@ -246,7 +246,7 @@
                                                     <input type="text" class="form-control" name="partner_kode_pos_edit" id="partner_kode_pos_edit" placeholder="Kode Pos">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="email">Gambar Toko (Jika Diperlukan)</label>
+                                                    <label for="email">Gambar Toko (Jika Diperlukan) (Maksimal 5 MB)</label>
                                                     <input type="file" class="form-control" name="partner_gambar_toko_edit" id="partner_gambar_toko_edit">
                                                 </div>
                                             </div>
