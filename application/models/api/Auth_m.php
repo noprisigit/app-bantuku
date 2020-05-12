@@ -14,4 +14,10 @@ class Auth_m extends CI_Model {
 
         return $this->db->affected_rows();
     }
+
+    public function validateToken($token)
+    {
+        $this->db->select('CustomerLoginToken');
+        return $this->db->get_where('customers', ['CustomerLoginToken' => $token])->result();
+    }
 }
