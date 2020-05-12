@@ -117,6 +117,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-store-alt"></i>
+                                <p>
+                                    Master Customers
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('slider') ?>" class="nav-link <?= ($title == "Slider") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
