@@ -36,7 +36,12 @@ $(document).ready(function () {
                 "className": "text-center"
             },
             {
-                "targets": [ 2,3,4,5,6 ],
+                "targets": [ 3,4 ],
+                "orderable": false,
+                "className": "text-center"
+            },
+            {
+                "targets": [ 2,5,6 ],
                 "className": "text-center"
             }
         ]
