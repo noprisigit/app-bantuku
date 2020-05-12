@@ -6,6 +6,7 @@ class Category extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Category_m', 'category');
+
         if (!$this->session->userdata('AdminName'))
             redirect('auth');
     }
@@ -46,13 +47,12 @@ class Category extends CI_Controller {
             ];
 
             $this->db->insert('categories', $input);
-            // $result= $this->m_upload->simpan_upload($judul,$image); //kirim value ke model m_upload
-            // echo json_decode($result);
         }
     }
 
     public function edit_category()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $category = $this->db->get_where('categories', ['CategoryID' => $this->input->post('category_id')])->row_array();
 
         $image = $_FILES['category_icon_edit']['name'];
@@ -75,6 +75,7 @@ class Category extends CI_Controller {
         } 
         $this->db->set('CategoryName', $this->input->post('category_name_edit'));
         $this->db->set('CategoryDescription', $this->input->post('category_description_edit'));
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('CategoryID', $this->input->post('category_id'));
         $this->db->update('categories');
         
@@ -82,14 +83,18 @@ class Category extends CI_Controller {
 
     public function enable_category()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $this->db->set('CategoryStatus', 1);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('CategoryID', $this->input->post('category_id'));
         $this->db->update('categories');
     }
 
     public function disable_category()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $this->db->set('CategoryStatus', 0);
+        $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('CategoryID', $this->input->post('category_id'));
         $this->db->update('categories');
     }
