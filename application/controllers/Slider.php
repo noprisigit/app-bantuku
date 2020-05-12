@@ -31,6 +31,7 @@ class Slider extends CI_Controller {
             $config['upload_path'] = "./assets/dist/img/sliders"; //path folder file upload
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
 
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('picture')) {
@@ -38,12 +39,15 @@ class Slider extends CI_Controller {
                 $res['msg'] = $this->upload->display_errors();
             } else {
                 $data = $this->upload->data();
+                resizeImage($data['file_name'], 'sliders');
+
                 $input = [
                     'SliderName'        => $this->input->post('name'),
                     'SliderDescription' => $this->input->post('description'),
                     'start_date'        => $this->input->post('start_date'),
                     'end_date'          => $this->input->post('end_date'),
-                    'SliderPicture'     => $data['file_name']
+                    'SliderPicture'     => $data['file_name'],
+                    'SliderThumbnail'   => $data['raw_name'] . '_thumb' . $data['file_ext']
                 ];
 
                 $this->db->insert('sliders', $input);
@@ -63,16 +67,20 @@ class Slider extends CI_Controller {
             $config['upload_path']="./assets/dist/img/sliders"; //path folder file upload
             $config['allowed_types']='gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
 
             $this->load->library('upload',$config); //call library upload 
 
             if ($this->upload->do_upload('edit_slider_picture')) {
                 $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+                resizeImage($data['upload_data']['file_name'], 'sliders');
 
                 $new_image = $data['upload_data']['file_name'];
                 if ($new_image != $slider['SliderPicture']) {
                     unlink(FCPATH . "/assets/dist/img/sliders/" . $slider['SliderPicture']);
+                    unlink(FCPATH . "/assets/dist/img/sliders/thumbnail/" . $slider['SliderThumbnail']);
                     $this->db->set('SliderPicture', $new_image);
+                    $this->db->set('SliderThumbnail', $data['upload_data']['raw_name'] . '_thumb' . $data['upload_data']['file_ext']);
                 }
             } else {
                 $res['status'] = false;
@@ -96,6 +104,7 @@ class Slider extends CI_Controller {
     {
         $slider = $this->db->get_where('sliders', ['SliderID' => $this->input->post('SliderID')])->row_array();
         unlink(FCPATH . "/assets/dist/img/sliders/" . $slider['SliderPicture']);
+        unlink(FCPATH . "/assets/dist/img/sliders/thumbnail/" . $slider['SliderThumbnail']);
         $this->db->delete('sliders', ['SliderID' => $this->input->post('SliderID')]);
     }
 
