@@ -5,16 +5,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Category extends REST_Controller
+class Slider extends REST_Controller
 {
    public function __construct()
    {
       parent::__construct();
       $this->load->model('api/Auth_m', 'auth');
-      $this->load->model('api/Category_m', 'category');
+      $this->load->model('api/Slider_m', 'slider');
    }
-   
-   public function listCategory_get()
+
+   public function getSlider_get()
    {
       $token = $this->get('token');
 
@@ -22,11 +22,11 @@ class Category extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
 
          if ($customerToken) {
-            $listCategory = $this->category->getActiveCategory();
+            $listSliders = $this->slider->getSlider();
    
             $this->response([
                'status'    => true,
-               'data'      => $listCategory
+               'data'      => $listSliders
             ], REST_Controller::HTTP_OK);
          } else {
             $this->response([

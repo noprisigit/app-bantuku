@@ -49,7 +49,7 @@ class Category extends CI_Controller {
             $this->db->insert('categories', $input);
         }
     }
-
+    
     public function edit_category()
     {
         date_default_timezone_set('Asia/Jakarta');
