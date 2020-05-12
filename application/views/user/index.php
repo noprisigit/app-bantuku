@@ -119,7 +119,7 @@
                                             <div class="input-group">
                                                 <input type="password" name="password" id="admin_password" class="form-control border-right-0" placeholder="Password">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text" id="toggle-password">
+                                                    <span class="input-group-text" id="toggle-password-akun">
                                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                                     </span>
                                                 </div>
@@ -130,7 +130,7 @@
                                             <div class="input-group">
                                                 <input type="password" name="confirm_password" id="admin_confirm_password" class="form-control border-right-0" placeholder="Konfirmasi Password">
                                                 <span class="input-group-append">
-                                                    <span class="input-group-text" id="toggle-confirm-password">
+                                                    <span class="input-group-text" id="toggle-confirm-password-akun">
                                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                                     </span>
                                                 </span>

@@ -115,6 +115,30 @@ $(document).ready(function () {
         }
     });
 
+    $('#toggle-password-akun').on('click', function() {
+        var input = $('#admin_password');
+
+        if (input.attr('type') === "password") {
+            input.attr('type', 'text');
+            $(this).html('<i class="fas fa-eye-slash"></i>');
+        } else {
+            input.attr('type', 'password');
+            $(this).html('<i class="fas fa-eye"></i>');
+        }
+    });
+
+    $('#toggle-confirm-password-akun').on('click', function() {
+        var input = $('#admin_confirm_password');
+
+        if (input.attr('type') === "password") {
+            input.attr('type', 'text');
+            $(this).html('<i class="fas fa-eye-slash"></i>');
+        } else {
+            input.attr('type', 'password');
+            $(this).html('<i class="fas fa-eye"></i>');
+        }
+    });
+
     $('#form-ubah-password').submit(function(e) {
         var id = $('#admin_id').val();
         var password = $('#password_baru').val();
