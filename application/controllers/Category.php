@@ -46,7 +46,7 @@ class Category extends CI_Controller {
                 'CategoryDescription'   => $description,
                 'CategoryIcon'          => $image,
                 'CategoryThumbnail'     => $data['upload_data']['raw_name'] . '_thumb' . $data['upload_data']['file_ext'],
-                'CategoryStatus'        => 0
+                'CategoryStatus'        => 1
             ];
 
             $this->db->insert('categories', $input);
