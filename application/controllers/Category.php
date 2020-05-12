@@ -30,11 +30,13 @@ class Category extends CI_Controller {
         $config['upload_path']="./assets/dist/img/categories"; //path folder file upload
         $config['allowed_types']='gif|jpg|png'; //type file yang boleh di upload
         $config['encrypt_name'] = TRUE; //enkripsi file name upload
+        $config['max_size'] = 5048;
          
         $this->load->library('upload',$config); //call library upload 
         if($this->upload->do_upload("category_icon")){ //upload file
             $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
- 
+            resizeImage($data['upload_data']['file_name'], 'categories');
+
             $name = $this->input->post('category_name'); //get judul image
             $description = $this->input->post('category_description');
             $image = $data['upload_data']['file_name']; //set file name ke variable image
@@ -43,6 +45,7 @@ class Category extends CI_Controller {
                 'CategoryName'          => $name,
                 'CategoryDescription'   => $description,
                 'CategoryIcon'          => $image,
+                'CategoryThumbnail'     => $data['upload_data']['raw_name'] . '_thumb' . $data['upload_data']['file_ext'],
                 'CategoryStatus'        => 0
             ];
 
@@ -60,16 +63,20 @@ class Category extends CI_Controller {
             $config['upload_path']="./assets/dist/img/categories"; //path folder file upload
             $config['allowed_types']='gif|jpg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            $config['max_size'] = 5048;
 
             $this->load->library('upload',$config); //call library upload 
 
             if ($this->upload->do_upload('category_icon_edit')) {
                 $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+                resizeImage($data['upload_data']['file_name'], 'categories');
 
                 $new_image = $data['upload_data']['file_name'];
                 if ($new_image != $category['CategoryIcon']) {
                     unlink(FCPATH . "/assets/dist/img/categories/" . $category['CategoryIcon']);
+                    unlink(FCPATH . "/assets/dist/img/categories/thumbnail/" . $category['CategoryThumbnail']);
                     $this->db->set('CategoryIcon', $new_image);
+                    $this->db->set('CategoryThumbnail', $data['upload_data']['raw_name'] . '_thumb' . $data['upload_data']['file_ext']);
                 }
             }
         } 
@@ -101,6 +108,11 @@ class Category extends CI_Controller {
 
     public function delete_category()
     {
+        $category = $this->db->get_where('categories', ['CategoryID' => $this->input->post('category_id')])->row_array();
+
+        unlink(FCPATH . "/assets/dist/img/categories/" . $category['CategoryIcon']);
+        unlink(FCPATH . "/assets/dist/img/categories/thumbnail/" . $category['CategoryThumbnail']);
+
         $this->db->delete('categories', ['CategoryID' => $this->input->post('category_id')]);
     }
 
