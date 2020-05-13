@@ -67,4 +67,29 @@ $(document).ready(function() {
          }
       }
    });
+
+   $(document).on('click', '.btn-detail-customer', function() {
+      var uniqID = $(this).data('uniqueid');
+      var name = $(this).data('name');
+      var email = $(this).data('email');
+      var phone = $(this).data('phone');
+      var address = $(this).data('address');
+      var verified = $(this).data('verified');
+      var date = $(this).data('date');
+
+      $('#modal-detail-customer').modal('show');
+
+
+      $('#detCustomerUniqID').html(": " + uniqID);
+      $('#detCustomerName').html(": " + name);
+      $('#detCustomerEmail').html(": " + email);
+      $('#detCustomerPhone').html(": " + phone);
+      $('#detCustomerAddress').html(": " + address);
+      if (verified == 1) {
+         $('#detCustomerEmailVerified').html(": " + '<span class="badge badge-success">Email Telah Diverifikasi</span>');
+      } else {
+         $('#detCustomerEmailVerified').html(": " + '<span class="badge badge-danger">Email Belum Diverifikasi</span>');
+      }
+      $('#detCustomerRegistrationDate').html(": " + date);
+   });
 });

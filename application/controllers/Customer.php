@@ -65,7 +65,7 @@ class Customer extends CI_Controller
       $data = array();
       $no = $_POST['start'];
       foreach ($categories as $field) {
-         // $button1 = '<a class="btn btn-sm btn-danger btn-disable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Disable</a>'.'&nbsp;<button type="button" data-id="'.$field->CategoryID.'" data-name="'.$field->CategoryName.'" data-description="'.$field->CategoryDescription.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+         $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'" data-verified="'.$field->CustomerVerifiedEmail.'" data-date="'.$field->CustomerRegistrationDate.'"><i class="fas fa-folder"></i> Detail</button>';
 
          // $button2 = '<a class="btn btn-sm btn-primary btn-enable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Enable</a>'.'&nbsp;<button type="button" data-id="'.$field->CategoryID.'" data-name="'.$field->CategoryName.'" data-description="'.$field->CategoryDescription.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
          
@@ -81,7 +81,7 @@ class Customer extends CI_Controller
          } else {
                $row[] = '<span class="badge badge-danger">Email Belum Diverifikasi</span>';
          }
-         $row[] = '<button></button>';
+         $row[] = $btn_detail;
          // if ($field->CategoryStatus == 1) {
          //       $row[] = ;
          // } else {

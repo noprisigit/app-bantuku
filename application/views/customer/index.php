@@ -94,3 +94,54 @@
                </div>
             </div>
          </div>
+
+         <div class="modal fade" id="modal-detail-customer">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                  <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                        <h4 class="modal-title">Detail Customer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="card">
+                        <div class="card-body">
+                           <table class="table table-bordered">
+                              <tr>
+                                 <td width="30%">UniqueID</td>
+                                 <td id="detCustomerUniqID"></td>
+                              </tr>
+                              <tr>
+                                 <td>Nama Customer</td>
+                                 <td id="detCustomerName"></td>
+                              </tr>
+                              <tr>
+                                 <td>Email</td>
+                                 <td id="detCustomerEmail"></td>
+                              </tr>
+                              <tr>
+                                 <td>No. Telphone</td>
+                                 <td id="detCustomerPhone"></td>
+                              </tr>
+                              <tr>
+                                 <td>Alamat</td>
+                                 <td id="detCustomerAddress"></td>
+                              </tr>
+                              <tr>
+                                 <td>Status Email</td>
+                                 <td id=detCustomerEmailVerified></td>
+                              </tr>
+                              <tr>
+                                 <td>Tanggal Registrasi</td>
+                                 <td id="detCustomerRegistrationDate"></td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                  </div>
+               </div>
+            </div>
+         </div>
