@@ -73,6 +73,11 @@ class Customer extends CI_Controller
       echo json_encode($res);
    }
 
+   public function customer_delete()
+   {
+      $this->db->delete('customers', ['CustomerUniqueID' => $this->input->post('uniqID')]);
+   }
+
    public function show_list_customers()
    {
       $categories = $this->customer->get_datatables();
@@ -82,6 +87,8 @@ class Customer extends CI_Controller
          $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'" data-verified="'.$field->CustomerVerifiedEmail.'" data-date="'.$field->CustomerRegistrationDate.'"><i class="fas fa-folder"></i> Detail</button>';
 
          $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
+
+         $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-customer" data-uniqueID="'.$field->CustomerUniqueID.'" href="javascript:void(0)"><i class="fas fa-trash-alt"></i> Delete</a>';
          
          $no++;
          $row = array();
@@ -95,7 +102,7 @@ class Customer extends CI_Controller
          } else {
                $row[] = '<span class="badge badge-danger">Email Belum Diverifikasi</span>';
          }
-         $row[] = $btn_detail . "&nbsp" . $btn_edit;
+         $row[] = $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
          // if ($field->CategoryStatus == 1) {
          //       $row[] = ;
          // } else {

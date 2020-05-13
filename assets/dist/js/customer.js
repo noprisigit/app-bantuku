@@ -146,4 +146,35 @@ $(document).ready(function() {
          return false;
       }
    });
+
+   $(document).on('click', '.btn-delete-customer', function() {
+      var uniqID = $(this).data('uniqueid');
+
+      Swal.fire({
+         title: 'Are you sure?',
+         text: "Customer ini akan dihapus",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Hapus'
+      }).then((result) => {
+         if (result.value) {
+            $.ajax({
+               type: "POST",
+               url: "customer/customer_delete",
+               data: { uniqID : uniqID },
+               success: function () {
+                     Swal.fire({
+                        title: "Customer",
+                        text: "Customer berhasil dihapus",
+                        icon: 'success'
+                     });
+                     table_customers.ajax.reload();
+               }
+            });
+            return false;
+         }
+      })
+   });
 });
