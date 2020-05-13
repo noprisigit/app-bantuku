@@ -20,6 +20,10 @@ $(document).ready(function() {
       ]
    });
 
+   setInterval(function(){
+      table_customers.ajax.reload();
+   }, 300000);
+
    $('#form-save-customer').submit(function(e) {
       var name = $('#customerName').val();
       var email = $('#customerEmail').val();

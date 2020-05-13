@@ -60,7 +60,7 @@ class Product extends CI_Controller {
                     'ProductDesc'       => $this->input->post('product_desc'),
                     'ProductImage'      => $data['file_name'],
                     'ProductThumbnail'  => $data['raw_name'] . '_thumb' . $data['file_ext'],
-                    'ProductStatus'     => 0,
+                    'ProductStatus'     => 1,
                     'date_created'      => date('Y-m-d H:i:s'),
                     'date_updated'      => date('Y-m-d H:i:s')
                 ];
