@@ -1,5 +1,5 @@
 $(document).ready(function() {
-   var table_users = $('#customer').DataTable({
+   var table_customers = $('#customer').DataTable({
       "processing": true,
       "serverSide": true,
       "order": [],
@@ -59,7 +59,9 @@ $(document).ready(function() {
                         title: "Customer",
                         text: res.message,
                         icon: 'success'
-                    });
+                     });
+
+                     table_customers.ajax.reload();
                   }
                }
             });
@@ -91,5 +93,57 @@ $(document).ready(function() {
          $('#detCustomerEmailVerified').html(": " + '<span class="badge badge-danger">Email Belum Diverifikasi</span>');
       }
       $('#detCustomerRegistrationDate').html(": " + date);
+   });
+
+   $(document).on('click', '.btn-edit-customer', function() {
+      var uniqID = $(this).data('uniqueid');
+      var name = $(this).data('name');
+      var email = $(this).data('email');
+      var phone = $(this).data('phone');
+      var address = $(this).data('address');
+
+      $('#modal-edit-customer').modal('show');
+      $('#edtCustomerUniqueID').val(uniqID);
+      $('#edtCustomerName').val(name);
+      $('#edtCustomerEmail').val(email);
+      $('#edtCustomerPhone').val(phone);
+      $('#edtCustomerAddress').html(address);
+   });
+
+   $('#form-edit-customer').submit(function(e) {
+      var uniqID = $('#edtCustomerUniqueID').val();
+      var name = $('#edtCustomerName').val();
+      var email = $('#edtCustomerEmail').val();
+      var phone = $('#edtCustomerPhone').val();
+      var address = $('#edtCustomerAddress').val();
+
+      if (name == "" || email == "" || phone == "" || address == "") {
+         e.preventDefault();
+         toastr.error('Harap isi seluruh kolom');
+      } else {
+         $.ajax({
+            url: 'customer/customer_update',
+            type: 'post',
+            data: { uniqid: uniqID, name: name, email: email, phone: phone, address: address },
+            dataType: 'json',
+            success: function(res) {
+               $('[name="edtCustomerUniqueID"]').val("");
+               $('[name="edtCustomerName"]').val("");
+               $('[name="edtCustomerEmail"]').val("");
+               $('[name="edtCustomerPhone"]').val("");
+               $('[name="edtCustomerAddress"]').val("");
+
+               $('#modal-edit-customer').modal('hide');
+
+               Swal.fire({
+                  title: "Customer",
+                  text: res.message,
+                  icon: 'success'
+               });
+               table_customers.ajax.reload();
+            }
+         });
+         return false;
+      }
    });
 });

@@ -59,6 +59,20 @@ class Customer extends CI_Controller
       echo json_encode($res);
    }
 
+   public function customer_update() 
+   {
+      $this->db->set('CustomerName', $this->input->post('name'));
+      $this->db->set('CustomerEmail', $this->input->post('email'));
+      $this->db->set('CustomerPhone', $this->input->post('phone'));
+      $this->db->set('CustomerAddress1', $this->input->post('address'));
+      $this->db->where('CustomerUniqueID', $this->input->post('uniqid'));
+      $this->db->update('customers');
+       
+      $res['message'] = "Customer berhasil diperbaharui";
+       
+      echo json_encode($res);
+   }
+
    public function show_list_customers()
    {
       $categories = $this->customer->get_datatables();
@@ -67,7 +81,7 @@ class Customer extends CI_Controller
       foreach ($categories as $field) {
          $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'" data-verified="'.$field->CustomerVerifiedEmail.'" data-date="'.$field->CustomerRegistrationDate.'"><i class="fas fa-folder"></i> Detail</button>';
 
-         // $button2 = '<a class="btn btn-sm btn-primary btn-enable-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Enable</a>'.'&nbsp;<button type="button" data-id="'.$field->CategoryID.'" data-name="'.$field->CategoryName.'" data-description="'.$field->CategoryDescription.'" class="btn btn-sm btn-info btn-edit-category"><i class="fas fa-pencil-alt"></i> Edit</button>'.'&nbsp;<a class="btn btn-sm btn-danger btn-delete-category" data-id="'.$field->CategoryID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+         $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
          
          $no++;
          $row = array();
@@ -81,7 +95,7 @@ class Customer extends CI_Controller
          } else {
                $row[] = '<span class="badge badge-danger">Email Belum Diverifikasi</span>';
          }
-         $row[] = $btn_detail;
+         $row[] = $btn_detail . "&nbsp" . $btn_edit;
          // if ($field->CategoryStatus == 1) {
          //       $row[] = ;
          // } else {
