@@ -118,7 +118,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-store-alt"></i>
+                                <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Master Customers
                                 </p>
@@ -135,7 +135,7 @@
                         <?php if ($this->session->userdata('AccessID') == 1) : ?>
                         <li class="nav-item">
                             <a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon fas fa-users-cog"></i>
                                 <p>
                                     Management Users
                                 </p>
