@@ -10,10 +10,10 @@
                            <tr>
                               <th class="text-center">#</th>
                               <th class="text-center">Unique ID</th>
-                              <th class="text-center">Nama Toko</th>
-                              <th class="text-center">Nama Pemilik</th>
-                              <th class="text-center">Phone</th>
+                              <th class="text-center">Nama Customer</th>
                               <th class="text-center">Email</th>
+                              <th class="text-center">No. Telp</th>
+                              <th class="text-center">Status Email</th>
                               <th class="text-center">Actions</th>
                            </tr>
                         </thead>
@@ -22,10 +22,10 @@
                            <tr>
                               <th class="text-center">#</th>
                               <th class="text-center">Unique ID</th>
-                              <th class="text-center">Nama Toko</th>
-                              <th class="text-center">Nama Pemilik</th>
-                              <th class="text-center">Phone</th>
+                              <th class="text-center">Nama Customer</th>
                               <th class="text-center">Email</th>
+                              <th class="text-center">No. Telp</th>
+                              <th class="text-center">Status Email</th>
                               <th class="text-center">Actions</th>
                            </tr>
                         </tfoot>
@@ -81,14 +81,14 @@
                               </div>
                               <div class="form-group">
                                  <label for="">Alamat Lengkap</label>
-                                 <textarea class="form-control" name="customerAddress" id="customerAddress" cols="20" rows="10" placeholder="Alamat Lengkap"></textarea>
+                                 <textarea class="form-control" name="customerAddress" id="customerAddress" cols="20" rows="5" placeholder="Alamat Lengkap"></textarea>
                               </div>
                            </div>
                         </div>
                      </div>
                      <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <button type="submit" id="btn-save-partner" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
                      </div>
                   </form>
                </div>

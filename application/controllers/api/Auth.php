@@ -29,7 +29,7 @@ class Auth extends REST_Controller
             if ($customer) {
                 if (password_verify($password, $customer['CustomerPassword'])) {
                     if ($customer['CustomerVerifiedEmail'] == 1) {
-                        $loginToken = generateTokenLogin(500);
+                        $loginToken = generateTokenLogin();
 
                         $this->db->set('CustomerLoginToken', $loginToken);
                         $this->db->where('CustomerUniqueID', $customer['CustomerUniqueID']);
@@ -85,16 +85,18 @@ class Auth extends REST_Controller
             } else {
                 $uniqueID = random_strings(5) . date('YmdHis');
                 $generateCode = generate_code(6);
+                $token = generateTokenLogin();
 
                 $data = [
-                    'CustomerUniqueID'      => $uniqueID,
-                    'CustomerName'          => $full_name,
-                    'CustomerEmail'         => $email,
-                    'CustomerPhone'         => $phone,
-                    'CustomerPassword'      => password_hash($password, PASSWORD_DEFAULT),
-                    'CustomerAddress1'        => $address,
-                    'CustomerVerifiedEmail' => 0,
-                    'CustomerVerificationCode'  => $generateCode
+                    'CustomerUniqueID'          => $uniqueID,
+                    'CustomerName'              => $full_name,
+                    'CustomerEmail'             => $email,
+                    'CustomerPhone'             => $phone,
+                    'CustomerPassword'          => password_hash($password, PASSWORD_DEFAULT),
+                    'CustomerAddress1'          => $address,
+                    'CustomerVerifiedEmail'     => 0,
+                    'CustomerVerificationCode'  => $generateCode,
+                    'CustomerLoginToken'        => $token
                 ];
     
                 // $emailToken = base64_encode(random_bytes(64));

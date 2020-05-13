@@ -26,7 +26,9 @@ function generate_code($length)
 
 function generateTokenLogin()
 {
-    return substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(256))), 0, 256);
+    $token = openssl_random_pseudo_bytes(128);
+    $token = bin2hex($token);
+    return $token;
 }
 
 function resizeImage($filename, $folder_name)
@@ -53,7 +55,6 @@ function resizeImage($filename, $folder_name)
     if (!$th->image_lib->resize()) {
         echo $th->image_lib->display_errors();
     }
-
 
     $th->image_lib->clear();
 }
