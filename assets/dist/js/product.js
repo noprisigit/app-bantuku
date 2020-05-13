@@ -32,7 +32,7 @@ $(document).ready(function() {
             "className": "text-center"
          },
          { 
-            "targets": [ 8,9 ], 
+            "targets": [ 8,9,10 ], 
             "className": "text-center"
          },
       ],
@@ -371,32 +371,42 @@ $(document).ready(function() {
    });
 
    $(document).on('click', '#btn-submit-promo', function(e) {
-      const uniqueID = $('#promo_uniqueID').val();
-      const nilai_promo = $('#product_nilai_promo').val();
+      var uniqueID = $('#promo_uniqueID').val();
+      var nilai_promo = $('#product_nilai_promo').val();
+      var tgl_promo = $('#product_tanggal_promo').val();
 
-      if (nilai_promo == "") {
+      var currentDate = new Date();
+      var tglPromo = new Date(tgl_promo);
+
+      if (nilai_promo === "" || tgl_promo === "") {
          e.preventDefault();
-         toastr.error('Masukkan besar nilai promo (dalam persen)');
+         toastr.error('Harap isi seluruh kolom');
       } else {
-         $.ajax({
-            url: 'product/product-promo-save',
-            type: 'post',
-            data: { uniqueID: uniqueID, nilai_promo: nilai_promo },
-            success: function() {
+         if (tglPromo < currentDate) {
+            e.preventDefault();
+            toastr.error('Tanggal sudah lewat');
+         } else {
+            $.ajax({
+               url: 'product/product-promo-save',
+               type: 'post',
+               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_promo },
+               success: function() {
                   $('[name="product_uniqueID"]').val("");
                   $('[name="product_nilai_promo"]').val("");
-
+                  $('[name="product_tanggal_promo"]').val("");
+   
                   $('#modal-add-product-promo').modal('hide');
-
+   
                   Swal.fire({
                      title: "Produk",
                      text: "Promo baru telah ditambahkan",
                      icon: 'success'
                   });
                   table_product.ajax.reload();
-            }
-         });
-         return false;
+               }
+            });
+            return false;
+         }
       }
    });
 
@@ -409,7 +419,9 @@ $(document).ready(function() {
       const desc = $(this).data('desc');
       const image = $(this).data('image');
       const toko = $(this).data('toko');
-      const kategori = $(this).data('kategori');       
+      const kategori = $(this).data('kategori');  
+      const promo = $(this).data('promo');
+      const tglPromo = $(this).data('tglpromo');     
             
       $('#modal-edit-product-promo').modal('show');
 
@@ -423,36 +435,48 @@ $(document).ready(function() {
       $('.promo-product-category').html(': ' + kategori);
       $('.promo-product-desc').html(': ' + desc);
 
+      $('#edt_product_nilai_promo').val(promo);
+      $('#edt_product_tanggal_promo').val(tglPromo);
       $('#edt_promo_uniqueID').val(uniqueID);
    });
 
    $(document).on('click', '#btn-edit-promo', function() {
-      const uniqueID = $('#edt_promo_uniqueID').val();
-      const nilai_promo = $('#edt_product_nilai_promo').val();
+      var uniqueID = $('#edt_promo_uniqueID').val();
+      var nilai_promo = $('#edt_product_nilai_promo').val();
+      var tgl_promo = $('#edt_product_tanggal_promo').val();
 
-      if (nilai_promo == "") {
+      var currentDate = new Date();
+      var tglPromo = new Date(tgl_promo);
+
+      if (nilai_promo === "" || tgl_promo === "") {
          e.preventDefault();
-         toastr.error('Masukkan besar nilai promo (dalam persen)');
+         toastr.error('Harap isi seluruh kolom');
       } else {
-         $.ajax({
-            url: 'product/product-promo-edit',
-            type: 'post',
-            data: { uniqueID: uniqueID, nilai_promo: nilai_promo },
-            success: function() {
+         if (tglPromo < currentDate) {
+            e.preventDefault();
+            toastr.error('Tanggal sudah lewat');
+         } else {
+            $.ajax({
+               url: 'product/product-promo-edit',
+               type: 'post',
+               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_promo },
+               success: function() {
                   $('[name="product_uniqueID"]').val("");
                   $('[name="product_nilai_promo"]').val("");
-
+                  $('[name="product_tanggal_promo"]').val("");
+   
                   $('#modal-edit-product-promo').modal('hide');
-
+   
                   Swal.fire({
                      title: "Produk",
-                     text: "Nilai promo telah diperbaharui",
+                     text: "Promo telah diperbaharui",
                      icon: 'success'
                   });
                   table_product.ajax.reload();
-            }
-         });
-         return false;
+               }
+            });
+            return false;
+         }
       }
    });
 });

@@ -11,17 +11,18 @@
                             <table id="product" class="table table-bordered table-striped nowrap" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">Unique ID</th>
-                                        <th class="text-center">Nama Produk</th>
-                                        <th class="text-center">Harga per Satuan</th>
-                                        <th class="text-center">Berat</th>
-                                        <th class="text-center">Stock</th>
-                                        <th class="text-center">Kategori</th>
-                                        <th class="text-center">Nama Toko</th>
-                                        <th class="text-center">Status Produk</th>
-                                        <th class="text-center">Status Promo Produk</th>
-                                        <th class="text-center">Actions</th>
+													<th class="text-center">#</th>
+													<th class="text-center">Unique ID</th>
+													<th class="text-center">Nama Produk</th>
+													<th class="text-center">Harga per Satuan</th>
+													<th class="text-center">Berat</th>
+													<th class="text-center">Stock</th>
+													<th class="text-center">Kategori</th>
+													<th class="text-center">Nama Toko</th>
+													<th class="text-center">Status Produk</th>
+													<th class="text-center">Status Promo Produk</th>
+													<th class="text-center">Tanggal Promo</th>
+													<th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -319,20 +320,32 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form id="form-add-product-promo" method="post">
-                                        <label for="">Tambahkan Nilai Promo (dalam Persen)</label>
-                                        <input type="hidden" name="product_uniqueID" id="promo_uniqueID">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <input type="number" class="form-control" name="product_nilai_promo" id="product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <button type="submit" id="btn-submit-promo" class="btn btn-primary btn-block">Tambah Promo</button>
-                                                </div>
-                                            </div>
-                                        </div>
+													<input type="hidden" name="product_uniqueID" id="promo_uniqueID">
+													<div class="row">
+														<div class="col-md-5">
+															<label for="">Tambahkan Nilai Promo (dalam Persen)</label>
+														</div>
+														<div class="col-md-4">
+															<label for="">Tanggal Berlaku Promo</label>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-5">
+															<div class="form-group">
+																<input type="number" class="form-control" name="product_nilai_promo" id="product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
+															</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-group">
+																<input type="date" class="form-control" name="product_tanggal_promo" id="product_tanggal_promo">
+															</div>
+														</div>
+														<div class="col-md-3">
+															<div class="form-group">
+																	<button type="submit" id="btn-submit-promo" class="btn btn-primary btn-block">Tambah Promo</button>
+															</div>
+														</div>
+													</div>
                                     </form>
                                 </div>
                             </div>
@@ -404,20 +417,32 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form id="form-edit-product-promo" method="post">
-                                        <label for="">Edit Nilai Promo (dalam Persen)</label>
-                                        <input type="hidden" name="product_uniqueID" id="edt_promo_uniqueID">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <input type="number" class="form-control" name="product_nilai_promo" id="edt_product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <button type="submit" id="btn-edit-promo" class="btn btn-primary btn-block">Perbaharui Promo</button>
-                                                </div>
-                                            </div>
-                                        </div>
+													<input type="hidden" name="product_uniqueID" id="edt_promo_uniqueID">
+													<div class="row">
+														<div class="col-md-5">
+															<label for="">Edit Nilai Promo (dalam Persen)</label>
+														</div>
+														<div class="col-md-4">
+															<label for="">Edit Tanggal Berlaku Promo</label>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-5">
+															<div class="form-group">
+																<input type="number" class="form-control" name="product_nilai_promo" id="edt_product_nilai_promo" placeholder="Besar Nilai Promo dalam Persen">
+															</div>
+														</div>
+														<div class="col-md-4">
+															<div class="form-group">
+																<input type="date" class="form-control" name="product_tanggal_promo" id="edt_product_tanggal_promo">
+															</div>
+														</div>
+														<div class="col-md-3">
+															<div class="form-group">
+																	<button type="submit" id="btn-edit-promo" class="btn btn-primary btn-block">Perbaharui Promo</button>
+															</div>
+														</div>
+													</div>
                                     </form>
                                 </div>
                             </div>

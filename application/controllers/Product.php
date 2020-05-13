@@ -176,6 +176,7 @@ class Product extends CI_Controller {
 
         $this->db->set('ProductStatusPromo', 1);
         $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
+        $this->db->set('ProductPromoDate', $this->input->post('tgl_promo'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
         $this->db->update('products');
@@ -186,6 +187,7 @@ class Product extends CI_Controller {
         date_default_timezone_set('Asia/Jakarta');
 
         $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
+        $this->db->set('ProductPromoDate', $this->input->post('tgl_promo'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
         $this->db->update('products');
@@ -212,7 +214,7 @@ class Product extends CI_Controller {
 
             $btn_deactivated_promo = '<a class="btn btn-xs btn-danger btn-deactivated-promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)">Matikan Promo</a>';
 
-            $btn_edit_promo = '<button type="button" class="btn btn-xs btn-info btn-edit-product-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'">Edit Nilai Promo</button>';
+            $btn_edit_promo = '<button type="button" class="btn btn-xs btn-info btn-edit-product-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'">Edit Nilai Promo</button>';
 
             $no++;
             $row = array();
@@ -234,6 +236,12 @@ class Product extends CI_Controller {
                 $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
             } else {
                 $row[] = '<span class="badge badge-success">Ada Promo '. $field->ProductPromo .' %</span>';
+            }
+
+            if ($field->ProductStatusPromo == 0) {
+                $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
+            } else {
+                $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDate), 'd-m-Y').'</span>';
             }
 
             if ($field->ProductStatus == 0 && $field->ProductStatusPromo == 0) {

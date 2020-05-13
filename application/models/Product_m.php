@@ -14,7 +14,7 @@ class Product_m extends CI_Model {
  
     private function _get_datatables_query()
     {
-        $this->db->select('ProductID, products.CategoryID, products.PartnerID, ProductUniqueID, ProductName, ProductPrice, ProductStock, ProductWeight, ProductDesc, ProductImage, ProductStatus, ProductStatusPromo, ProductPromo ,CategoryName, PartnerUniqueID , CompanyName, PartnerName');
+        $this->db->select('ProductID, products.CategoryID, products.PartnerID, ProductUniqueID, ProductName, ProductPrice, ProductStock, ProductWeight, ProductDesc, ProductImage, ProductStatus, ProductStatusPromo, ProductPromo, ProductPromoDate, CategoryName, PartnerUniqueID , CompanyName, PartnerName');
         $this->db->from($this->table);
         $this->db->join('categories', 'categories.CategoryID = products.CategoryID');
         $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
