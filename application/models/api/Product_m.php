@@ -20,6 +20,13 @@ class Product_m extends CI_Model {
       $this->db->select('ProductName, ProductPrice');
       $this->db->where('ProductUniqueID', $id);
       $this->db->where('ProductStatus', 1);
-      return $this->db->get('products')->result_array();
+      return $this->db->get('products')->result();
+   }
+
+   public function getProductsByShop($id)
+   {
+      $this->db->where('PartnerID', $id);
+      $this->db->where('ProductStatus', 1);
+      return $this->db->get('products')->result();
    }
 }

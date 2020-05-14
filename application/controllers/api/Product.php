@@ -90,4 +90,45 @@ class Product extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function getProductsByShop_get()
+   {
+      $token = $this->get('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $partnerID = $this->get('partnerID');
+            if ($partnerID) {
+               $products = $this->product->getProductsByShop($partnerID);
+               if ($products) {
+                  $this->response([
+                     'status'    => true,
+                     'data'      => $products
+                  ], REST_Controller::HTTP_OK);
+               } else {
+                  $this->response([
+                     'status'    => false,
+                     'message'   => 'Belum ada produk pada mitra ini'
+                  ], REST_Controller::HTTP_NOT_FOUND);
+               }
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Missing Partner ID'
+               ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
