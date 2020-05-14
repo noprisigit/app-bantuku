@@ -8,4 +8,18 @@ class Product_m extends CI_Model {
       $this->db->where('ProductStatus', 1);
       return $this->db->get('products')->result();
    }
+
+   public function getProductsByPromoToday()
+   {
+      $query = $this->db->query('SELECT * FROM `products` WHERE ProductStatus = 1 and ProductStatusPromo = 1 and ProductPromoDate = CURRENT_DATE()');
+      return $query->result();
+   }
+
+   public function getProductPrice($id)
+   {
+      $this->db->select('ProductName, ProductPrice');
+      $this->db->where('ProductUniqueID', $id);
+      $this->db->where('ProductStatus', 1);
+      return $this->db->get('products')->result_array();
+   }
 }

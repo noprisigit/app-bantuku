@@ -55,4 +55,39 @@ class Product extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function getProductsByPromoToday_get()
+   {
+      $token = $this->get('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $products = $this->product->getProductsByPromoToday();
+
+            if ($products) {
+               $this->response([
+                  'status'    => true,
+                  'data'      => $products
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'No discount for all products today'
+               ], REST_Controller::HTTP_NOT_FOUND);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
