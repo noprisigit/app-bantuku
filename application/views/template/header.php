@@ -125,6 +125,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url('cart') ?>" class="nav-link <?= ($title == "Keranjang") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-cart-plus"></i>
+                                <p>
+                                    Master Keranjang
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
