@@ -12,7 +12,11 @@ $(document).ready(function() {
                 $('#countMerchant').html(res.countPartners.toString() + ' Mitra');
                 $('#countCustomer').html(res.countCustomers.toString() + ' Orang');
                 $('#countCategory').html(res.countCategories.toString() + ' Kategori');
-                $('#jumlahPendapatan').html(formatRupiah(res.jumlahPendapatan.total_bayar.toString(), "Rp. "));
+                if (res.jumlahPendapatan.total_bayar == null) {
+                    $('#jumlahPendapatan').html("Rp 0");
+                } else {
+                    $('#jumlahPendapatan').html(formatRupiah(res.jumlahPendapatan.total_bayar.toString(), "Rp. "));
+                }
             }
         });
     }
