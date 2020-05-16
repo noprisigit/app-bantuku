@@ -117,6 +117,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url('transaction') ?>" class="nav-link <?= ($title == "Transaksi") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>
+                                    Master Transaksi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
