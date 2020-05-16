@@ -23,7 +23,7 @@
                               <tfoot>
                                  <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center">Nama Kategoro</th>
+                                    <th class="text-center">Nama Kategori</th>
                                     <th class="text-center">Deskripsi</th>
                                     <th class="text-center">Icon</th>
                                     <th class="text-center">Status</th>
