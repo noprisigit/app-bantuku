@@ -56,7 +56,54 @@
 						</div>
 						<!-- /.col -->
 					</row>
+
 					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-12">
+								<div class="card card-primary">
+									<div class="card-header">
+										<h3 class="card-title">5 Produk Yang Paling Disukai</h3>
+									</div>
+									<div class="card-body">
+										<table class="table">
+											<thead>
+												<tr class="text-center">
+													<th>#</th>
+													<th>Nama Produk</th>
+													<th>Nama Toko</th>
+													<th>Yang Suka</th>
+												</tr>
+											</thead>
+											<tbody id="produk-disukai">
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6 col-12">
+								<div class="card card-primary">
+									<div class="card-header">
+										<h3 class="card-title">5 Toko Yang Paling Disukai</h3>
+									</div>
+									<div class="card-body">
+										<table class="table">
+											<thead>
+												<tr class="text-center">
+													<th>#</th>
+													<th>Nama Toko</th>
+													<th>Nama Pemilik</th>
+													<th>Yang Suka</th>
+												</tr>
+											</thead>
+											<tbody id="toko-disukai">
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<!-- <div class="col-md-6">
 								<div class="card card-success">

@@ -9,6 +9,7 @@ $(document).ready(function() {
             type: 'get',
             dataType: 'json',
             success: function(res) {
+                console.log(res);
                 $('#countMerchant').html(res.countPartners.toString() + ' Mitra');
                 $('#countCustomer').html(res.countCustomers.toString() + ' Orang');
                 $('#countCategory').html(res.countCategories.toString() + ' Kategori');
@@ -17,6 +18,16 @@ $(document).ready(function() {
                 } else {
                     $('#jumlahPendapatan').html(formatRupiah(res.jumlahPendapatan.total_bayar.toString(), "Rp. "));
                 }
+                var disukai;
+                for(let i = 0; i < res.produkYangDisukai.length; i++) {
+                    disukai += `<tr>
+                        <td class="text-center">${i+1}</td>
+                        <td>${res.produkYangDisukai[i].ProductName}</td>
+                        <td>${res.produkYangDisukai[i].CompanyName}</td>
+                        <td class="text-center">${res.produkYangDisukai[i].jumlah} Orang</td>
+                    </tr>`;
+                }
+                $('#produk-disukai').html(disukai);
             }
         });
     }

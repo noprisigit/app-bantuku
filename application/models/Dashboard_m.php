@@ -23,6 +23,12 @@ class Dashboard_m extends CI_Model {
         return $query->row();
     }
 
+    public function productLikes()
+    {
+        $query = $this->db->query('SELECT products.ProductUniqueID, products.ProductName, partners.CompanyName, COUNT(*) as jumlah FROM customerslikesproducts INNER JOIN products ON products.ProductUniqueID = customerslikesproducts.ProductUniqueID INNER JOIN partners ON partners.PartnerID = products.PartnerID GROUP BY customerslikesproducts.ProductUniqueID ORDER BY jumlah DESC LIMIT 5');
+        return $query->result_array();
+    }
+
     public function countingCustomersByCurrentYear()
     {
         $month = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

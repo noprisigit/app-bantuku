@@ -30,7 +30,8 @@ class Dashboard extends CI_Controller {
 		$res['countCustomers'] = $this->dashboard->countingCustomer();
 		$res['countCategories'] = $this->dashboard->countingCategories();
 		$res['jumlahPendapatan'] = $this->dashboard->jumlahPendapatan();
-	
+		$res['produkYangDisukai'] = $this->dashboard->productLikes();
+		
 		echo json_encode($res);
 	}
 
