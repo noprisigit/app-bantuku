@@ -108,7 +108,7 @@ class Auth extends REST_Controller
                 // ];
                 // $this->auth->registration_token($access);
 
-                $this->_sendEmail($generateCode, 'verify');
+                // $this->_sendEmail($generateCode, 'verify');
     
                 if ($this->auth->registration($data) > 0) {
                     $this->response([
