@@ -99,4 +99,38 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function sendOrder_post()
+   {
+      date_default_timezone_set('Asia/Jakarta');
+      $token = $this->post('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
+
+            $this->db->set('OrderStatus', 'Kirim');
+            $this->db->set('OrderSendDate', date('Y-m-d H:i:s'));
+            $this->db->where('OrderNumber', $this->post('orderNumber'));
+            $this->db->update('orders');
+
+            $this->response([
+               'status'    => true,
+               'message'   => 'Pesanan telah dikirim'
+            ], REST_Controller::HTTP_CREATED);
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }

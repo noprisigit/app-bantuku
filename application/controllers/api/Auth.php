@@ -126,6 +126,19 @@ class Auth extends REST_Controller
         }
     }
 
+    public function logout_post()
+    {
+        $customerUniqueID = $this->post('customerUniqueID');
+        $this->db->set('CustomerLoginToken', NULL);
+        $this->db->where('CustomerUniqueID', $customerUniqueID);
+        $this->db->update('customers');
+
+        $this->response([
+            'status' => true,
+            'message' => 'Logout berhasil',
+        ], REST_Controller::HTTP_OK);
+    }
+
     private function _sendEmail($value, $type) {
         $config = [
             'protocol'      => 'smtp',
@@ -154,4 +167,6 @@ class Auth extends REST_Controller
             die;
         }
     }
+
+    
 }
