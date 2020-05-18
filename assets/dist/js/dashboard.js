@@ -120,6 +120,6 @@ $(document).ready(function() {
     setInterval(function(){
         getDashboardData();
         showCartCustomers();
-    }, 300000);
+    }, 3000);
     
 });
