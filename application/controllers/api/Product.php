@@ -131,4 +131,47 @@ class Product extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function likesProduct_post()
+   {
+      $token = $this->post('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $input = [
+               'CustomerUniqueID'   => $this->post('customerUniqueID'),
+               'ProductUniqueID'    => $this->post('productUniqueID'),
+            ];
+            $this->db->insert('customerslikesproducts', $input);
+
+            $this->db->select('ProductUniqueID, ProductName, CompanyName');
+            $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
+            $product = $this->db->get_where('products', ['ProductUniqueID' => $this->post('productUniqueID')])->row_array();
+            
+            $data = [
+               'ProductUniqueID' => $product['ProductUniqueID'],
+               'ProductName'     => $product['ProductName'],
+               'CompanyName'     => $product['CompanyName']
+            ];
+
+            $this->response([
+               'status'    => true,
+               'data'      => $data,
+               'message'   => 'Anda menyukai produk ini'
+            ], REST_Controller::HTTP_OK);
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
