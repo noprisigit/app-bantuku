@@ -214,4 +214,36 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function setRatingOrder_post()
+   {
+      $token = $this->post('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $this->db->set('Rating', $this->post('rating'));
+            $this->db->where('OrderNumber', $this->post('orderNumber'));
+            $this->db->update('orders');
+
+            $this->response([
+               'status'       => true,
+               'orderNumber'  => $this->post('orderNumber'),
+               'rating'       => $this->post('rating'),
+               'message'      => 'Rating pesanan berhasil ditambahkan'
+            ], REST_Controller::HTTP_OK);
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
