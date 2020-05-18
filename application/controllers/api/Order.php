@@ -25,6 +25,8 @@ class Order extends REST_Controller
             $product = $this->product->getProductPrice($this->post('productUniqueID'));
             $uniqueID = date('YmdHis') . random_strings(4);
             $totalBayar = $this->post('jumlah') * $product[0]->ProductPrice;
+            $tglBayar = date('Y-m-d H:i:s');
+
             $input = [
                'OrderNumber'           => $uniqueID,
                'CustomerUniqueID'      => $this->post('customerUniqueID'),
@@ -32,12 +34,21 @@ class Order extends REST_Controller
                'OrderProductQuantity'  => $this->post('jumlah'),
                'OrderTotalPrice'       => $totalBayar,
                'OrderStatus'           => "Pending",
-               'OrderDate'             => date('Y-m-d H:i:s')
+               'OrderDate'             => $tglBayar
             ];
+
             $order = $this->order->createOrder($input);
             if ($order > 0) {
                $this->response([
                   'status'    => true,
+                  'data'      => [
+                     'OrderNumber'        => $uniqueID,
+                     'CustomerUniqueId'   => $this->post('customerUniqueID'),
+                     'ProductUniqueID'    => $this->post('productUniqueID'),
+                     'Jumlah'             => $this->post('jumlah'),
+                     'Total Bayar'        => $totalBayar,
+                     'Tanggal Pesan'      => $tglBayar
+                  ],
                   'message'   => 'Order baru berhasil ditambahkan',
                ], REST_Controller::HTTP_CREATED);
             } else {
