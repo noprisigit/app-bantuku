@@ -133,4 +133,36 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function completedOrder_post()
+   {
+      $token = $this->post('token');
+      if ($token) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
+
+            $this->db->set('OrderStatus', 'Selesai');
+            $this->db->set('OrderSendDate', date('Y-m-d H:i:s'));
+            $this->db->where('OrderNumber', $this->post('orderNumber'));
+            $this->db->update('orders');
+
+            $this->response([
+               'status'    => true,
+               'message'   => 'Pesanan telah selesai'
+            ], REST_Controller::HTTP_CREATED);            
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
