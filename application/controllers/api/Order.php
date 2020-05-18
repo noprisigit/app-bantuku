@@ -219,14 +219,16 @@ class Order extends REST_Controller
             $uniqueID = date('YmdHis') . random_strings(4);
             $cart = $this->db->get_where('carts', ['CartNumber' => $this->post('cartNumber')])->row_array();
             
+            $tglPesan = date('Y-m-d H:i:s');
+
             $input = [
                'OrderNumber'           => $uniqueID,
                'CustomerUniqueID'      => $cart['CustomerUniqueID'],
                'ProductUniqueID'       => $cart['ProductUniqueID'],
                'OrderProductQuantity'  => $cart['CartProductQuantity'],
                'OrderTotalPrice'       => $cart['CartPrice'],
-               'OrderStatus'           => "Pending",
-               'OrderDate'             => date('Y-m-d H:i:s'),
+               'OrderStatus'           => 1,
+               'OrderDate'             => $tglPesan,
             ];
             $order = $this->order->createOrder($input);
             $this->db->delete('carts', ['CartNumber' => $this->post('cartNumber')]);
@@ -234,6 +236,15 @@ class Order extends REST_Controller
             if ($order > 0) {
                $this->response([
                   'status'    => true,
+                  'data'      => [
+                     'OrderNumber'        => $uniqueID,
+                     'CustomerUniqueId'   => $cart['CustomerUniqueID'],
+                     'ProductUniqueID'    => $cart['ProductUniqueID'],
+                     'Jumlah'             => $cart['CartProductQuantity'],
+                     'Total Bayar'        => $cart['CartPrice'],
+                     'Status Pesanan'     => "Pending",
+                     'Tanggal Pesan'      => $tglPesan
+                  ],
                   'message'   => 'Order baru berhasil ditambahkan',
                ], REST_Controller::HTTP_CREATED);
             } else {
