@@ -9,7 +9,6 @@ $(document).ready(function() {
             type: 'get',
             dataType: 'json',
             success: function(res) {
-                console.log(res);
                 $('#countMerchant').html(res.countPartners.toString() + ' Mitra');
                 $('#countCustomer').html(res.countCustomers.toString() + ' Orang');
                 $('#countCategory').html(res.countCategories.toString() + ' Kategori');
@@ -28,6 +27,16 @@ $(document).ready(function() {
                     </tr>`;
                 }
                 $('#produk-disukai').html(disukai);
+                var tokoDisukai;
+                for (let j = 0; j < res.tokoYangDisukai.length; j++) {
+                    tokoDisukai += `<tr>
+                        <td class="text-center">${j+1}</td>
+                        <td>${res.tokoYangDisukai[j].CompanyName}</td>
+                        <td>${res.tokoYangDisukai[j].PartnerName}</td>
+                        <td class="text-center">${res.tokoYangDisukai[j].jumlah} Orang</td>
+                    </tr>`;
+                } 
+                $('#toko-disukai').html(tokoDisukai);
             }
         });
     }
