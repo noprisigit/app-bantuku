@@ -165,4 +165,53 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function createOrderByCart_post()
+   {
+      date_default_timezone_set('Asia/Jakarta');
+      $token = $this->post('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $uniqueID = date('YmdHis') . random_strings(4);
+            $cart = $this->db->get_where('carts', ['CartNumber' => $this->post('cartNumber')])->row_array();
+            
+            $input = [
+               'OrderNumber'           => $uniqueID,
+               'CustomerUniqueID'      => $cart['CustomerUniqueID'],
+               'ProductUniqueID'       => $cart['ProductUniqueID'],
+               'OrderProductQuantity'  => $cart['CartProductQuantity'],
+               'OrderTotalPrice'       => $cart['CartPrice'],
+               'OrderStatus'           => "Pending",
+               'OrderDate'             => date('Y-m-d H:i:s'),
+            ];
+            $order = $this->order->createOrder($input);
+            $this->db->delete('carts', ['CartNumber' => $this->post('cartNumber')]);
+            
+            if ($order > 0) {
+               $this->response([
+                  'status'    => true,
+                  'message'   => 'Order baru berhasil ditambahkan',
+               ], REST_Controller::HTTP_CREATED);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Order gagal ditambahkan',
+               ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
