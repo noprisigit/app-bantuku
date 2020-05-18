@@ -25,7 +25,7 @@ class Order extends REST_Controller
             $product = $this->product->getProductPrice($this->post('productUniqueID'));
             $uniqueID = date('YmdHis') . random_strings(4);
             $totalBayar = $this->post('jumlah') * $product[0]->ProductPrice;
-            $tglBayar = date('Y-m-d H:i:s');
+            $tglPesan = date('Y-m-d H:i:s');
 
             $input = [
                'OrderNumber'           => $uniqueID,
@@ -33,8 +33,8 @@ class Order extends REST_Controller
                'ProductUniqueID'       => $this->post('productUniqueID'),
                'OrderProductQuantity'  => $this->post('jumlah'),
                'OrderTotalPrice'       => $totalBayar,
-               'OrderStatus'           => "Pending",
-               'OrderDate'             => $tglBayar
+               'OrderStatus'           => 1,
+               'OrderDate'             => $tglPesan
             ];
 
             $order = $this->order->createOrder($input);
@@ -47,7 +47,8 @@ class Order extends REST_Controller
                      'ProductUniqueID'    => $this->post('productUniqueID'),
                      'Jumlah'             => $this->post('jumlah'),
                      'Total Bayar'        => $totalBayar,
-                     'Tanggal Pesan'      => $tglBayar
+                     'Status Pesanan'     => "Pending",
+                     'Tanggal Pesan'      => $tglPesan
                   ],
                   'message'   => 'Order baru berhasil ditambahkan',
                ], REST_Controller::HTTP_CREATED);
@@ -82,9 +83,10 @@ class Order extends REST_Controller
             $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
             // dd($order);
             $productStock = $this->db->select('ProductStock')->get_where('products', ['ProductUniqueID' => $order['ProductUniqueID']])->row_array();
+            $tglProses = date('Y-m-d H:i:s');
 
-            $this->db->set('OrderStatus', 'Proses');
-            $this->db->set('OrderProcessDate', date('Y-m-d H:i:s'));
+            $this->db->set('OrderStatus', 2);
+            $this->db->set('OrderProcessDate', $tglProses);
             $this->db->where('OrderNumber', $this->post('orderNumber'));
             $this->db->update('orders');
 
@@ -95,6 +97,15 @@ class Order extends REST_Controller
             
             $this->response([
                'status'    => true,
+               'data'      => [
+                  'OrderNumber'        => $order['OrderNumber'],
+                  'CustomerUniqueId'   => $order['CustomerUniqueID'],
+                  'ProductUniqueID'    => $order['ProductUniqueID'],
+                  'Jumlah'             => $order['OrderProductQuantity'],
+                  'Total Bayar'        => $order['OrderTotalPrice'],
+                  'Status Pesanan'     => "Proses",
+                  'Tanggal Pesan'      => $tglProses
+               ],
                'message'   => 'Pesanan anda akan diproses'
             ], REST_Controller::HTTP_CREATED);
          } else {
@@ -121,14 +132,24 @@ class Order extends REST_Controller
 
          if ($customerToken) {
             $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
+            $tglKirim = date('Y-m-d H:i:s');
 
-            $this->db->set('OrderStatus', 'Kirim');
-            $this->db->set('OrderSendDate', date('Y-m-d H:i:s'));
+            $this->db->set('OrderStatus', 3);
+            $this->db->set('OrderSendDate', $tglKirim);
             $this->db->where('OrderNumber', $this->post('orderNumber'));
             $this->db->update('orders');
 
             $this->response([
                'status'    => true,
+               'data'      => [
+                  'OrderNumber'        => $order['OrderNumber'],
+                  'CustomerUniqueId'   => $order['CustomerUniqueID'],
+                  'ProductUniqueID'    => $order['ProductUniqueID'],
+                  'Jumlah'             => $order['OrderProductQuantity'],
+                  'Total Bayar'        => $order['OrderTotalPrice'],
+                  'Status Pesanan'     => "Kirim",
+                  'Tanggal Pesan'      => $tglKirim
+               ],
                'message'   => 'Pesanan telah dikirim'
             ], REST_Controller::HTTP_CREATED);
          } else {
@@ -153,14 +174,24 @@ class Order extends REST_Controller
 
          if ($customerToken) {
             $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
+            $tglSelesai = date('Y-m-d H:i:s');
 
-            $this->db->set('OrderStatus', 'Selesai');
-            $this->db->set('OrderSendDate', date('Y-m-d H:i:s'));
+            $this->db->set('OrderStatus', 4);
+            $this->db->set('OrderCompletedDate', $tglSelesai);
             $this->db->where('OrderNumber', $this->post('orderNumber'));
             $this->db->update('orders');
 
             $this->response([
                'status'    => true,
+               'data'      => [
+                  'OrderNumber'        => $order['OrderNumber'],
+                  'CustomerUniqueId'   => $order['CustomerUniqueID'],
+                  'ProductUniqueID'    => $order['ProductUniqueID'],
+                  'Jumlah'             => $order['OrderProductQuantity'],
+                  'Total Bayar'        => $order['OrderTotalPrice'],
+                  'Status Pesanan'     => "Selesai",
+                  'Tanggal Pesan'      => $tglSelesai
+               ],
                'message'   => 'Pesanan telah selesai'
             ], REST_Controller::HTTP_CREATED);            
          } else {

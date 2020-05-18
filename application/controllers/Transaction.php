@@ -46,11 +46,11 @@ class Transaction extends CI_Controller {
          $row[] = $field->CompanyName;
          $row[] = $field->OrderProductQuantity;
          $row[] = "Rp " . number_format($field->OrderTotalPrice,2,',','.');
-         if ($field->OrderStatus == "Pending") {
+         if ($field->OrderStatus == 1) {
             $row[] = '<span class="badge badge-danger">Pending</span>';
-         } elseif ($field->OrderStatus == "Proses") {
+         } elseif ($field->OrderStatus == 2) {
             $row[] = '<span class="badge badge-warning">Proses</span>';
-         } elseif ($field->OrderStatus == "Kirim") {
+         } elseif ($field->OrderStatus == 3) {
             $row[] = '<span class="badge badge-info">Kirim</span>';
          } else {
             $row[] = '<span class="badge badge-success">Selesai</span>';

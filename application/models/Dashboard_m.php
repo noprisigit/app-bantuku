@@ -19,7 +19,7 @@ class Dashboard_m extends CI_Model {
 
     public function jumlahPendapatan()
     {
-        $query = $this->db->query('SELECT SUM(OrderTotalPrice) as total_bayar FROM `orders` WHERE OrderStatus = "Proses"');
+        $query = $this->db->query('SELECT SUM(OrderTotalPrice) as total_bayar FROM `orders` WHERE OrderStatus > 1');
         return $query->row();
     }
 
