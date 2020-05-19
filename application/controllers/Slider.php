@@ -114,11 +114,11 @@ class Slider extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i> Detail</button>';
+            $btn_detail = '<button type="button" class="btn btn-primary btn-detail-slider" data-toggle="tooltip" data-placement="top" title="Detail" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i></button>';
             
-            $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
+            $btn_edit = '<button type="button" class="btn btn-info btn-edit-slider" data-toggle="tooltip" data-placement="top" title="Edit" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i></button>';
             
-            $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-slider" data-id="'.$field->SliderID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $btn_delete = '<a class="btn btn-danger btn-delete-slider" data-toggle="tooltip" data-placement="top" title="Delete" data-id="'.$field->SliderID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
 
             $date_start = date_create($field->start_date);
             $date_end = date_create($field->end_date);
