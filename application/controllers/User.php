@@ -69,11 +69,10 @@ class User extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_activate_account = '<button class="btn btn-xs btn-success btn-activate-account" data-id="'.$field->AdminID.'"><i class="fas fa-power-off"></i> Aktifkan Akun</button>';
-            $btn_nonactivate_account = '<button class="btn btn-xs btn-danger btn-nonactivate-account" data-id="'.$field->AdminID.'"><i class="fas fa-power-off"></i> Matikan Akun</button>';
-            $btn_change_password = '<button class="btn btn-xs btn-info btn-change-password" data-id="'.$field->AdminID.'"><i class="fas fa-lock"></i> Ubah Password</button>';
-            // $btn_edit = '<button class="btn btn-xs btn-success btn-edit-role" data-id="'.$field->AccessID.'" data-name="'.$field->AccessName.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
-            // $btn_delete = '<button class="btn btn-xs btn-danger" data-id="'.$field->AccessID.'"><i class="fas fa-trash"></i> Delete</button>';
+            $btn_activate_account = '<button class="btn btn-success btn-activate-account" data-toggle="tooltip" data-placement="top" title="Aktifkan Akun" data-id="'.$field->AdminID.'"><i class="fas fa-power-off"></i></button>';
+            $btn_nonactivate_account = '<button class="btn btn-danger btn-nonactivate-account" data-toggle="tooltip" data-placement="top" title="Matikan Akun" data-id="'.$field->AdminID.'"><i class="fas fa-ban"></i></button>';
+            $btn_change_password = '<button class="btn btn-info btn-change-password" data-toggle="tooltip" data-placement="top" title="Ubah Password" data-id="'.$field->AdminID.'"><i class="fas fa-lock"></i></button>';
+            
             $no++;
             $row = array();
             $row[] = $no;
