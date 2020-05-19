@@ -84,11 +84,11 @@ class Customer extends CI_Controller
       $data = array();
       $no = $_POST['start'];
       foreach ($categories as $field) {
-         $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'" data-verified="'.$field->CustomerVerifiedEmail.'" data-date="'.$field->CustomerRegistrationDate.'"><i class="fas fa-folder"></i> Detail</button>';
+         $btn_detail = '<button type="button" class="btn btn-primary btn-detail-customer" data-toggle="tooltip" data-placement="top" title="Detail" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'" data-verified="'.$field->CustomerVerifiedEmail.'" data-date="'.$field->CustomerRegistrationDate.'"><i class="fas fa-folder"></i></button>';
 
-         $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-customer" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
+         $btn_edit = '<button type="button" class="btn btn-info btn-edit-customer" data-toggle="tooltip" data-placement="top" title="Edit" data-uniqueID="'.$field->CustomerUniqueID.'" data-name="'.$field->CustomerName.'" data-email="'.$field->CustomerEmail.'" data-phone="'.$field->CustomerPhone.'" data-address="'.$field->CustomerAddress1.'"><i class="fas fa-pencil-alt"></i></button>';
 
-         $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-customer" data-uniqueID="'.$field->CustomerUniqueID.'" href="javascript:void(0)"><i class="fas fa-trash-alt"></i> Delete</a>';
+         $btn_delete = '<a class="btn btn-danger btn-delete-customer" data-toggle="tooltip" data-placement="top" title="Delete" data-uniqueID="'.$field->CustomerUniqueID.'" href="javascript:void(0)"><i class="fas fa-trash-alt"></i></a>';
          
          $no++;
          $row = array();
