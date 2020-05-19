@@ -41,7 +41,7 @@ $(document).ready(function () {
                 "className": "text-center"
             },
             {
-                "targets": [ 2,5,6 ],
+                "targets": [ 5,6 ],
                 "className": "text-center"
             }
         ]
