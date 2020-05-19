@@ -6,6 +6,9 @@ class Transaction extends CI_Controller {
    {
       parent::__construct();
       $this->load->model('Transaction_m', 'transaction');
+
+      if (!$this->session->userdata('AdminName'))
+         redirect('auth');
    }
 
    public function index()
