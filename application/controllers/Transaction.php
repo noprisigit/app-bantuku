@@ -11,7 +11,7 @@ class Transaction extends CI_Controller {
    public function index()
    {
       $data['main_title'] = 'Home';
-      $data['title'] = 'Transaksi';
+      $data['title'] = 'Pesanan';
 
       $data['js'] = [
          'assets/dist/js/transaction.js'
