@@ -1,9 +1,9 @@
 $(document).ready(function() {
    var table_product = $('#product').DataTable({
-      "scrollX":        true,
-      "scrollCollapse": true,
-      "width": "100%",
-      "autoWidth": true,
+      // "scrollX":        true,
+      // "scrollCollapse": true,
+      // "width": "100%",
+      // "autoWidth": true,
       "processing": true, 
       "serverSide": true, 
       "order": [], 
@@ -18,23 +18,14 @@ $(document).ready(function() {
             "width": "100px", 
             "className": "text-center"
          },
-         { 
-            "targets": [ 1 ], 
-            "width": "50px",
-            "className": "text-center"
-         },
          {
-            "targets": [ 2 ],
-            "width": "400px"
-         },
-         {
-            "targets": [ 3,4,5,6 ],
+            "targets": [ 3,4,6,7,8 ],
             "className": "text-center"
          },
-         { 
-            "targets": [ 8,9,10 ], 
-            "className": "text-center"
-         },
+         // { 
+         //    "targets": [ 8,9,10 ], 
+         //    "className": "text-center"
+         // },
       ],
    });
 

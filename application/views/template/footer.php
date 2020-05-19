@@ -34,15 +34,18 @@
     <script src="<?= base_url('assets') ?>/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="<?= base_url('assets') ?>/dist/js/demo.js"></script>
-    <script type="text/javascript">
+    <script>
+        $(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });
 
-        // Tooltips Initialization
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+        // // Tooltips Initialization
+        // $(function () {
+        //     $('[data-toggle="tooltip"]').tooltip()
+        // })
 
         $('.province').on('change', function() {
             const ProvinceID = $(this).val();

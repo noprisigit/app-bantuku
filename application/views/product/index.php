@@ -11,18 +11,16 @@
                             <table id="product" class="table table-bordered table-striped nowrap" width="100%">
                                 <thead>
                                     <tr>
-													<th class="text-center">#</th>
-													<th class="text-center">Unique ID</th>
-													<th class="text-center">Nama Produk</th>
-													<th class="text-center">Harga per Satuan</th>
-													<th class="text-center">Berat</th>
-													<th class="text-center">Stock</th>
-													<th class="text-center">Kategori</th>
-													<th class="text-center">Nama Toko</th>
-													<th class="text-center">Status Produk</th>
-													<th class="text-center">Status Promo Produk</th>
-													<th class="text-center">Tanggal Promo</th>
-													<th class="text-center">Actions</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Unique ID</th>
+                                        <th class="text-center">Nama Produk</th>
+                                        <th class="text-center">Harga per Satuan</th>
+                                        <th class="text-center">Stock</th>
+                                        <th class="text-center">Nama Toko</th>
+                                        <th class="text-center">Status Produk</th>
+                                        <th class="text-center">Status Promo Produk</th>
+                                        <th class="text-center">Tanggal Promo</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -118,7 +116,7 @@
             <!-- /.modal -->
 
             <div class="modal fade" id="modal-detail-product">
-                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
                             <h4 class="modal-title">Detail Produk</h4>
@@ -128,43 +126,47 @@
                         <div class="modal-body">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-center">
-                                        <img class="img-fluid img-thumbnail" id="img-product" alt="Product Image">
+                                    <div class="row">
+                                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                            <img class="img-fluid img-thumbnail center-block text-center" id="img-product" alt="Product Image">
+                                        </div>
+                                        <div class="col-md-8">                                                            
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <td width="30%">Unique ID</td>
+                                                    <td id="det-product-uniqueID">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Produk</td>
+                                                    <td id="det-product-name">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Harga per Satuan</td>
+                                                    <td id="det-product-price">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Stock</td>
+                                                    <td id="det-product-stock">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Berat</td>
+                                                    <td id="det-product-weight">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Toko</td>
+                                                    <td id="det-product-shop">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kategori</td>
+                                                    <td id="det-product-category">Loading...</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Deskripsi</td>
+                                                    <td id="det-product-desc">Loading...</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
-                                    <table class="table table-bordered mt-3">
-                                        <tr>
-                                            <td width="30%">Unique ID</td>
-                                            <td id="det-product-uniqueID">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama Produk</td>
-                                            <td id="det-product-name">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Harga per Satuan</td>
-                                            <td id="det-product-price">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Stock</td>
-                                            <td id="det-product-stock">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Berat</td>
-                                            <td id="det-product-weight">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Nama Toko</td>
-                                            <td id="det-product-shop">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Kategori</td>
-                                            <td id="det-product-category">Loading...</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Deskripsi</td>
-                                            <td id="det-product-desc">Loading...</td>
-                                        </tr>
-                                    </table>
                                 </div>
                             </div>
                         </div>

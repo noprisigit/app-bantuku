@@ -200,21 +200,21 @@ class Product extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_activated = '<a class="btn btn-xs btn-info btn-activated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i> Aktifkan Produk</a>';
+            $btn_activated = '<a class="btn btn-info btn-activated-product" data-placement="top" data-toggle="tooltip" title="Aktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i></a>';
 
-            $btn_deactivated = '<a class="btn btn-xs btn-danger btn-deactivated-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i> Nonaktifkan Produk</a>';
+            $btn_deactivated = '<a class="btn btn-danger btn-deactivated-product" data-placement="top" data-toggle="tooltip" title="Nonaktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i></a>';
 
-            $btn_detail = '<button type="button" class="btn btn-xs btn-primary btn-detail-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i> Detail</button>';
+            $btn_detail = '<button type="button" class="btn btn-primary btn-detail-product" data-placement="top" data-toggle="tooltip" title="Detail" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i></button>';
             
-            $btn_edit = '<button type="button" class="btn btn-xs btn-info btn-edit-product" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-partnerid="'.$field->PartnerUniqueID.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
+            $btn_edit = '<button type="button" class="btn btn-info btn-edit-product" data-placement="top" data-toggle="tooltip" title="Edit" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-partnerid="'.$field->PartnerUniqueID.'"><i class="fas fa-pencil-alt"></i></button>';
             
-            $btn_delete = '<a class="btn btn-xs btn-danger btn-delete-product" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
+            $btn_delete = '<a class="btn btn-danger btn-delete-product" data-placement="top" data-toggle="tooltip" title="Delete" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
 
-            $btn_activated_promo = '<button type="button" class="btn btn-xs btn-success btn-activated-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'">Tambahkan Promo</button>';
+            $btn_activated_promo = '<button type="button" class="btn btn-success btn-activated-promo" data-placement="top" data-toggle="tooltip" title="Tambahkan Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-tags"></i></button>';
 
-            $btn_deactivated_promo = '<a class="btn btn-xs btn-danger btn-deactivated-promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)">Matikan Promo</a>';
+            $btn_deactivated_promo = '<a class="btn btn-danger btn-deactivated-promo" data-placement="top" data-toggle="tooltip" title="Matikan Promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-tags"></i></a>';
 
-            $btn_edit_promo = '<button type="button" class="btn btn-xs btn-info btn-edit-product-promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'">Edit Nilai Promo</button>';
+            $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'"><i class="fas fa-tag"></i></button>';
 
             $no++;
             $row = array();
@@ -222,9 +222,9 @@ class Product extends CI_Controller {
             $row[] = $field->ProductUniqueID;
             $row[] = $field->ProductName;
             $row[] = "Rp " . number_format($field->ProductPrice,2,',','.');
-            $row[] = $field->ProductWeight . " gram";
+            // $row[] = $field->ProductWeight . " gram";
             $row[] = $field->ProductStock . " buah";
-            $row[] = $field->CategoryName;
+            // $row[] = $field->CategoryName;
             $row[] = $field->CompanyName;
             if ($field->ProductStatus == 0) {
                 $row[] = '<span class="badge badge-danger">Tidak Aktif</span>';
