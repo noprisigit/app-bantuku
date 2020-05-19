@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="icon">Foto Slider (Maksimal 5 MB)</label>
+                                            <label for="icon">Foto Slider (Maksimal 5 MB) (Lebar: 750px dan Panjang: 252px)</label>
                                             <input type="file" class="form-control" name="picture" id="slider-picture" accept="image/png, image/jpeg, image/gif">
                                             <!-- <div class="custom-file">
                                                 <label class="custom-file-label" for="customFile">Choose file</label>

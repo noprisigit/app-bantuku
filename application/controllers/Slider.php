@@ -32,6 +32,10 @@ class Slider extends CI_Controller {
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
             $config['max_size'] = 5048;
+            $config['max_height'] = 252;
+            $config['min_height'] = 252;
+            $config['max_width'] = 750;
+            $config['min_width'] = 750;
 
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('picture')) {
@@ -68,6 +72,10 @@ class Slider extends CI_Controller {
             $config['allowed_types']='gif|jpg|jpeg|png'; //type file yang boleh di upload
             $config['encrypt_name'] = TRUE; //enkripsi file name upload
             $config['max_size'] = 5048;
+            $config['max_height'] = 252;
+            $config['min_height'] = 252;
+            $config['max_width'] = 750;
+            $config['min_width'] = 750;
 
             $this->load->library('upload',$config); //call library upload 
 
