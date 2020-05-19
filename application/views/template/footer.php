@@ -37,6 +37,11 @@
     <script type="text/javascript">
         $('.select2bs4').select2({
             theme: 'bootstrap4'
+        });
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         })
 
         $('.province').on('change', function() {
