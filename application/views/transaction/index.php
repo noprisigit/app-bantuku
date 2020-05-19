@@ -14,6 +14,7 @@
                                  <th class="text-center">Nomor Pesanan</th>
                                  <th class="text-center">Nama Produk</th>
                                  <th class="text-center">Nama Toko</th>
+                                 <th class="text-center">Nama Customer</th>
                                  <th class="text-center">Jumlah Pesanan</th>
                                  <th class="text-center">Total Bayar</th>
                                  <th class="text-center">Status Pesanan</th>
@@ -27,6 +28,7 @@
                                  <th class="text-center">Nomor Pesanan</th>
                                  <th class="text-center">Nama Produk</th>
                                  <th class="text-center">Nama Toko</th>
+                                 <th class="text-center">Nama Customer</th>
                                  <th class="text-center">Jumlah Pesanan</th>
                                  <th class="text-center">Total Bayar</th>
                                  <th class="text-center">Status Pesanan</th>

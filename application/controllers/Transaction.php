@@ -44,7 +44,8 @@ class Transaction extends CI_Controller {
          $row[] = $field->OrderNumber;
          $row[] = $field->ProductName;
          $row[] = $field->CompanyName;
-         $row[] = $field->OrderProductQuantity;
+         $row[] = $field->CustomerName;
+         $row[] = $field->OrderProductQuantity . " Buah";
          $row[] = "Rp " . number_format($field->OrderTotalPrice,2,',','.');
          if ($field->OrderStatus == 1) {
             $row[] = '<span class="badge badge-danger">Pending</span>';

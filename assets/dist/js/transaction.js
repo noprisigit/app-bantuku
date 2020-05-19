@@ -14,7 +14,7 @@ $(document).ready(function() {
             "className": "text-center"
          },
          {
-            "targets": [4,5,6,7],
+            "targets": [5,6,7,8],
             "className": "text-center"
          }
       ],
