@@ -32,13 +32,21 @@ class Dashboard extends CI_Controller {
 		$res['jumlahPendapatan'] = $this->dashboard->jumlahPendapatan();
 		$res['produkYangDisukai'] = $this->dashboard->productLikes();
 		$res['tokoYangDisukai'] = $this->dashboard->shopLikes();
-		
+		$res['countAccount'] = $this->dashboard->countingAccount();
+		$res['countOrdersThisMonth'] = $this->dashboard->countingOrdersThisMonth();
+
  		echo json_encode($res);
 	}
 
 	public function countingCustomersByCurrentYear() {
 		$total = $this->dashboard->countingCustomersByCurrentYear();
 		
+		echo json_encode($total);
+	}
+
+	public function countingPendapatanThisYear() {
+		$total = $this->dashboard->countingPendapatanThisYear();
+
 		echo json_encode($total);
 	}
 

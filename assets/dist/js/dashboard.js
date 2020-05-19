@@ -1,7 +1,8 @@
 $(document).ready(function() {
     getDashboardData();
-    showCartCustomers();
-    
+    showChartCustomers();
+    showChartPendapatanThisYear();
+
     function getDashboardData()
     {
         $.ajax({
@@ -12,6 +13,8 @@ $(document).ready(function() {
                 $('#countMerchant').html(res.countPartners.toString() + ' Mitra');
                 $('#countCustomer').html(res.countCustomers.toString() + ' Orang');
                 $('#countCategory').html(res.countCategories.toString() + ' Kategori');
+                $('#countAccount').html(res.countAccount.toString() + ' Akun');
+                $('#countOrdersThisMonth').html(res.countOrdersThisMonth.jumlah.toString() + ' Pesanan');
                 if (res.jumlahPendapatan.total_bayar == null) {
                     $('#jumlahPendapatan').html("Rp 0");
                 } else {
@@ -41,7 +44,7 @@ $(document).ready(function() {
         });
     }
 
-    function showCartCustomers() {
+    function showChartCustomers() {
         $.ajax({
             url: 'dashboard/countingCustomersByCurrentYear',
             type: 'get',
@@ -88,6 +91,58 @@ $(document).ready(function() {
         });
     }
 
+    function showChartPendapatanThisYear()
+    {
+        $.ajax({
+            url: 'dashboard/countingPendapatanThisYear',
+            type: 'get',
+            dataType: 'json',
+            success: function(res) {
+                // var obj = JSON.parse(res);
+                console.log(res);
+                var data_jumlah = [];
+
+                for (i = 0; i < res.length; i++) {
+                    data_jumlah.push(parseInt(res[i][0].pendapatan));
+                }
+                
+                var pendapatanChartCanvas = $('#pendapatanChart').get(0).getContext('2d')
+                var pendapatanChart = new Chart(pendapatanChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        datasets: [{
+                            label: 'Jumlah Pendapatan',
+                            data: data_jumlah,
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius          : false,
+                            pointColor          : '#3b8bba',
+                            pointStrokeColor    : 'rgba(60,141,188,1)',
+                            pointHighlightFill  : '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                        }]
+                    },
+                    options: {
+                        responsive              : true,
+                        maintainAspectRatio     : false,
+                        datasetFill             : false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    callback: function (value, index, values) {
+                                        return addCommas(value); //! panggil function addComas tadi disini
+                                    }
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     function formatRupiah(angka, prefix){
         var number_string = angka.replace(/[^,\d]/g, '').toString(),
         split   		= number_string.split(','),
@@ -105,21 +160,22 @@ $(document).ready(function() {
         return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
     }
 
-    // function countingCustomersByCurrentMonth() 
-    // {
-    //     $.ajax({
-    //         url: 'dashboard/countingCustomersByCurrentMonth',
-    //         type: 'get',
-    //         dataType: 'json',
-    //         success: function(res) {
-    //             console.log(res)
-    //         }
-    //     });
-    // }
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        let rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return "Rp " + x1 + x2;
+    }
     
     setInterval(function(){
         getDashboardData();
-        showCartCustomers();
-    }, 3000);
+        showChartCustomers();
+        showChartPendapatanThisYear();
+    }, 300000);
     
 });

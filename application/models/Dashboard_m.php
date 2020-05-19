@@ -17,6 +17,11 @@ class Dashboard_m extends CI_Model {
         return $this->db->get('categories')->num_rows();
     }
 
+    public function countingAccount()
+    {
+        return $this->db->get('admins')->num_rows();
+    }
+
     public function jumlahPendapatan()
     {
         $query = $this->db->query('SELECT SUM(OrderTotalPrice) as total_bayar FROM `orders` WHERE OrderStatus > 1');
@@ -44,6 +49,24 @@ class Dashboard_m extends CI_Model {
         }
         // return $this->db->query($sql)->result_array();
         return $data;
+    }
+
+    public function countingPendapatanThisYear()
+    {
+        $month = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        for ($i = 0; $i < count($month); $i++) {
+            $sql = "SELECT IFNULL(SUM(OrderTotalPrice), 0) as pendapatan FROM orders WHERE OrderStatus > 1 AND month(OrderDate) = " . ($i + 1) . " AND year(OrderDate) = year(CuRDATE())";
+            $data[] = $this->db->query($sql)->result_array();
+        }
+
+        // return $this->db->query($sql)->result_array();
+        return $data;
+    }
+
+    public function countingOrdersThisMonth()
+    {
+        $query = $this->db->query('SELECT COUNT(*) as jumlah FROM `orders` WHERE OrderStatus > 1 AND month(OrderDate) = month(CURDATE())');
+        return $query->row();
     }
 
     // public function countingCustomersByCurrentMonth()
