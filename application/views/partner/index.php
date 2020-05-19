@@ -5,7 +5,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" data-toggle="modal" data-target="#modal-add-partner" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Mitra</a>
+                        <button type="button" data-toggle="modal" data-target="#modal-add-partner" class="btn btn-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)"><i class="fas fa-plus-square"></i> Tambah Toko</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -50,7 +50,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Tambah Mitra</h4>
+                            <h4 class="modal-title">Tambah Toko</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -132,7 +132,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Detail Mitra</h4>
+                            <h4 class="modal-title">Detail Toko</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
@@ -189,7 +189,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-                            <h4 class="modal-title">Edit Mitra</h4>
+                            <h4 class="modal-title">Edit Toko</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>

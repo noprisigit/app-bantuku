@@ -13,7 +13,7 @@ class Partner extends CI_Controller {
     public function index()
     {
         $data['main_title'] = "Home";
-        $data['title'] = "Mitra";
+        $data['title'] = "Toko";
 
         $data['js'] = [
             'assets/dist/js/partner.js'

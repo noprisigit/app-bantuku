@@ -109,10 +109,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Mitra") ? 'active' : '' ?>">
+                            <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Toko") ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-store-alt"></i>
                                 <p>
-                                    Master Mitra
+                                    Master Toko
                                 </p>
                             </a>
                         </li>
