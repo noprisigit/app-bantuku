@@ -167,6 +167,41 @@ class Auth extends REST_Controller
             die;
         }
     }
-
     
+    public function verifiedEmail_post()
+    {
+        $token = $this->post('token');
+        if (isset($token)) {
+            $customerToken = $this->auth->validateToken($token);
+            if ($customerToken) {
+                $customer = $this->db->select('CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+                if ($this->post('verificationCode') == $customer['CustomerVerificationCode']) {
+                    $this->db->set('CustomerVerifiedEmail', 1);
+                    $this->db->where('customerUniqueID', $this->post('customerUniqueID'));
+                    $this->db->update('customers');
+
+                    $this->response([
+                        'status'    => false,
+                        'CustomerUniqueID'  => $this->post('customerUniqueID'),
+                        'message'   => 'Email berhasil diverifikasi'
+                    ], REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status'    => false,
+                        'message'   => 'Kode Verifikasi Salah'
+                    ], REST_Controller::HTTP_NOT_FOUND);
+                }
+            } else {
+                $this->response([
+                    'status'    => false,
+                    'message'   => 'Unauthorized token'
+                 ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $this->response([
+                'status'    => false,
+                'message'   => 'Missing token'
+             ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }
