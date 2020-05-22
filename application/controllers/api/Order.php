@@ -23,40 +23,48 @@ class Order extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
             $product = $this->product->getProductPrice($this->post('productUniqueID'));
-            $uniqueID = date('YmdHis') . random_strings(4);
-            $totalBayar = $this->post('jumlah') * $product[0]->ProductPrice;
-            $tglPesan = date('Y-m-d H:i:s');
-
-            $input = [
-               'OrderNumber'           => $uniqueID,
-               'CustomerUniqueID'      => $this->post('customerUniqueID'),
-               'ProductUniqueID'       => $this->post('productUniqueID'),
-               'OrderProductQuantity'  => $this->post('jumlah'),
-               'OrderTotalPrice'       => $totalBayar,
-               'OrderStatus'           => 1,
-               'OrderDate'             => $tglPesan
-            ];
-
-            $order = $this->order->createOrder($input);
-            if ($order > 0) {
-               $this->response([
-                  'status'    => true,
-                  'data'      => [
-                     'OrderNumber'        => $uniqueID,
-                     'CustomerUniqueId'   => $this->post('customerUniqueID'),
-                     'ProductUniqueID'    => $this->post('productUniqueID'),
-                     'Jumlah'             => $this->post('jumlah'),
-                     'Total Bayar'        => $totalBayar,
-                     'Status Pesanan'     => "Pending",
-                     'Tanggal Pesan'      => $tglPesan
-                  ],
-                  'message'   => 'Order baru berhasil ditambahkan',
-               ], REST_Controller::HTTP_CREATED);
-            } else {
+            // dd($product);
+            if ($product['ProductStock'] < $this->post('jumlah')) {
                $this->response([
                   'status'    => false,
-                  'message'   => 'Order gagal ditambahkan',
+                  'message'   => 'Order gagal ditambahkan, jumlah stok barang tidak mencukupi',
                ], REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+               $uniqueID = date('YmdHis') . random_strings(4);
+               $totalBayar = $this->post('jumlah') * $product['ProductPrice'];
+               $tglPesan = date('Y-m-d H:i:s');
+   
+               $input = [
+                  'OrderNumber'           => $uniqueID,
+                  'CustomerUniqueID'      => $this->post('customerUniqueID'),
+                  'ProductUniqueID'       => $this->post('productUniqueID'),
+                  'OrderProductQuantity'  => $this->post('jumlah'),
+                  'OrderTotalPrice'       => $totalBayar,
+                  'OrderStatus'           => 1,
+                  'OrderDate'             => $tglPesan
+               ];
+   
+               $order = $this->order->createOrder($input);
+               if ($order > 0) {
+                  $this->response([
+                     'status'    => true,
+                     'data'      => [
+                        'OrderNumber'        => $uniqueID,
+                        'CustomerUniqueId'   => $this->post('customerUniqueID'),
+                        'ProductUniqueID'    => $this->post('productUniqueID'),
+                        'Jumlah'             => $this->post('jumlah'),
+                        'Total Bayar'        => $totalBayar,
+                        'Status Pesanan'     => "Pending",
+                        'Tanggal Pesan'      => $tglPesan
+                     ],
+                     'message'   => 'Order baru berhasil ditambahkan',
+                  ], REST_Controller::HTTP_CREATED);
+               } else {
+                  $this->response([
+                     'status'    => false,
+                     'message'   => 'Order gagal ditambahkan',
+                  ], REST_Controller::HTTP_BAD_REQUEST);
+               }
             }
          } else {
             $this->response([
@@ -83,31 +91,39 @@ class Order extends REST_Controller
             $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
             // dd($order);
             $productStock = $this->db->select('ProductStock')->get_where('products', ['ProductUniqueID' => $order['ProductUniqueID']])->row_array();
-            $tglProses = date('Y-m-d H:i:s');
-
-            $this->db->set('OrderStatus', 2);
-            $this->db->set('OrderProcessDate', $tglProses);
-            $this->db->where('OrderNumber', $this->post('orderNumber'));
-            $this->db->update('orders');
-
-            $sisaStok = $productStock['ProductStock'] - $order['OrderProductQuantity'];
-            $this->db->set('ProductStock', $sisaStok);
-            $this->db->where('ProductUniqueID', $order['ProductUniqueID']);
-            $this->db->update('products');
-            
-            $this->response([
-               'status'    => true,
-               'data'      => [
-                  'OrderNumber'        => $order['OrderNumber'],
-                  'CustomerUniqueId'   => $order['CustomerUniqueID'],
-                  'ProductUniqueID'    => $order['ProductUniqueID'],
-                  'Jumlah'             => $order['OrderProductQuantity'],
-                  'Total Bayar'        => $order['OrderTotalPrice'],
-                  'Status Pesanan'     => "Proses",
-                  'Tanggal Pesan'      => $tglProses
-               ],
-               'message'   => 'Pesanan anda akan diproses'
-            ], REST_Controller::HTTP_CREATED);
+            // dd($productStock);
+            if ($order['OrderProductQuantity'] > $productStock['ProductStock']) {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Order gagal diproses, jumlah stok barang tidak mencukupi'
+               ], REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+               $tglProses = date('Y-m-d H:i:s');
+   
+               $this->db->set('OrderStatus', 2);
+               $this->db->set('OrderProcessDate', $tglProses);
+               $this->db->where('OrderNumber', $this->post('orderNumber'));
+               $this->db->update('orders');
+   
+               $sisaStok = $productStock['ProductStock'] - $order['OrderProductQuantity'];
+               $this->db->set('ProductStock', $sisaStok);
+               $this->db->where('ProductUniqueID', $order['ProductUniqueID']);
+               $this->db->update('products');
+               
+               $this->response([
+                  'status'    => true,
+                  'data'      => [
+                     'OrderNumber'        => $order['OrderNumber'],
+                     'CustomerUniqueId'   => $order['CustomerUniqueID'],
+                     'ProductUniqueID'    => $order['ProductUniqueID'],
+                     'Jumlah'             => $order['OrderProductQuantity'],
+                     'Total Bayar'        => $order['OrderTotalPrice'],
+                     'Status Pesanan'     => "Proses",
+                     'Tanggal Pesan'      => $tglProses
+                  ],
+                  'message'   => 'Pesanan anda akan diproses'
+               ], REST_Controller::HTTP_CREATED);
+            }
          } else {
             $this->response([
                'status'    => false,

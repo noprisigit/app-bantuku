@@ -16,10 +16,10 @@ class Product_m extends CI_Model {
 
    public function getProductPrice($id)
    {
-      $this->db->select('ProductName, ProductPrice');
+      $this->db->select('ProductName, ProductPrice, ProductStock');
       $this->db->where('ProductUniqueID', $id);
       $this->db->where('ProductStatus', 1);
-      return $this->db->get('products')->result();
+      return $this->db->get('products')->row_array();
    }
 
    public function getProductsByShop($id)
