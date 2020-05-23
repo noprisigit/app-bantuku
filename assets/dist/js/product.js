@@ -19,13 +19,9 @@ $(document).ready(function() {
             "className": "text-center"
          },
          {
-            "targets": [ 3,4,6,7,8 ],
+            "targets": [ 3,4,6,7,8,9 ],
             "className": "text-center"
          },
-         // { 
-         //    "targets": [ 8,9,10 ], 
-         //    "className": "text-center"
-         // },
       ],
    });
 
@@ -364,27 +360,36 @@ $(document).ready(function() {
    $(document).on('click', '#btn-submit-promo', function(e) {
       var uniqueID = $('#promo_uniqueID').val();
       var nilai_promo = $('#product_nilai_promo').val();
-      var tgl_promo = $('#product_tanggal_promo').val();
+      var tgl_mulai_promo = $('#product_tanggal_mulai_promo').val();
+      var tgl_selesai_promo = $('#product_tanggal_selesai_promo').val();
 
       var currentDate = new Date();
-      var tglPromo = new Date(tgl_promo);
+      var tglPromo = new Date(tgl_mulai_promo);
+      var tglSelesaiPromo = new Date(tgl_selesai_promo);
 
-      if (nilai_promo === "" || tgl_promo === "") {
+      if (nilai_promo === "" || tgl_mulai_promo === "" || tgl_selesai_promo === "") {
          e.preventDefault();
          toastr.error('Harap isi seluruh kolom');
       } else {
          if (tglPromo < currentDate) {
             e.preventDefault();
-            toastr.error('Tanggal sudah lewat');
+            toastr.error('Tanggal mulai sudah lewat');
+         } else if (tglSelesaiPromo < tglPromo) {
+            e.preventDefault();
+            toastr.error('Tanggal selesai lebih kecil dari tanggal mulai promo');
+         } else if (tglSelesaiPromo < currentDate) {
+            e.preventDefault();
+            toastr.error('Tanggal selesai sudah lewat');
          } else {
             $.ajax({
                url: 'product/product-promo-save',
                type: 'post',
-               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_promo },
+               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_mulai_promo, tgl_selesai_promo: tgl_selesai_promo },
                success: function() {
                   $('[name="product_uniqueID"]').val("");
                   $('[name="product_nilai_promo"]').val("");
-                  $('[name="product_tanggal_promo"]').val("");
+                  $('[name="product_tanggal_mulai_promo"]').val("");
+                  $('[name="product_tanggal_selesai_promo"]').val("");
    
                   $('#modal-add-product-promo').modal('hide');
    
@@ -412,7 +417,8 @@ $(document).ready(function() {
       const toko = $(this).data('toko');
       const kategori = $(this).data('kategori');  
       const promo = $(this).data('promo');
-      const tglPromo = $(this).data('tglpromo');     
+      const tglPromo = $(this).data('tglpromo');  
+      const tglSelesaiPromo = $(this).data('tglselesaipromo');   
             
       $('#modal-edit-product-promo').modal('show');
 
@@ -427,34 +433,46 @@ $(document).ready(function() {
       $('.promo-product-desc').html(': ' + desc);
 
       $('#edt_product_nilai_promo').val(promo);
-      $('#edt_product_tanggal_promo').val(tglPromo);
+      $('#edt_product_tanggal_mulai_promo').val(tglPromo);
+      $('#edt_product_tanggal_selesai_promo').val(tglSelesaiPromo);
       $('#edt_promo_uniqueID').val(uniqueID);
    });
 
-   $(document).on('click', '#btn-edit-promo', function() {
+   $(document).on('click', '#btn-edit-promo', function(e) {
       var uniqueID = $('#edt_promo_uniqueID').val();
       var nilai_promo = $('#edt_product_nilai_promo').val();
-      var tgl_promo = $('#edt_product_tanggal_promo').val();
+      var tgl_mulai_promo = $('#edt_product_tanggal_mulai_promo').val();
+      var tgl_selesai_promo = $('#edt_product_tanggal_selesai_promo').val();
 
       var currentDate = new Date();
-      var tglPromo = new Date(tgl_promo);
+      var tglPromo = new Date(tgl_mulai_promo);
+      var tglSelesaiPromo = new Date(tgl_selesai_promo);
 
-      if (nilai_promo === "" || tgl_promo === "") {
+      if (nilai_promo === "" || tgl_mulai_promo === "" || tgl_selesai_promo === "") {
          e.preventDefault();
          toastr.error('Harap isi seluruh kolom');
       } else {
          if (tglPromo < currentDate) {
             e.preventDefault();
-            toastr.error('Tanggal sudah lewat');
+            toastr.error('Tanggal mulai sudah lewat');
+         } else if (tglSelesaiPromo < tglPromo) {
+            e.preventDefault();
+            toastr.error('Tanggal selesai lebih kecil dari tanggal mulai promo');
+         } else if (tglSelesaiPromo < currentDate) {
+            e.preventDefault();
+            toastr.error('Tanggal selesai sudah lewat');
          } else {
             $.ajax({
                url: 'product/product-promo-edit',
                type: 'post',
-               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_promo },
-               success: function() {
+               data: { uniqueID: uniqueID, nilai_promo: nilai_promo, tgl_promo: tgl_mulai_promo, tgl_selesai_promo: tgl_selesai_promo },
+               dataType: 'json',
+               success: function(res) {
+                  console.log(res);
                   $('[name="product_uniqueID"]').val("");
                   $('[name="product_nilai_promo"]').val("");
-                  $('[name="product_tanggal_promo"]').val("");
+                  $('[name="product_tanggal_mulai_promo"]').val("");
+                  $('[name="product_tanggal_selesai_promo"]').val("");
    
                   $('#modal-edit-product-promo').modal('hide');
    

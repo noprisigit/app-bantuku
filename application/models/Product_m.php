@@ -2,8 +2,8 @@
 
 class Product_m extends CI_Model {
     var $table = 'products'; //nama tabel dari database
-    var $column_order = array(null, 'ProductUniqueID', 'ProductName','ProductPrice','ProductStock', 'ProductWeight', 'ProductStatus', 'CategoryName', 'CompanyName', 'PartnerName', 'ProductPromo', 'ProductStatusPromo'); //field yang ada di table user
-    var $column_search = array('ProductUniqueID', 'ProductName','ProductPrice','ProductStock', 'ProductWeight', 'ProductStatus', 'CategoryName', 'CompanyName', 'PartnerName', 'ProductPromo', 'ProductStatusPromo'); //field yang diizin untuk pencarian 
+    var $column_order = array(null, 'ProductUniqueID', 'ProductName','ProductPrice','ProductStock', 'ProductWeight', 'ProductStatus', 'CategoryName', 'CompanyName', 'PartnerName', 'ProductPromo', 'ProductStatusPromo', 'ProductPromoDate', 'ProductPromoDateEnd'); //field yang ada di table user
+    var $column_search = array('ProductUniqueID', 'ProductName','ProductPrice','ProductStock', 'ProductWeight', 'ProductStatus', 'CategoryName', 'CompanyName', 'PartnerName', 'ProductPromo', 'ProductStatusPromo', 'ProductPromoDate', 'ProductPromoDateEnd'); //field yang diizin untuk pencarian 
     var $order = array('ProductID' => 'asc'); // default order 
  
     public function __construct()
@@ -14,7 +14,7 @@ class Product_m extends CI_Model {
  
     private function _get_datatables_query()
     {
-        $this->db->select('ProductID, products.CategoryID, products.PartnerID, ProductUniqueID, ProductName, ProductPrice, ProductStock, ProductWeight, ProductDesc, ProductImage, ProductStatus, ProductStatusPromo, ProductPromo, ProductPromoDate, CategoryName, PartnerUniqueID , CompanyName, PartnerName');
+        $this->db->select('ProductID, products.CategoryID, products.PartnerID, ProductUniqueID, ProductName, ProductPrice, ProductStock, ProductWeight, ProductDesc, ProductImage, ProductStatus, ProductStatusPromo, ProductPromo, ProductPromoDate, ProductPromoDateEnd, CategoryName, PartnerUniqueID , CompanyName, PartnerName');
         $this->db->from($this->table);
         $this->db->join('categories', 'categories.CategoryID = products.CategoryID');
         $this->db->join('partners', 'partners.PartnerID = products.PartnerID');

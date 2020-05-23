@@ -177,6 +177,7 @@ class Product extends CI_Controller {
         $this->db->set('ProductStatusPromo', 1);
         $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
         $this->db->set('ProductPromoDate', $this->input->post('tgl_promo'));
+        $this->db->set('ProductPromoDateEnd', $this->input->post('tgl_selesai_promo'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
         $this->db->update('products');
@@ -188,9 +189,18 @@ class Product extends CI_Controller {
 
         $this->db->set('ProductPromo', $this->input->post('nilai_promo'));
         $this->db->set('ProductPromoDate', $this->input->post('tgl_promo'));
+        $this->db->set('ProductPromoDateEnd', $this->input->post('tgl_selesai_promo'));
         $this->db->set('date_updated', date('Y-m-d H:i:s'));
         $this->db->where('ProductUniqueID', $this->input->post('uniqueID'));
-        $this->db->update('products');
+        $update = $this->db->update('products');
+        if ($update) {
+            $res['status'] = true;
+            $res['msg'] = "Update berhasil";
+        } else {
+            $res['status'] = false;
+            $res['msg'] = "Update gagal";
+        }
+        echo json_encode($res);
     }
 
     public function show_list_products()
@@ -214,7 +224,7 @@ class Product extends CI_Controller {
 
             $btn_deactivated_promo = '<a class="btn btn-danger btn-deactivated-promo" data-placement="top" data-toggle="tooltip" title="Matikan Promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-tags"></i></a>';
 
-            $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'"><i class="fas fa-tag"></i></button>';
+            $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'" data-tglselesaipromo="'.$field->ProductPromoDateEnd.'"><i class="fas fa-tag"></i></button>';
 
             $no++;
             $row = array();
@@ -222,9 +232,7 @@ class Product extends CI_Controller {
             $row[] = $field->ProductUniqueID;
             $row[] = $field->ProductName;
             $row[] = "Rp " . number_format($field->ProductPrice,2,',','.');
-            // $row[] = $field->ProductWeight . " gram";
             $row[] = $field->ProductStock . " buah";
-            // $row[] = $field->CategoryName;
             $row[] = $field->CompanyName;
             if ($field->ProductStatus == 0) {
                 $row[] = '<span class="badge badge-danger">Tidak Aktif</span>';
@@ -240,8 +248,10 @@ class Product extends CI_Controller {
 
             if ($field->ProductStatusPromo == 0) {
                 $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
+                $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
             } else {
                 $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDate), 'd-m-Y').'</span>';
+                $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDateEnd), 'd-m-Y').'</span>';
             }
 
             if ($field->ProductStatus == 0 && $field->ProductStatusPromo == 0) {
