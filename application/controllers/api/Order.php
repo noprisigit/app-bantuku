@@ -15,6 +15,12 @@ class Order extends REST_Controller
       $this->load->model('api/Product_m', 'product');
    }
 
+   public function createSignature_get() {
+      $this->response([
+         'signature' => sha1(md5("bot33081p@ssw0rd286073416158259"))
+      ]);
+   }
+
    public function createOrder_post()
    {
       date_default_timezone_set('Asia/Jakarta');
@@ -30,7 +36,13 @@ class Order extends REST_Controller
                   'message'   => 'Order gagal ditambahkan, jumlah stok barang tidak mencukupi',
                ], REST_Controller::HTTP_BAD_REQUEST);
             } else {
-               $uniqueID = date('YmdHis') . random_strings(4);
+               // $uniqueID = date('YmdHis') . random_strings(4);
+               $uniqueID = generateOrderNumber();
+               $cekOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $uniqueID])->num_rows();
+               if ($cekOrderNumber > 0) {
+                  $uniqueID = generateOrderNumber();
+               }
+
                $totalBayar = $this->post('jumlah') * $product['ProductPrice'];
                $tglPesan = date('Y-m-d H:i:s');
    
@@ -232,7 +244,11 @@ class Order extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
 
          if ($customerToken) {
-            $uniqueID = date('YmdHis') . random_strings(4);
+            $uniqueID = generateOrderNumber();
+            $cekOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $uniqueID])->num_rows();
+            if ($cekOrderNumber > 0) {
+               $uniqueID = generateOrderNumber();
+            }
             $cart = $this->db->get_where('carts', ['CartNumber' => $this->post('cartNumber')])->row_array();
             
             $tglPesan = date('Y-m-d H:i:s');

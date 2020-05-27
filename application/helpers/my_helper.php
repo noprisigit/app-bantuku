@@ -17,6 +17,12 @@ function random_strings($length_of_string)
     return substr(str_shuffle($str_result),  0, $length_of_string); 
 } 
 
+function generateOrderNumber()
+{
+    $str_result = '0123456789876543210';
+    return substr(str_shuffle($str_result), 0, 15);
+}
+
 function generate_code($length)
 {
     $str_result = '0123456789';

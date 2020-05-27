@@ -26,7 +26,7 @@ class Cart extends REST_Controller
             $uniqueID = 'C' . random_strings(4) . date('YmdHis');
             $product = $this->product->getProductPrice($this->post('productUniqueID'));
             
-            $totalBayar = $this->post('jumlah') * $product[0]->ProductPrice;
+            $totalBayar = $this->post('jumlah') * $product['ProductPrice'];
 
             $input = [
                'CustomerUniqueID'      => $this->post('customerUniqueID'),

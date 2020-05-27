@@ -38,7 +38,13 @@ class Auth extends REST_Controller
                         $this->response([
                             'status' => false,
                             'message' => 'login has been successfully',
-                            'customerUniqueID'  => $customer['CustomerUniqueID'],
+                            'data' => [
+                                'CustomerUniqueID'  => $customer['CustomerUniqueID'],
+                                'CustomerName'  => $customer['CustomerName'],
+                                'CustomerEmail' => $customer['CustomerEmail'],
+                                'CustomerPhone' => $customer['CustomerPhone'],
+                                'CustomerAddress'   => $customer['CustomerAddress1'],
+                            ],
                             'token' => $loginToken
                         ], REST_Controller::HTTP_OK);
                     } else {

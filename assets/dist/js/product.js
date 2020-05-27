@@ -452,10 +452,7 @@ $(document).ready(function() {
          e.preventDefault();
          toastr.error('Harap isi seluruh kolom');
       } else {
-         if (tglPromo < currentDate) {
-            e.preventDefault();
-            toastr.error('Tanggal mulai sudah lewat');
-         } else if (tglSelesaiPromo < tglPromo) {
+         if (tglSelesaiPromo < tglPromo) {
             e.preventDefault();
             toastr.error('Tanggal selesai lebih kecil dari tanggal mulai promo');
          } else if (tglSelesaiPromo < currentDate) {

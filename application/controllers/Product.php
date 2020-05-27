@@ -205,6 +205,7 @@ class Product extends CI_Controller {
 
     public function show_list_products()
     {
+        
         $list = $this->product->get_datatables();
         
         $data = array();
@@ -249,6 +250,12 @@ class Product extends CI_Controller {
             if ($field->ProductStatusPromo == 0) {
                 $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
                 $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
+            } elseif ($field->ProductPromoDateEnd < date('Y-m-d')) {
+                $this->db->set('ProductStatusPromo', 0);
+                $this->db->where('ProductUniqueID', $field->ProductUniqueID);
+                $this->db->update('products');
+                $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
+                $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
             } else {
                 $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDate), 'd-m-Y').'</span>';
                 $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDateEnd), 'd-m-Y').'</span>';
