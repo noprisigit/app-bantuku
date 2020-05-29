@@ -29,12 +29,6 @@ class Auth extends REST_Controller
             if ($customer) {
                 if (password_verify($password, $customer['CustomerPassword'])) {
                     if ($customer['CustomerVerifiedEmail'] == 1) {
-                        $loginToken = generateTokenLogin();
-
-                        $this->db->set('CustomerLoginToken', $loginToken);
-                        $this->db->where('CustomerUniqueID', $customer['CustomerUniqueID']);
-                        $this->db->update('customers');
-
                         $this->response([
                             'status' => false,
                             'message' => 'login has been successfully',
@@ -45,7 +39,7 @@ class Auth extends REST_Controller
                                 'CustomerPhone' => $customer['CustomerPhone'],
                                 'CustomerAddress'   => $customer['CustomerAddress1'],
                             ],
-                            'token' => $loginToken
+                            'token' => $customer['CustomerLoginToken']
                         ], REST_Controller::HTTP_OK);
                     } else {
                         $this->response([
@@ -135,9 +129,6 @@ class Auth extends REST_Controller
     public function logout_post()
     {
         $customerUniqueID = $this->post('customerUniqueID');
-        $this->db->set('CustomerLoginToken', NULL);
-        $this->db->where('CustomerUniqueID', $customerUniqueID);
-        $this->db->update('customers');
 
         $this->response([
             'status' => true,
@@ -180,15 +171,21 @@ class Auth extends REST_Controller
         if (isset($token)) {
             $customerToken = $this->auth->validateToken($token);
             if ($customerToken) {
-                $customer = $this->db->select('CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+                $customer = $this->db->select('CustomerUniqueID, CustomerName, CustomerEmail, CustomerPhone, CustomerAddress1, CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
                 if ($this->post('verificationCode') == $customer['CustomerVerificationCode']) {
                     $this->db->set('CustomerVerifiedEmail', 1);
                     $this->db->where('customerUniqueID', $this->post('customerUniqueID'));
                     $this->db->update('customers');
 
                     $this->response([
-                        'status'    => false,
-                        'CustomerUniqueID'  => $this->post('customerUniqueID'),
+                        'status'    => true,
+                        'data'      => [
+                            'CustomerUniqueID'  => $customer['CustomerUniqueID'],
+                            'CustomerName'      => $customer['CustomerName'],
+                            'CustomerEmail'     => $customer['CustomerEmail'],
+                            'CustomerPhone'     => $customer['CustomerPhone'],
+                            'CustomerAddress'   => $customer['CustomerAddress1']
+                        ],
                         'message'   => 'Email berhasil diverifikasi'
                     ], REST_Controller::HTTP_OK);
                 } else {
