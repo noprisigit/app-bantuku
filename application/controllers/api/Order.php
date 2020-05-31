@@ -30,27 +30,36 @@ class Order extends REST_Controller
          if ($customerToken) {
             $ordersData = $this->post('orders');
             $orderDate = date('Y-m-d H:i:s');
-            $orderNumber = generateOrderNumber();
-            $checkOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $orderNumber])->num_rows();
-            if ($checkOrderNumber > 0) {
-               $orderNumber = generateOrderNumber();
+            $invoiceNumber = generateInvoiceNumber();
+            $checkInvoiceNumber = $this->db->get_where('orders', ['InvoiceNumber' => $invoiceNumber])->num_rows();
+            if ($checkInvoiceNumber > 0) {
+               $invoiceNumber = generateInvoiceNumber();
             }
             $billTotal = 0;
             $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
-
+            
             for ($i = 0; $i < count($ordersData); $i++) {
                $product[] = $this->product->getProductPrice($ordersData[$i]['productUniqueID']);
-               if ($product[$i] < $ordersData[$i]['productUniqueID']) {
+               if ($product[$i]['ProductStock'] < $ordersData[$i]['jumlah']) {
+                  $stock[] = [
+                     'ProductUniqueID' => $ordersData[$i]['ProductUniqueID'],
+                     'ProductName'     => $product[$i]['ProductName']
+                  ]; 
                   $this->response([
                      'status'    => false,
                      'message'   => 'Order Gagal Ditambahkan, jumlah stok barang tidak mencukupi'
                   ], REST_Controller::HTTP_BAD_REQUEST);
                } else {
+                  $orderNumber = generateOrderNumber();
+                  $checkOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $orderNumber])->num_rows();
+                  if ($checkOrderNumber > 0) {
+                     $orderNumber = generateOrderNumber();
+                  }
                   $amount[] = $ordersData[$i]['jumlah'] * $product[$i]['ProductPrice'];
-
                   $input = [
                      'OrderNumber'           => $orderNumber,
-                     'InvoiceNumber'         => "INV/" . date('Ymd') . "/#" . "/" . $orderNumber,
+                     'InvoiceNumber'         => $invoiceNumber,
+                     'Invoice'               => "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber,
                      'CustomerUniqueID'      => $this->post('customerUniqueID'),
                      'ProductUniqueID'       => $ordersData[$i]['productUniqueID'],
                      'OrderProductQuantity'  => $ordersData[$i]['jumlah'],
@@ -61,6 +70,7 @@ class Order extends REST_Controller
                   $order = $this->order->createOrder($input);
                }
                $detailOrder[] = [
+                  'OrderNumber'     => $orderNumber,
                   'ProductUniqueID' => $ordersData[$i]['productUniqueID'],
                   'ProductName'     => $product[$i]['ProductName'],
                   'Harga'           => $product[$i]['ProductPrice'],  
@@ -74,14 +84,14 @@ class Order extends REST_Controller
                $this->response([
                   'status'             => true,
                   'message'            => 'Order baru berhasil ditambahkan',
-                  'OrderNumber'        => $orderNumber,
-                  'InvoiceNumber'      => "INV/" . date('Ymd') . "/#" . "/" . $orderNumber,
+                  'InvoiceNumber'      => $invoiceNumber,
+                  'Invoice'            => "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber,
                   'CustomerUniqueID'   => $this->post('customerUniqueID'),
                   'CustomerName'       => $customer['CustomerName'],
-                  'items'               => $detailOrder,
-                  'TotalBayar'        => $billTotal,
-                  'StatusPesanan'     => 'Pending',
-                  'TanggalPesan'      => $orderDate
+                  'items'              => $detailOrder,
+                  'TotalBayar'         => $billTotal,
+                  'StatusPesanan'      => 'Pending',
+                  'TanggalPesan'       => $orderDate
                ], REST_Controller::HTTP_CREATED);
             } else {
                $this->response([
@@ -111,42 +121,55 @@ class Order extends REST_Controller
       if (isset($token)) {
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
-            $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
-            // dd($order);
-            $productStock = $this->db->select('ProductStock')->get_where('products', ['ProductUniqueID' => $order['ProductUniqueID']])->row_array();
-            // dd($productStock);
-            if ($order['OrderProductQuantity'] > $productStock['ProductStock']) {
-               $this->response([
-                  'status'    => false,
-                  'message'   => 'Order gagal diproses, jumlah stok barang tidak mencukupi'
-               ], REST_Controller::HTTP_BAD_REQUEST);
-            } else {
-               $tglProses = date('Y-m-d H:i:s');
-   
-               $this->db->set('OrderStatus', 2);
-               $this->db->set('OrderProcessDate', $tglProses);
-               $this->db->where('OrderNumber', $this->post('orderNumber'));
-               $this->db->update('orders');
-   
-               $sisaStok = $productStock['ProductStock'] - $order['OrderProductQuantity'];
-               $this->db->set('ProductStock', $sisaStok);
-               $this->db->where('ProductUniqueID', $order['ProductUniqueID']);
-               $this->db->update('products');
-               
-               $this->response([
-                  'status'    => true,
-                  'data'      => [
-                     'OrderNumber'        => $order['OrderNumber'],
-                     'CustomerUniqueId'   => $order['CustomerUniqueID'],
-                     'ProductUniqueID'    => $order['ProductUniqueID'],
-                     'Jumlah'             => $order['OrderProductQuantity'],
-                     'Total Bayar'        => $order['OrderTotalPrice'],
-                     'Status Pesanan'     => "Proses",
-                     'Tanggal Pesan'      => $tglProses
-                  ],
-                  'message'   => 'Pesanan anda akan diproses'
-               ], REST_Controller::HTTP_CREATED);
+            $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
+            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $billTotal = 0;
+            for($i = 0; $i < count($orders); $i++) {
+               $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
+               if ($product[$i]['ProductStock'] < $orders[$i]['OrderProductQuantity']) {
+                  $stock[] = [
+                     'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
+                     'ProductName'     => $product[$i]['ProductName']
+                  ]; 
+                  $this->response([
+                     'status'    => false,
+                     'message'   => 'Order gagal diproses, jumlah stok barang tidak mencukupi',
+                     'item'      => $stock
+                  ], REST_Controller::HTTP_BAD_REQUEST);
+               } else {
+                  $processOrderDate = date('Y-m-d H:i:s');
+                  $this->db->set('OrderStatus', 2);
+                  $this->db->set('OrderProcessDate', $processOrderDate);
+                  $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
+                  $this->db->update('orders');
+
+                  $remainingStock[] = $product[$i]['ProductStock'] - $orders[$i]['OrderProductQuantity'];
+                  $this->db->set('ProductStock', $remainingStock[$i]);
+                  $this->db->where('ProductUniqueID', $orders[$i]['ProductUniqueID']);
+                  $this->db->update('products');
+               }
+               $billTotal = $billTotal + $orders[$i]['OrderTotalPrice'];
+               $detailOrder[] = [
+                  'OrderNumber'     => $orders[$i]['OrderNumber'],
+                  'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
+                  'ProductName'     => $product[$i]['ProductName'],
+                  'Harga'           => $product[$i]['ProductPrice'],  
+                  'Jumlah'          => $orders[$i]['OrderProductQuantity'],
+                  'Bayar'           => $orders[$i]['OrderTotalPrice']
+               ];
             }
+            $this->response([
+               'status'             => true,
+               'message'            => 'Pesanan anda akan diproses',
+               'InvoiceNumber'      => $orders[0]['InvoiceNumber'],
+               'Invoice'            => $orders[0]['Invoice'],
+               'CustomerUniqueID'   => $orders[0]['CustomerUniqueID'],
+               'CustomerName'       => $customer['CustomerName'],
+               'items'              => $detailOrder,
+               'TotalBayar'         => $billTotal,
+               'StatusPesanan'      => 'Proses',
+               'TanggalProses'      => $processOrderDate
+            ], REST_Controller::HTTP_OK);
          } else {
             $this->response([
                'status'    => false,

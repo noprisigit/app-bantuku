@@ -20,7 +20,13 @@ function random_strings($length_of_string)
 function generateOrderNumber()
 {
     $str_result = '0123456789876543210';
-    return substr(str_shuffle($str_result), 0, 15);
+    return substr(str_shuffle($str_result), 0, 8);
+}
+
+function generateInvoiceNumber()
+{
+    $str_result = '0123456789876543210';
+    return substr(str_shuffle($str_result), 0, 12);
 }
 
 function generate_code($length)
