@@ -455,7 +455,7 @@ class Order extends REST_Controller
                $this->response([
                   'status'    => false,
                   'message'   => 'Anda sudah menyukai toko ini'
-               ], REST_Controller::HTTP_BAD_REQUEST);
+               ], REST_Controller::HTTP_OK);
             } else {
                $input = [
                   'CustomerUniqueID'   => $this->post('customerUniqueID'),
@@ -475,6 +475,61 @@ class Order extends REST_Controller
                   'status'    => true,
                   'data'      => $data,
                   'message'   => 'Anda menyukai toko ini'
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
+
+   public function getProductLikesByCustomer_get()
+   {
+      $token = $this->get('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $productLikes = $this->order->getProductLikesByCustomer($this->get('customerUniqueID'));
+            $customer = $this->db->select('CustomerUniqueID, CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->get('customerUniqueID')])->row_array();
+            // dd($productLikes);
+            if($productLikes) {
+               for ($i = 0; $i < count($productLikes); $i++) {
+                  $detailProduct[] = [
+                     'ProductName'        => $productLikes[$i]['ProductName'],
+                     'CompanyName'        => $productLikes[$i]['CompanyName'],
+                     'ProductImage'       => $productLikes[$i]['ProductImage'],
+                     'ProductThumbnail'   => $productLikes[$i]['ProductThumbnail'],
+                     'ProductDesc'        => $productLikes[$i]['ProductDesc'],
+                     'ProductWeight'      => $productLikes[$i]['ProductWeight'],
+                     'ProductStock'       => $productLikes[$i]['ProductStock'],
+                     'ProductPrice'       => $productLikes[$i]['ProductPrice'],
+                     'StatusPromo'        => $productLikes[$i]['ProductStatusPromo'],
+                     'Promo'              => $productLikes[$i]['ProductPromo'],
+                     'ProductRating'      => $productLikes[$i]['Rating'],
+                  ];
+               }
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'data'               => $detailProduct
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'message'            => 'Anda belum menyukai produk manapun',
+                  'data'               => $productLikes
                ], REST_Controller::HTTP_OK);
             }
          } else {

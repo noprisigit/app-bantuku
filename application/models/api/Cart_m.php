@@ -15,7 +15,7 @@ class Cart_m extends CI_Model {
 
    public function getProductFromCart($id)
    {
-      $this->db->select('ProductName, CompanyName');
+      $this->db->select('ProductName, CompanyName, ProductImage, ProductThumbnail, ProductStatusPromo, ProductPromo');
       $this->db->from('products');
       $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
       $this->db->where('ProductUniqueID', $id);

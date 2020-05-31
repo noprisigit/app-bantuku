@@ -83,6 +83,10 @@ class Cart extends REST_Controller
                      'ProductUniqueID' => $carts[$i]['ProductUniqueID'],
                      'ProductName'     => $product[$i]['ProductName'],
                      'CompanyName'     => $product[$i]['CompanyName'],
+                     'StatusPromo'     => $product[$i]['ProductStatusPromo'],
+                     'Promo'           => $product[$i]['ProductPromo'],
+                     'ProductImage'    => $product[$i]['ProductImage'],
+                     'ProductThumbnail'=> $product[$i]['ProductThumbnail'],
                      'ProductQuantity' => $carts[$i]['CartProductQuantity'],
                      'Price'           => $carts[$i]['CartPrice'],
                      'DateCreated'     => $carts[$i]['date_created']

@@ -75,7 +75,7 @@ class Product extends REST_Controller
                $this->response([
                   'status'    => false,
                   'message'   => 'No discount for all products today'
-               ], REST_Controller::HTTP_NOT_FOUND);
+               ], REST_Controller::HTTP_OK);
             }
          } else {
             $this->response([

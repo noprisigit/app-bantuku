@@ -148,6 +148,14 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('invoice') ?>" class="nav-link <?= ($title == "Cetak Invoice") ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Cetak Invoice
+                                </p>
+                            </a>
+                        </li>
                         <?php if ($this->session->userdata('AccessID') == 1) : ?>
                         <li class="nav-item">
                             <a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
