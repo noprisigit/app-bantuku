@@ -17,7 +17,7 @@ class Order extends REST_Controller
 
    public function createSignature_get() {
       $this->response([
-         'signature' => sha1(md5("bot33081p@ssw0rd286073416158259"))
+         'signature' => sha1(md5("bot33081p@ssw0rd714374856316958"))
       ]);
    }
 
@@ -28,55 +28,66 @@ class Order extends REST_Controller
       if (isset($token)) {
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
-            $product = $this->product->getProductPrice($this->post('productUniqueID'));
-            // dd($product);
-            if ($product['ProductStock'] < $this->post('jumlah')) {
-               $this->response([
-                  'status'    => false,
-                  'message'   => 'Order gagal ditambahkan, jumlah stok barang tidak mencukupi',
-               ], REST_Controller::HTTP_BAD_REQUEST);
-            } else {
-               // $uniqueID = date('YmdHis') . random_strings(4);
-               $uniqueID = generateOrderNumber();
-               $cekOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $uniqueID])->num_rows();
-               if ($cekOrderNumber > 0) {
-                  $uniqueID = generateOrderNumber();
-               }
+            $ordersData = $this->post('orders');
+            $orderDate = date('Y-m-d H:i:s');
+            $orderNumber = generateOrderNumber();
+            $checkOrderNumber = $this->db->get_where('orders', ['OrderNumber' => $orderNumber])->num_rows();
+            if ($checkOrderNumber > 0) {
+               $orderNumber = generateOrderNumber();
+            }
+            $billTotal = 0;
+            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
 
-               $totalBayar = $this->post('jumlah') * $product['ProductPrice'];
-               $tglPesan = date('Y-m-d H:i:s');
-   
-               $input = [
-                  'OrderNumber'           => $uniqueID,
-                  'CustomerUniqueID'      => $this->post('customerUniqueID'),
-                  'ProductUniqueID'       => $this->post('productUniqueID'),
-                  'OrderProductQuantity'  => $this->post('jumlah'),
-                  'OrderTotalPrice'       => $totalBayar,
-                  'OrderStatus'           => 1,
-                  'OrderDate'             => $tglPesan
-               ];
-   
-               $order = $this->order->createOrder($input);
-               if ($order > 0) {
-                  $this->response([
-                     'status'    => true,
-                     'data'      => [
-                        'OrderNumber'        => $uniqueID,
-                        'CustomerUniqueId'   => $this->post('customerUniqueID'),
-                        'ProductUniqueID'    => $this->post('productUniqueID'),
-                        'Jumlah'             => $this->post('jumlah'),
-                        'Total Bayar'        => $totalBayar,
-                        'Status Pesanan'     => "Pending",
-                        'Tanggal Pesan'      => $tglPesan
-                     ],
-                     'message'   => 'Order baru berhasil ditambahkan',
-                  ], REST_Controller::HTTP_CREATED);
-               } else {
+            for ($i = 0; $i < count($ordersData); $i++) {
+               $product[] = $this->product->getProductPrice($ordersData[$i]['productUniqueID']);
+               if ($product[$i] < $ordersData[$i]['productUniqueID']) {
                   $this->response([
                      'status'    => false,
-                     'message'   => 'Order gagal ditambahkan',
+                     'message'   => 'Order Gagal Ditambahkan, jumlah stok barang tidak mencukupi'
                   ], REST_Controller::HTTP_BAD_REQUEST);
+               } else {
+                  $amount[] = $ordersData[$i]['jumlah'] * $product[$i]['ProductPrice'];
+
+                  $input = [
+                     'OrderNumber'           => $orderNumber,
+                     'InvoiceNumber'         => "INV/" . date('Ymd') . "/#" . "/" . $orderNumber,
+                     'CustomerUniqueID'      => $this->post('customerUniqueID'),
+                     'ProductUniqueID'       => $ordersData[$i]['productUniqueID'],
+                     'OrderProductQuantity'  => $ordersData[$i]['jumlah'],
+                     'OrderTotalPrice'       => $amount[$i],
+                     'OrderStatus'           => 1,
+                     'OrderDate'             => $orderDate
+                  ];
+                  $order = $this->order->createOrder($input);
                }
+               $detailOrder[] = [
+                  'ProductUniqueID' => $ordersData[$i]['productUniqueID'],
+                  'ProductName'     => $product[$i]['ProductName'],
+                  'Harga'           => $product[$i]['ProductPrice'],  
+                  'Jumlah'          => $ordersData[$i]['jumlah'],
+                  'Bayar'           => $amount[$i]
+               ];
+               $billTotal = $billTotal + $amount[$i];
+            }
+
+            if ($order > 0) {
+               $this->response([
+                  'status'             => true,
+                  'message'            => 'Order baru berhasil ditambahkan',
+                  'OrderNumber'        => $orderNumber,
+                  'InvoiceNumber'      => "INV/" . date('Ymd') . "/#" . "/" . $orderNumber,
+                  'CustomerUniqueID'   => $this->post('customerUniqueID'),
+                  'CustomerName'       => $customer['CustomerName'],
+                  'items'               => $detailOrder,
+                  'TotalBayar'        => $billTotal,
+                  'StatusPesanan'     => 'Pending',
+                  'TanggalPesan'      => $orderDate
+               ], REST_Controller::HTTP_CREATED);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Order gagal ditambahkan',
+               ], REST_Controller::HTTP_BAD_REQUEST);
             }
          } else {
             $this->response([
