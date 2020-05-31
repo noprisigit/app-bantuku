@@ -12,4 +12,12 @@ class Order_m extends CI_Model {
       $query = $this->db->query("SELECT partners.CompanyName, categories.CategoryID, categories.CategoryName, products.PartnerID, products.ProductUniqueID, products.ProductName, products.ProductPrice, products.ProductStock, products.ProductWeight, products.ProductDesc, products.ProductImage, products.ProductThumbnail, products.ProductStatus, products.ProductPromo, products.ProductStatusPromo, products.ProductPromoDate, products.ProductPromoDateEnd, IFNULL(ROUND(AVG(orders.Rating), 0), 0) AS Rating FROM products LEFT JOIN categories ON products.CategoryID = categories.CategoryID LEFT JOIN orders ON products.ProductUniqueID = orders.ProductUniqueID LEFT JOIN customerslikesproducts ON products.ProductUniqueID = customerslikesproducts.ProductUniqueID LEFT JOIN partners ON partners.PartnerID = products.PartnerID WHERE customerslikesproducts.CustomerUniqueID = '".$customerUniqueID."' GROUP BY products.ProductUniqueID");
       return $query->result_array();
    }
+
+   public function getShopLikesByCustomer($customerUniqueID) {
+      $this->db->select('partners.PartnerID, partners.PartnerUniqueID, partners.CompanyName, partners.PartnerName, partners.Address, partners.District, partners.Province, partners.PostalCode, partners.Phone, partners.Email, partners.ShopPicture, partners.ShopThumbnail');
+      $this->db->from('customerslikesshop');
+      $this->db->join('partners', 'partners.PartnerUniqueID = customerslikesshop.PartnerUniqueID');
+      $this->db->where('customerslikesshop.CustomerUniqueID', $customerUniqueID);
+      return $this->db->get()->result_array();
+   }
 }

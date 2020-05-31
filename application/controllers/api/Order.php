@@ -545,4 +545,43 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function getShopLikesByCustomer_get()
+   {
+      $token = $this->get('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $partners = $this->order->getShopLikesByCustomer($this->get('customerUniqueID'));
+            $customer = $this->db->select('CustomerUniqueID, CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->get('customerUniqueID')])->row_array();
+            if ($partners) {
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'data'               => $partners
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'message'            => 'Anda belum menyukai toko manapun',
+                  'data'               => $partners
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
