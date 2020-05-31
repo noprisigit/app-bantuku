@@ -10,6 +10,15 @@ class Cart_m extends CI_Model {
 
    public function getCartByCustomer($id)
    {
-      return $this->db->get_where('carts', ['CustomerUniqueID' => $id])->result();
+      return $this->db->get_where('carts', ['CustomerUniqueID' => $id])->result_array();
+   }
+
+   public function getProductFromCart($id)
+   {
+      $this->db->select('ProductName, CompanyName');
+      $this->db->from('products');
+      $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
+      $this->db->where('ProductUniqueID', $id);
+      return $this->db->get()->row_array();
    }
 }

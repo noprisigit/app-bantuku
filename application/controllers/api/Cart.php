@@ -74,17 +74,34 @@ class Cart extends REST_Controller
             
             if (isset($customerUniqueID)) {
                $carts = $this->cart->getCartByCustomer($this->get('customerUniqueID'));
-   
+               $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $carts[0]['CustomerUniqueID']])->row_array();
+               for ($i = 0; $i < count($carts); $i++) {
+                  $product[] = $this->cart->getProductFromCart($carts[$i]['ProductUniqueID']);
+                  $detailCart[] = [
+                     'CartID'          => $carts[$i]['CartID'],
+                     'CartNumber'      => $carts[$i]['CartNumber'],
+                     'ProductUniqueID' => $carts[$i]['ProductUniqueID'],
+                     'ProductName'     => $product[$i]['ProductName'],
+                     'CompanyName'     => $product[$i]['CompanyName'],
+                     'ProductQuantity' => $carts[$i]['CartProductQuantity'],
+                     'Price'           => $carts[$i]['CartPrice'],
+                     'DateCreated'     => $carts[$i]['date_created']
+                  ];
+               }
+               // dd($product);
                if ($carts) {
                   $this->response([
-                     'status'    => true,
-                     'data'      => $carts
+                     'status'             => true,
+                     'CustomerUniqueID'   => $carts[0]['CustomerUniqueID'],
+                     'CustomerName'       => $customer['CustomerName'],
+                     'data'               => $detailCart
                   ], REST_Controller::HTTP_OK);
                } else {
                   $this->response([
                      'status'    => false,
-                     'message'   => 'Tidak ada keranjang untuk customer ini'
-                  ], REST_Controller::HTTP_NOT_FOUND);
+                     'message'   => 'Belum ada keranjang untuk customer ini',
+                     'data'      => $carts
+                  ], REST_Controller::HTTP_OK);
                }
             } else {
                $this->response([

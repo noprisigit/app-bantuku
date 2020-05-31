@@ -199,10 +199,6 @@ class Order extends REST_Controller
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
                $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
-               $this->db->set('OrderStatus', 3);
-               $this->db->set('OrderSendDate', $sendOrderDate);
-               $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
-               $this->db->update('orders');
                $billTotal = $billTotal + $orders[$i]['OrderTotalPrice'];
                $detailOrder[] = [
                   'OrderNumber'     => $orders[$i]['OrderNumber'],
@@ -213,6 +209,10 @@ class Order extends REST_Controller
                   'Bayar'           => $orders[$i]['OrderTotalPrice']
                ];
             }
+            $this->db->set('OrderStatus', 3);
+            $this->db->set('OrderSendDate', $sendOrderDate);
+            $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
+            $this->db->update('orders');
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda telah dikirim',
@@ -241,32 +241,45 @@ class Order extends REST_Controller
 
    public function completedOrder_post()
    {
+      date_default_timezone_set('Asia/Jakarta');
       $token = $this->post('token');
       if ($token) {
          $customerToken = $this->auth->validateToken($token);
-
          if ($customerToken) {
-            $order = $this->db->get_where('orders', ['OrderNumber' => $this->post('orderNumber')])->row_array();
-            $tglSelesai = date('Y-m-d H:i:s');
+            $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
+            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $completeOrderDate = date('Y-m-d H:i:s');
+            $billTotal = 0;
+            for ($i = 0; $i < count($orders); $i++) {
+               $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
+               $billTotal = $billTotal + $orders[$i]['OrderTotalPrice'];
+               $detailOrder[] = [
+                  'OrderNumber'     => $orders[$i]['OrderNumber'],
+                  'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
+                  'ProductName'     => $product[$i]['ProductName'],
+                  'Harga'           => $product[$i]['ProductPrice'],  
+                  'Jumlah'          => $orders[$i]['OrderProductQuantity'],
+                  'Bayar'           => $orders[$i]['OrderTotalPrice']
+               ];
+            }
 
             $this->db->set('OrderStatus', 4);
-            $this->db->set('OrderCompletedDate', $tglSelesai);
-            $this->db->where('OrderNumber', $this->post('orderNumber'));
+            $this->db->set('OrderCompletedDate', $completeOrderDate);
+            $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
 
             $this->response([
-               'status'    => true,
-               'data'      => [
-                  'OrderNumber'        => $order['OrderNumber'],
-                  'CustomerUniqueId'   => $order['CustomerUniqueID'],
-                  'ProductUniqueID'    => $order['ProductUniqueID'],
-                  'Jumlah'             => $order['OrderProductQuantity'],
-                  'Total Bayar'        => $order['OrderTotalPrice'],
-                  'Status Pesanan'     => "Selesai",
-                  'Tanggal Pesan'      => $tglSelesai
-               ],
-               'message'   => 'Pesanan telah selesai'
-            ], REST_Controller::HTTP_CREATED);            
+               'status'             => true,
+               'message'            => 'Pesanan anda telah selesai',
+               'InvoiceNumber'      => $orders[0]['InvoiceNumber'],
+               'Invoice'            => $orders[0]['Invoice'],
+               'CustomerUniqueID'   => $orders[0]['CustomerUniqueID'],
+               'CustomerName'       => $customer['CustomerName'],
+               'items'              => $detailOrder,
+               'TotalBayar'         => $billTotal,
+               'StatusPesanan'      => 'Selesai',
+               'TanggalProses'      => $completeOrderDate
+            ], REST_Controller::HTTP_OK);          
          } else {
             $this->response([
                'status'    => false,
