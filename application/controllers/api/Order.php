@@ -625,4 +625,48 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function customerDislikeProduct_delete()
+   {
+      $token = $this->delete('token');
+      $customerUniqueID = $this->delete('customerUniqueID');
+      $productUniqueID = $this->delete('productUniqueID');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $product = $this->product->getDetailProduct($productUniqueID);
+            $customer = $this->db->select('CustomerUniqueID, CustomerName')->get_where('customers', ['CustomerUniqueID' => $customerUniqueID])->row_array();
+             
+            $cekStatusLike = $this->db->get_where('customerslikesproducts', ['CustomerUniqueID' => $customerUniqueID, 'ProductUniqueID' => $productUniqueID])->num_rows();
+
+            if ($cekStatusLike > 0) {
+               $this->db->delete('customerslikesproducts', ['CustomerUniqueID' => $customerUniqueID, 'ProductUniqueID' => $productUniqueID]);
+
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'data'               => $product,
+                  'message'            => "Anda tidak menyukai produk ini"
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => true,
+                  'message'   => 'Data Tidak Ditemukan'
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
