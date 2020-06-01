@@ -13,6 +13,7 @@ class Order extends REST_Controller
       $this->load->model('api/Order_m', 'order');
       $this->load->model('api/Auth_m', 'auth');
       $this->load->model('api/Product_m', 'product');
+      $this->load->model('api/Partner_m', 'partner');
    }
 
    public function createSignature_get() {
@@ -569,6 +570,46 @@ class Order extends REST_Controller
                   'CustomerName'       => $customer['CustomerName'],
                   'message'            => 'Anda belum menyukai toko manapun',
                   'data'               => $partners
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
+
+   public function customerDislikeShop_delete()
+   {
+      $token = $this->delete('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $partner = $this->partner->getDetailShop($this->delete('partnerUniqueID'));
+            $customer = $this->db->select('CustomerUniqueID, CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->delete('customerUniqueID')])->row_array();
+
+            $cekStatusLike = $this->db->get_where('customerslikesshop', ['CustomerUniqueID' => $this->delete('customerUniqueID'), 'PartnerUniqueID' => $this->delete('partnerUniqueID')])->num_rows();
+            if ($cekStatusLike > 0) {
+               $this->db->delete('customerslikesshop', ['CustomerUniqueID' => $this->delete('customerUniqueID'), 'PartnerUniqueID' => $this->delete('partnerUniqueID')]);
+
+               $this->response([
+                  'status'             => true,
+                  'CustomerUniqueID'   => $customer['CustomerUniqueID'],
+                  'CustomerName'       => $customer['CustomerName'],
+                  'data'               => $partner,
+                  'message'            => "Anda tidak menyukai toko ini"
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => true,
+                  'message'   => 'Data Tidak Ditemukan'
                ], REST_Controller::HTTP_OK);
             }
          } else {
