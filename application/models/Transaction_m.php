@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Transaction_m extends CI_Model {
    var $table = 'orders'; //nama tabel dari database
-   var $column_order = array(null, 'OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang ada di table user
-   var $column_search = array('OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang diizin untuk pencarian 
+   var $column_order = array(null, 'InvoiceNumber, OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang ada di table user
+   var $column_search = array('InvoiceNumber, OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang diizin untuk pencarian 
    var $order = array('OrderID' => 'asc'); // default order 
 
    public function __construct()
@@ -15,7 +15,7 @@ class Transaction_m extends CI_Model {
 
    private function _get_datatables_query()
    {
-      $this->db->select('OrderNumber, ProductName, CompanyName, CustomerName, OrderProductQuantity, OrderTotalPrice, OrderStatus, OrderDate');
+      $this->db->select('InvoiceNumber, OrderNumber, ProductName, CompanyName, CustomerName, OrderProductQuantity, OrderTotalPrice, OrderStatus, OrderDate');
       $this->db->from($this->table);
       $this->db->join('products', 'products.ProductUniqueId = orders.ProductUniqueID');
       $this->db->join('partners', 'partners.PartnerID = products.PartnerID');

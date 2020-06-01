@@ -44,6 +44,7 @@ class Transaction extends CI_Controller {
          $no++;
          $row = array();
          $row[] = $no;
+         $row[] = $field->InvoiceNumber;
          $row[] = $field->OrderNumber;
          $row[] = $field->ProductName;
          $row[] = $field->CompanyName;

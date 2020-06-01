@@ -11,6 +11,7 @@
                            <thead>
                               <tr>
                                  <th class="text-center">#</th>
+                                 <th class="text-center">Nomor Invoice</th>
                                  <th class="text-center">Nomor Pesanan</th>
                                  <th class="text-center">Nama Produk</th>
                                  <th class="text-center">Nama Toko</th>
@@ -25,6 +26,7 @@
                            <tfoot>
                               <tr>
                                  <th class="text-center">#</th>
+                                 <th class="text-center">Nomor Invoice</th>
                                  <th class="text-center">Nomor Pesanan</th>
                                  <th class="text-center">Nama Produk</th>
                                  <th class="text-center">Nama Toko</th>
