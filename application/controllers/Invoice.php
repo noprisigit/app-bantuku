@@ -25,7 +25,7 @@ class Invoice extends CI_Controller {
 
    public function print() 
    {
-      $invoiceNumber = $this->input->get('invoice');
+      $invoiceNumber = $this->uri->segment(3);
       $data['invoice'] = $this->invoice->getDetailInvoice($invoiceNumber);
       $tglPesan = $data['invoice'][0]['OrderDate'];
       $parseTgl = explode(' ', $tglPesan);

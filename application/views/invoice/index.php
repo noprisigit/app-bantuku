@@ -28,6 +28,10 @@
                <img src="<?= base_url('assets/dist/img/waiting.gif'); ?>" class="d-flex mx-auto">
             </div>
             <!-- Image loader -->
+            <div class="callout callout-danger" id="invoiceErrorDisplay" style="display: none;">
+              <h5><i class="fas fa-info"></i> Catatan:</h5>
+              Nomor Invoice Tidak Ditemukan.
+            </div>
             <!-- Main content -->
             <div class="invoice p-3 mb-3" id="invoiceDisplay" style="display: none;">
                <!-- title row -->
