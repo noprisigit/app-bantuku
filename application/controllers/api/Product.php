@@ -131,4 +131,38 @@ class Product extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function getDetailProduct_get()
+   {
+      $token = $this->get('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $productUniqueID = $this->get('productUniqueID');
+            if ($productUniqueID) {
+               $product = $this->product->getDetailProduct($productUniqueID);
+               $this->response([
+                  'status'    => true,
+                  'data'      => $product   
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Missing Product Unique ID'
+               ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }  
+   }
 }
