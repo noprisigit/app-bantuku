@@ -2,6 +2,7 @@ $(document).ready(function() {
    $('.btn-cari-invoice').click(function(e) {
       $('#invoiceDisplay').hide();
       var invoiceNumber = $('#inputInvoice').val();
+      $('#printInvoice').attr('href', 'invoice/print?invoice=' + invoiceNumber);
       if (invoiceNumber === "") {
          e.preventDefault();
          toastr.error('Harap isi nomor invoice');

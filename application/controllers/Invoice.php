@@ -23,6 +23,18 @@ class Invoice extends CI_Controller {
       $this->load->view('template/footer', $data);
    }
 
+   public function print() 
+   {
+      $invoiceNumber = $this->input->get('invoice');
+      $data['invoice'] = $this->invoice->getDetailInvoice($invoiceNumber);
+      $tglPesan = $data['invoice'][0]['OrderDate'];
+      $parseTgl = explode(' ', $tglPesan);
+      $hasilParse = explode('-', $parseTgl[0]);
+      $data['tgl'] = $hasilParse;
+      // dd($invoice);
+      $this->load->view('invoice/cetak-invoice', $data);
+   }
+
    public function cariInvoice()
    {
       $invoice = $this->invoice->getDetailInvoice($this->input->post('invoiceNumber'));

@@ -37,7 +37,7 @@ class Order extends REST_Controller
                $invoiceNumber = generateInvoiceNumber();
             }
             $billTotal = 0;
-            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
             
             for ($i = 0; $i < count($ordersData); $i++) {
                $product[] = $this->product->getProductPrice($ordersData[$i]['productUniqueID']);
@@ -80,6 +80,8 @@ class Order extends REST_Controller
                ];
                $billTotal = $billTotal + $amount[$i];
             }
+            $emailInvoice = "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber;
+            $this->_sendEmail($customer['CustomerEmail'], 'Pending', $emailInvoice ,$detailOrder);
 
             if ($order > 0) {
                $this->response([
@@ -94,6 +96,7 @@ class Order extends REST_Controller
                   'StatusPesanan'      => 'Pending',
                   'TanggalPesan'       => $orderDate
                ], REST_Controller::HTTP_CREATED);
+
             } else {
                $this->response([
                   'status'    => false,
@@ -123,7 +126,7 @@ class Order extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
             $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
-            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $billTotal = 0;
             for($i = 0; $i < count($orders); $i++) {
                $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
@@ -159,6 +162,7 @@ class Order extends REST_Controller
                   'Bayar'           => $orders[$i]['OrderTotalPrice']
                ];
             }
+            $this->_sendEmail($customer['CustomerEmail'], 'Proses', $orders[0]['Invoice'] ,$detailOrder);
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda akan diproses',
@@ -195,7 +199,7 @@ class Order extends REST_Controller
 
          if ($customerToken) {
             $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
-            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $sendOrderDate = date('Y-m-d H:i:s');
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
@@ -214,6 +218,7 @@ class Order extends REST_Controller
             $this->db->set('OrderSendDate', $sendOrderDate);
             $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
+            $this->_sendEmail($customer['CustomerEmail'], 'Kirim', $orders[0]['Invoice'] ,$detailOrder);
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda telah dikirim',
@@ -248,7 +253,7 @@ class Order extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
             $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
-            $customer = $this->db->select('CustomerName')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $completeOrderDate = date('Y-m-d H:i:s');
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
@@ -268,7 +273,7 @@ class Order extends REST_Controller
             $this->db->set('OrderCompletedDate', $completeOrderDate);
             $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
-
+            $this->_sendEmail($customer['CustomerEmail'], 'Selesai', $orders[0]['Invoice'] ,$detailOrder);
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda telah selesai',
@@ -669,4 +674,140 @@ class Order extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   private function _sendEmail($email, $type, $invoice, $data) {
+      $config= [
+         'protocol'      => 'smtp',
+         'smtp_host'     => 'ssl://smtp.googlemail.com',
+         'smtp_user'     => 'bantuku2020@gmail.com',
+         'smtp_pass'     => '.BantukuBabelProv20',
+         'smtp_port'     => 465,
+         'smtp_timeout'  => '5',
+         'mailtype'      => 'html',
+         'charset'       => 'utf-8',
+         'newline'       => "\r\n"
+      ];
+
+      $this->load->library('email', $config);
+
+      $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
+      $this->email->to($email);
+
+      $str = "";
+      $billTotal = 0;
+      $totalBarang = 0;
+      for($i = 0; $i < count($data); $i++) {
+         $str .= '
+            <tr>
+               <td style="padding-top: 0; padding-bottom: 0;" width="80%">'.$data[$i]['ProductName'].'</td>
+               <td style="padding-top: 5px; padding-left: 10px;" align="right" rowspan="2">Rp '.number_format($data[$i]['Bayar'],0,',','.').'</td>
+            </tr>
+            <tr>
+               <td style="padding-top: 5px; padding-bottom: 15px;">'.$data[$i]['Jumlah'].' x Rp '.number_format($data[$i]['Harga'],0,',','.').'</td>
+            </tr>
+         ';
+         $billTotal += $data[$i]['Bayar'];
+         $totalBarang += $data[$i]['Jumlah'];
+      }
+      $tax = $billTotal * 0.1;
+      $grandTotal = $billTotal + $tax;
+      $linkImage = "http://bantuku2020.babelprov.go.id/assets/dist/img/bantuku.png";
+
+      if ($type == "Pending") {
+         $subject = "Menunggu Pembayaran";
+      } else if ($type == "Proses") {
+         $subject = "Pembayaran Anda Diterima dan Pesanan Akan Diproses";
+      } else if ($type == "Kirim") {
+         $subject = "Pesanan Anda Telah Dikirim";
+      } else if ($type == "Selesai") {
+         $subject = "Pesanan Anda Telah Selesai";
+      }
+
+      $this->email->subject($subject);
+      $this->email->message('
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Document</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;">
+         <table align="center" cellpading="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+            <tr>
+               <td align="center" style="padding: 20px 0 20px 0; background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                  <img src="'.$linkImage.'" alt="Bantuku" width="256">
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 20px;">
+                  <h2>'.$subject.'</h2>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 20px;">
+                  <h4 style="margin-top: 5px; margin-bottom: 5px;">Ringkasan Pembayaran</h4>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 20px; padding-right: 20px;">
+                  <table width="100%" cellspacing="0" cellpading="0" style="border-collapse: collapse;">
+                     <tr>
+                        <td style="padding: 8px 0 8px 0;">Total Harga ('.$totalBarang.' Barang)</td>
+                        <td align="right">Rp '.number_format($billTotal,0,',','.').'</td>
+                     </tr>
+                     <!-- <tr>
+                        <td style="padding: 8px 0 8px 0;">Total Ongkos Kirim</td>
+                        <td align="right">Rp 30.000</td>
+                     </tr> -->
+                     <tr>
+                        <td style="padding: 8px 0 8px 0;">Pajak (10%)</td>
+                        <td align="right">Rp '.number_format($tax,0,',','.').'</td>
+                     </tr>
+                     <tr style="border-top: 2px solid black;">
+                        <td style="font-weight: 600;padding: 8px 0 8px 0;">Total Tagihan</td>
+                        <td align="right" style="font-weight: 600;">Rp '.number_format($grandTotal,0,',','.').'</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 20px;">
+                  <h4 style="margin-top: 30px; margin-bottom: 5px;">Rincian Pesanan</h4>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding-left: 20px;">
+                  <h4 style="margin-top: 15px; margin-bottom: 10px; color: #00C6FF;">'.$invoice.'</h4>
+               </td>
+            </tr>
+            <tr>
+               <td style="padding: 0 20px 0 20px;">
+                  <table align="center" cellpading="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                     '.$str.'
+                     <tr>
+                        <td style="padding-top: 10px; padding-bottom: 10px;">Pajak (10%)</td>
+                        <td align="right" style="padding-top: 10px; padding-bottom: 10px;">Rp '.number_format($tax,0,',','.').'</td>
+                     </tr>
+                     <tr style="border-top: 2px solid black;">
+                        <td style="font-weight: 600; padding-top: 10px; padding-bottom: 5px;">Total Pembayaran</td>
+                        <td align="right" style="padding-top: 10px; padding-left: 10px; font-weight: 600;">Rp '.number_format($grandTotal,0,',','.').'</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+        </table>
+      </body>
+      </html>
+      ');
+
+      if ($this->email->send()) {
+         // echo "Email berhasil dikirim ke " . $this->post('email');
+         return true;
+     } else {
+         echo $this->email->print_debugger();
+         die;
+     }
+   }
+
 }

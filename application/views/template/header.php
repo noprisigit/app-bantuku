@@ -150,7 +150,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('invoice') ?>" class="nav-link <?= ($title == "Cetak Invoice") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-print"></i>
                                 <p>
                                     Cetak Invoice
                                 </p>
