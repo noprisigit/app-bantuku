@@ -203,6 +203,22 @@ class Product extends CI_Controller {
         echo json_encode($res);
     }
 
+    public function tambah_stock()
+    {
+        $product = $this->db->select('ProductStock')->get_where('products', ['ProductUniqueID' => $this->input->post('ProductUniqueID')])->row_array();
+        $stokBaru = 0;
+        $stokBaru = $product['ProductStock'] + $this->input->post('StokBaru');
+        $this->db->set('ProductStock', $stokBaru);
+        $this->db->where('ProductUniqueID', $this->input->post('ProductUniqueID'));
+        $update = $this->db->update('products');
+        if ($update) {
+            $res['status'] = true;
+        } else {
+            $res['status'] = false;
+        }
+        echo json_encode($res);
+    }
+
     public function show_list_products()
     {
         
@@ -226,6 +242,8 @@ class Product extends CI_Controller {
             $btn_deactivated_promo = '<a class="btn btn-danger btn-deactivated-promo" data-placement="top" data-toggle="tooltip" title="Matikan Promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-tags"></i></a>';
 
             $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'" data-tglselesaipromo="'.$field->ProductPromoDateEnd.'"><i class="fas fa-tag"></i></button>';
+
+            $btn_tambah_stok = '<button type="button" data-toggle="tooltip" data-placement="top" title="Tambah Stok Produk" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-stock="'.$field->ProductStock.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" class="btn btn-info btn-tambah-stock"><i class="fas fa-plus"></i></button>';
 
             $no++;
             $row = array();
@@ -266,9 +284,9 @@ class Product extends CI_Controller {
             } elseif ($field->ProductStatus == 0 && $field->ProductStatusPromo == 1) {
                 $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
             } elseif ($field->ProductStatus == 1 && $field->ProductStatusPromo == 0) {
-                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_activated_promo;
+                $row[] = $btn_deactivated . "&nbsp" . $btn_tambah_stok . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_activated_promo;
             } else {
-                $row[] = $btn_deactivated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_deactivated_promo . "&nbsp" . $btn_edit_promo;
+                $row[] = $btn_deactivated . "&nbsp" . $btn_tambah_stok . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete . "&nbsp" . $btn_deactivated_promo . "&nbsp" . $btn_edit_promo;
             }
 
             $data[] = $row;

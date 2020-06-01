@@ -365,45 +365,45 @@
 										<div class="card">
 											<div class="card-body">
 												<div class="row">
-														<div class="col-md-4">
-															<img class="img-fluid img-thumbnail promo-img-product" id="promo-img-product" width="256px" alt="Product Image">
-														</div>
-														<div class="col-md-8">
-															<table class="table table-bordered">
-																<tr>
-																	<td width="30%">Unique ID</td>
-																	<td class="promo-product-uniqueID">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Nama Produk</td>
-																	<td class="promo-product-name">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Harga per Satuan</td>
-																	<td class="promo-product-price">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Stock</td>
-																	<td class="promo-product-stock">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Berat</td>
-																	<td class="promo-product-weight">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Nama Toko</td>
-																	<td class="promo-product-shop">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Kategori</td>
-																	<td class="promo-product-category">Loading...</td>
-																</tr>
-																<tr>
-																	<td>Deskripsi</td>
-																	<td class="promo-product-desc">Loading...</td>
-																</tr>
-															</table>
-														</div>
+													<div class="col-md-4">
+														<img class="img-fluid img-thumbnail promo-img-product" id="promo-img-product" width="256px" alt="Product Image">
+													</div>
+													<div class="col-md-8">
+														<table class="table table-bordered">
+															<tr>
+																<td width="30%">Unique ID</td>
+																<td class="promo-product-uniqueID">Loading...</td>
+															</tr>
+															<tr>
+																<td>Nama Produk</td>
+																<td class="promo-product-name">Loading...</td>
+															</tr>
+															<tr>
+																<td>Harga per Satuan</td>
+																<td class="promo-product-price">Loading...</td>
+															</tr>
+															<tr>
+																<td>Stock</td>
+																<td class="promo-product-stock">Loading...</td>
+															</tr>
+															<tr>
+																<td>Berat</td>
+																<td class="promo-product-weight">Loading...</td>
+															</tr>
+															<tr>
+																<td>Nama Toko</td>
+																<td class="promo-product-shop">Loading...</td>
+															</tr>
+															<tr>
+																<td>Kategori</td>
+																<td class="promo-product-category">Loading...</td>
+															</tr>
+															<tr>
+																<td>Deskripsi</td>
+																<td class="promo-product-desc">Loading...</td>
+															</tr>
+														</table>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -441,5 +441,72 @@
 						<!-- /.modal-content -->
 					</div>
 					<!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+				<div class="modal fade" id="modal-tambah-stok-product">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+                            <h4 class="modal-title">Tambah Stok Produk</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-4">
+													<img class="img-fluid img-thumbnail promo-img-product" id="promo-img-product" width="256px" alt="Product Image">
+												</div>
+												<div class="col-md-8">
+													<table class="table table-bordered">
+														<tr>
+															<td width="30%">Unique ID</td>
+															<td class="promo-product-uniqueID">Loading...</td>
+														</tr>
+														<tr>
+															<td>Nama Produk</td>
+															<td class="promo-product-name">Loading...</td>
+														</tr>
+														<tr>
+															<td>Nama Toko</td>
+															<td class="promo-product-shop">Loading...</td>
+														</tr>
+														<tr>
+															<td>Stock</td>
+															<td class="promo-product-stock">Loading...</td>
+														</tr>
+													</table>
+												</div>
+											</div>
+											<div class="row justify-content-center">
+												<div class="col-md-1">
+													<button type="button" class="btn btn-success minStok float-right" disabled="disabled"><i class="fas fa-minus"></i></button>
+												</div>
+												<div class="col-md-2">
+													<div class="form-group">
+														<input type="number" class="form-control jumlahStock" value="0" readonly>
+													</div>
+												</div>
+												<div class="col-md-1">
+													<button type="button" class="btn btn-success plusStok"><i class="fas fa-plus"></i></button>
+												</div>
+											</div>
+											<div class="row justify-content-center">
+												<div class="col-md-4">
+												<button type="button" class="btn btn-primary btn-block btn-submit-tambah-stock" disabled>Proses</button>
+												</div>
+											</div>
+										</div>
+									</div>
+                        </div>
+                        <div class="modal-footer justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->

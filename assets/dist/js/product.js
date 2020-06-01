@@ -485,4 +485,62 @@ $(document).ready(function() {
          }
       }
    });
+
+   $(document).on('click', '.btn-tambah-stock', function() {
+
+      const uniqueID = $(this).data('id');
+      const nama = $(this).data('nama');
+      const stock = $(this).data('stock');
+      const image = $(this).data('image');
+      const toko = $(this).data('toko');
+
+      $('.jumlahStock').val(0);
+      $('#modal-tambah-stok-product').modal('show');
+
+      $('.promo-img-product').attr('src', 'assets/dist/img/products/' + image);
+      $('.promo-product-uniqueID').html(': ' + uniqueID);
+      $('.promo-product-name').html(': ' + nama);
+      $('.promo-product-stock').html(': ' + stock + ' buah');
+      $('.promo-product-shop').html(': ' + toko);
+      
+      var count = 0;
+         
+      $('.plusStok').on('click', function(){
+         count++;
+         $('.minStok').attr('disabled', false);
+         $('.btn-submit-tambah-stock').attr('disabled', false);
+         $('.jumlahStock').val(count.toString());
+      });
+   
+      $('.minStok').on('click', function() {
+         count--;
+         $('.jumlahStock').val(count.toString());
+         if ($('.jumlahStock').val() == 0) {
+            $(this).attr('disabled', true);
+            $('.btn-submit-tambah-stock').attr('disabled', true);
+         }
+      })
+
+      $('.btn-submit-tambah-stock').on('click', function() {
+         var stokBaru = $('.jumlahStock').val();
+         $.ajax({
+            url: 'product/tambah-stock',
+            type: 'post',
+            data: { ProductUniqueID: uniqueID, StokBaru: stokBaru },
+            dataType: 'json',
+            success: function() {
+               $('.jumlahStock').val(0);
+               $('#modal-tambah-stok-product').modal('hide');
+
+               Swal.fire({
+                  title: "Produk",
+                  text: "Stok produk berhasil ditambah",
+                  icon: 'success'
+               });
+               table_product.ajax.reload();
+            }
+         });
+         return false
+      });
+   });
 });
