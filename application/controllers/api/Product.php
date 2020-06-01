@@ -165,4 +165,6 @@ class Product extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }  
    }
+
+
 }
