@@ -48,7 +48,7 @@
 																<input type="text" class="form-control" name="product_name" id="product_name_save" placeholder="Nama Produk">
 														</div>
 														<div class="form-group">
-																<label for="">Harga Produk Per Satuan</label>
+																<label for="">Harga Produk Per Satuan (Sebelum Pajak)</label>
 																<input type="number" class="form-control" name="product_price" id="product_price_save" placeholder="Harga Produk Per Satuan">
 														</div>
 														<div class="row">

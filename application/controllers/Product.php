@@ -48,13 +48,17 @@ class Product extends CI_Controller {
                 $data = $this->upload->data();
                 resizeImage($data['file_name'], 'products');
 
+                $price = $this->input->post('product_price');
+                $tax = $price * 0.15;
+                $resultPrice = $price + $tax;
+
                 $uniqueID = random_strings(4) . date('YmdHis');
                 $input = [
                     'CategoryID'        => $this->input->post('product_category'),
                     'PartnerID'         => $this->input->post('product_partner'),
                     'ProductUniqueID'   => 'P' . $uniqueID,
                     'ProductName'       => $this->input->post('product_name'),
-                    'ProductPrice'      => $this->input->post('product_price'),
+                    'ProductPrice'      => $resultPrice,
                     'ProductStock'      => $this->input->post('product_stock'),
                     'ProductWeight'     => $this->input->post('product_weight'),
                     'ProductDesc'       => $this->input->post('product_desc'),
@@ -112,8 +116,12 @@ class Product extends CI_Controller {
             }
         }
 
+        $price = $this->input->post('product_price');
+        $tax = $price * 0.15;
+        $resultPrice = $price + $tax;
+
         $this->db->set('ProductName', $this->input->post('product_name'));
-        $this->db->set('ProductPrice', $this->input->post('product_price'));
+        $this->db->set('ProductPrice', $resultPrice);
         $this->db->set('ProductStock', $this->input->post('product_stock'));
         $this->db->set('ProductWeight', $this->input->post('product_weight'));
         $this->db->set('CategoryID', $this->input->post('product_category'));
@@ -250,7 +258,7 @@ class Product extends CI_Controller {
             $row[] = $no;
             $row[] = $field->ProductUniqueID;
             $row[] = $field->ProductName;
-            $row[] = "Rp " . number_format($field->ProductPrice,2,',','.');
+            $row[] = "Rp " . number_format($field->ProductPrice,0,',','.');
             $row[] = $field->ProductStock . " buah";
             $row[] = $field->CompanyName;
             if ($field->ProductStatus == 0) {

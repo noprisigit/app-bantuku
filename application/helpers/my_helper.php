@@ -47,8 +47,8 @@ function resizeImage($filename, $folder_name)
 {
     $th = get_instance();
 
-    $source_path = $_SERVER['DOCUMENT_ROOT'] . '/bantuku/assets/dist/img/'. $folder_name .'/' . $filename;
-    $target_path = $_SERVER['DOCUMENT_ROOT'] . '/bantuku/assets/dist/img/'.$folder_name.'/thumbnail';
+    $source_path = $_SERVER['DOCUMENT_ROOT'] . '/app-bantuku/assets/dist/img/'. $folder_name .'/' . $filename;
+    $target_path = $_SERVER['DOCUMENT_ROOT'] . '/app-bantuku/assets/dist/img/'.$folder_name.'/thumbnail';
 
     // dd($source_path . " & " . $target_path);
     $config_manip = array(
