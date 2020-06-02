@@ -31,33 +31,33 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-dark" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<nav class="main-header navbar navbar-expand navbar-dark" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
+			<!-- Left navbar links -->
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+				</li>
+			</ul>
 
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-white" data-toggle="dropdown" href="#">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <div class="dropdown-divider"></div>
-                        <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item">
-                            <i class="fas fa-power-off mr-2"></i> Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.navbar -->
+			<!-- Right navbar links -->
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link text-white" data-toggle="dropdown" href="#">
+						<i class="fas fa-ellipsis-v"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+						<div class="dropdown-divider"></div>
+						<a href="<?= base_url('auth/logout'); ?>" class="dropdown-item">
+								<i class="fas fa-power-off mr-2"></i> Logout
+						</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+		<!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-primary elevation-4">
@@ -70,115 +70,117 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <!-- <div class="image">
-                        <img src="<?= base_url('assets') ?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                    </div> -->
-                    <div class="info">
-                       <a href="#" class="d-block"><strong><?= $this->session->userdata('AdminName'); ?></strong></a>
-                    </div>
-                </div>
+					<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+						<div class="info">
+							<a href="#" class="d-block"><strong><?= $this->session->userdata('AdminName'); ?></strong></a>
+						</div>
+					</div>
 
                 <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" id="link" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="<?= base_url('dashboard') ?>" class="nav-link <?= ($title == "Dashboard") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('category') ?>" class="nav-link <?= ($title == "Kategori") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
-                                <p>
-                                    Master Kategori
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Produk") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-cubes"></i>
-                                <p>
-                                    Master Produk
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Toko") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-store-alt"></i>
-                                <p>
-                                    Master Toko
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('transaction') ?>" class="nav-link <?= ($title == "Pesanan") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-dollar-sign"></i>
-                                <p>
-                                    Master Pesanan
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('cart') ?>" class="nav-link <?= ($title == "Keranjang") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-cart-plus"></i>
-                                <p>
-                                    Master Keranjang
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Master Customers
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('slider') ?>" class="nav-link <?= ($title == "Slider") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Master Sliders
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('invoice') ?>" class="nav-link <?= ($title == "Cetak Invoice") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-print"></i>
-                                <p>
-                                    Cetak Invoice
-                                </p>
-                            </a>
-                        </li>
-                        <?php if ($this->session->userdata('AccessID') == 1) : ?>
-                        <li class="nav-item">
-                            <a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-users-cog"></i>
-                                <p>
-                                    Management Users
-                                </p>
-                            </a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a href="<?= base_url('role') ?>" class="nav-link <?= ($title == "Role Access") ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Role Access
-                                </p>
-                            </a>
-                        </li> -->
-                        <?php endif; ?>
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
+					<nav class="mt-2">
+						<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" id="link" data-widget="treeview" role="menu" data-accordion="false">
+							<li class="nav-item">
+								<a href="<?= base_url('dashboard') ?>" class="nav-link <?= ($title == "Dashboard") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-tachometer-alt"></i>
+									<p>
+										Dashboard
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('category') ?>" class="nav-link <?= ($title == "Kategori") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-clipboard-list"></i>
+									<p>
+										Master Kategori
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('product') ?>" class="nav-link <?= ($title == "Produk") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-cubes"></i>
+									<p>
+										Master Produk
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('partner') ?>" class="nav-link <?= ($title == "Toko") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-store-alt"></i>
+									<p>
+										Master Toko
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('transaction') ?>" class="nav-link <?= ($title == "Pesanan") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-dollar-sign"></i>
+									<p>
+										Master Pesanan
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('cart') ?>" class="nav-link <?= ($title == "Keranjang") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-cart-plus"></i>
+									<p>
+										Master Keranjang
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?= base_url('customer') ?>" class="nav-link <?= ($title == "Customer") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-users"></i>
+									<p>
+										Master Customers
+									</p>
+								</a>
+							</li>
+							<li class="nav-item">
+									<a href="<?= base_url('slider') ?>" class="nav-link <?= ($title == "Slider") ? 'active' : '' ?>">
+										<i class="nav-icon fas fa-th"></i>
+										<p>
+											Master Sliders
+										</p>
+									</a>
+							</li>
+							<li class="nav-item">
+									<a href="<?= base_url('invoice') ?>" class="nav-link <?= ($title == "Cetak Invoice") ? 'active' : '' ?>">
+										<i class="nav-icon fas fa-print"></i>
+										<p>
+											Cetak Invoice
+										</p>
+									</a>
+							</li>
+							<li class="nav-item has-treeview <?= ($title == "Daftar Payment Channel") ? 'menu-open' : '' ?>">
+								<a href="#" class="nav-link <?= ($title == "Daftar Payment Channel") ? 'active' : '' ?>">
+									<i class="nav-icon far fa-envelope"></i>
+									<p>
+										Payment
+										<i class="fas fa-angle-left right"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a href="<?= base_url('payment/payment-channel') ?>" class="nav-link <?= ($title == "Daftar Payment Channel") ? 'active' : '' ?>">
+											<i class="far fa-circle nav-icon"></i>
+											<p>Payment Channel</p>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<?php if ($this->session->userdata('AccessID') == 1) : ?>
+							<li class="nav-item">
+								<a href="<?= base_url('user') ?>" class="nav-link <?= ($title == "Management Users") ? 'active' : '' ?>">
+									<i class="nav-icon fas fa-users-cog"></i>
+									<p>
+										Management Users
+									</p>
+								</a>
+							</li>
+							<?php endif; ?>
+						</ul>
+					</nav>
             </div>
-            <!-- /.sidebar -->
         </aside>
 
         <!-- Content Wrapper. Contains page content -->

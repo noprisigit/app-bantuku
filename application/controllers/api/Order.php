@@ -18,7 +18,7 @@ class Order extends REST_Controller
 
    public function createSignature_get() {
       $this->response([
-         'signature' => sha1(md5("bot33081p@ssw0rd714374856316958"))
+         'signature' => sha1(md5("bot33081p@ssw0rd234648960027"))
       ]);
    }
 
