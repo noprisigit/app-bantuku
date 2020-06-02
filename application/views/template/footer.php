@@ -15,8 +15,6 @@
     <script type="text/javascript" src="<?= base_url('assets') ?>/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="<?= base_url('assets') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- overlayScrollbars -->
-    <script src="<?= base_url('assets') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- DataTables -->
     <script src="<?= base_url('assets') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url('assets') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
