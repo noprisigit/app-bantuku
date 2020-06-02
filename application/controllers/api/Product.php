@@ -166,5 +166,38 @@ class Product extends REST_Controller
       }  
    }
 
+   public function searchProduct_get()
+   {
+      $token = $this->get('token');
 
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $productName = $this->get('productName');
+            $products = $this->product->searchProduct($productName);
+            if($products) {
+               $this->response([
+                  'status'    => true,
+                  'data'      => $products
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => true,
+                  'message'   => 'Data Tidak Ditemukan',
+                  'data'      => $products
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      } 
+   }
 }

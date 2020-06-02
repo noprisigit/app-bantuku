@@ -34,4 +34,10 @@ class Product_m extends CI_Model {
       $query = $this->db->query('SELECT products.CategoryID, products.PartnerID, products.ProductUniqueID, products.ProductName, partners.PartnerID, partners.PartnerUniqueID, partners.CompanyName, products.ProductPrice, products.ProductStock, products.ProductWeight, products.ProductDesc, products.ProductImage, products.ProductThumbnail, products.ProductStatus, products.ProductPromo, products.ProductStatusPromo, products.ProductPromoDate, products.ProductPromoDateEnd, IFNULL(ROUND(AVG(orders.Rating), 0), 0) AS Rating FROM products LEFT JOIN orders ON products.ProductUniqueID = orders.ProductUniqueID LEFT JOIN partners ON partners.PartnerID = products.PartnerID WHERE products.ProductUniqueID = "'.$productUniqueID.'"');
       return $query->row_array();
    }
+
+   public function searchProduct($productName)
+   {
+      $query = $this->db->query('SELECT products.CategoryID, products.PartnerID, products.ProductUniqueID, products.ProductName, partners.PartnerID, partners.PartnerUniqueID, partners.CompanyName, products.ProductPrice, products.ProductStock, products.ProductWeight, products.ProductDesc, products.ProductImage, products.ProductThumbnail, products.ProductStatus, products.ProductPromo, products.ProductStatusPromo, products.ProductPromoDate, products.ProductPromoDateEnd, IFNULL(ROUND(AVG(orders.Rating), 0), 0) AS Rating FROM products LEFT JOIN orders ON products.ProductUniqueID = orders.ProductUniqueID LEFT JOIN partners ON partners.PartnerID = products.PartnerID WHERE products.ProductName LIKE "%'.$productName.'%" GROUP BY products.ProductUniqueID');
+      return $query->result_array();
+   }
 }
