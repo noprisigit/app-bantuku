@@ -102,7 +102,7 @@ class Auth extends REST_Controller
                     'CustomerLoginToken'        => $token
                 ];
     
-                $this->_sendEmail($generateCode, 'verify');
+                $this->_sendEmail($generateCode, 'verify', $data);
     
                 if ($this->auth->registration($data) > 0) {
                     $this->response([
@@ -130,14 +130,13 @@ class Auth extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
-    private function _sendEmail($value, $type) {
-        $config= [
+    private function _sendEmail($value, $type, $dataCustomer) {
+        $config = [
             'protocol'      => 'smtp',
             'smtp_host'     => 'ssl://smtp.googlemail.com',
             'smtp_user'     => 'bantuku2020@gmail.com',
             'smtp_pass'     => '.BantukuBabelProv20',
             'smtp_port'     => 465,
-            'smtp_timeout'  => '5',
             'mailtype'      => 'html',
             'charset'       => 'utf-8',
             'newline'       => "\r\n"
@@ -148,74 +147,15 @@ class Auth extends REST_Controller
         $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
         $this->email->to($this->post('email'));
         $linkImage = "http://bantuku2020.babelprov.go.id/assets/dist/img/tick.png";
-        
+
+        $data['customer'] = $dataCustomer;
+
         if ($type == 'verify') {
             $this->email->subject('Konfirmasi Pendaftaran');
-            $this->email->message('
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
-                </head>
-                <body style="margin: 0; padding: 0; font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;">
-                <table align="center" cellpading="0" cellspacing="0" width="600" style="border-collapse: collapse;">
-                    <tr>
-                        <td align="center" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF); padding: 30px 0 30px 0;">
-                            <img src="'.$linkImage.'" alt="CheckList Icon" width="128">
-                            <h1 style="color: #FFFFFF; margin-top: 1px; margin-bottom: 5px">Terima Kasih</h1>
-                            <h4 style="color: #FFFFFF; margin: 10px 0 10px 0;">Anda Sudah Terdaftar pada Aplikasi Bantuku.</h4>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#FFFFFF" style="padding: 10px 20px 40px 20px;">
-                            <table cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" bgcolor="#b4b8bf" colspan="2" style="padding: 20px 0 20px 0; font-size: 20px; color: #FFFFFF;">Detail Pelanggan</td>
-                                </tr>
-                                <tr>
-                                    <td  style="padding: 5px 0 5px 5px;">Nama Customer</td>
-                                    <td>: '.$this->post("full_name").'</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 5px 0 5px 5px;">Jenis Kelamin</td>
-                                    <td>: '.$this->post("gender").'</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 5px 0 5px 5px;">Email</td>
-                                    <td>: '.$this->post("email").'</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 5px 0 5px 5px;">No. Telp</td>
-                                    <td>: '.$this->post("phone").'</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 5px 0 5px 5px;">Alamat</td>
-                                    <td>: '.$this->post("address").'</td>
-                                </tr>
-                                <tr>
-                                    <td align="center" colspan="2" style="padding: 20px 0 5px 5px;">Silahkan Masukkan Kode Verifikasi Berikut Ini untuk Memverifikasi Akun Anda</td>
-                                </tr>
-                                <tr>
-                                    <td align="center" colspan="2" style="padding: 10px 0 5px 5px;">
-                                        <span style="padding: 5px;background-color: #0072FF; font-size: 25px; color: #FFFFFF;">'.$value.'</span>  
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- <tr>
-                        <td bgcolor="#0072FF">Row 3</td>
-                    </tr> -->
-                </table>
-                </body>
-                </html>
-            ');
+            $this->email->message($this->load->view('template', $data, true));
         }
 
         if ($this->email->send()) {
-            // echo "Email berhasil dikirim ke " . $this->post('email');
             return true;
         } else {
             echo $this->email->print_debugger();

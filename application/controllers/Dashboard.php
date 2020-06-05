@@ -6,10 +6,12 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Dashboard_m', 'dashboard');
+		$this->load->model('Invoice_m', 'invoice');
 
 		if (!$this->session->userdata('AdminName'))
 			redirect('auth');
 	}
+
 	public function index()
 	{
 		$data['main_title'] = "Home";
@@ -22,6 +24,21 @@ class Dashboard extends CI_Controller {
 		$this->load->view('template/header', $data);
 		$this->load->view('dashboard/index');
 		$this->load->view('template/footer', $data);
+	}
+
+	public function template_email()
+	{
+		$customerEmail = $this->input->get('email');
+		$data['customer'] = $this->db->get_where('customers', ['CustomerEmail' => $customerEmail])->row_array();
+		$this->load->view('template', $data);
+	}
+
+	public function template_payment()
+	{
+		$invoice = $this->input->get('inv');
+		$data['orders'] = $this->invoice->getDetailInvoice($invoice);
+		// dd($data['orders']);
+		$this->load->view('template_payment', $data);
 	}
 
 	public function getDashboardData()
@@ -49,10 +66,4 @@ class Dashboard extends CI_Controller {
 
 		echo json_encode($total);
 	}
-
-	// public function countingCustomersByCurrentMonth() {
-	// 	$total = $this->dashboard->countingCustomersByCurrentMonth();
-	// 	dd($total);
-	// 	echo json_encode($total);
-	// }
 }
