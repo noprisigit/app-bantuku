@@ -102,7 +102,7 @@ class Auth extends REST_Controller
                     'CustomerLoginToken'        => $token
                 ];
     
-                $this->_sendEmail($generateCode, 'verify', $data);
+                $this->_sendEmail($email, 'verify', $data);
     
                 if ($this->auth->registration($data) > 0) {
                     $this->response([
@@ -130,7 +130,7 @@ class Auth extends REST_Controller
         ], REST_Controller::HTTP_OK);
     }
 
-    private function _sendEmail($value, $type, $dataCustomer) {
+    private function _sendEmail($email, $type, $dataCustomer) {
         $config = [
             'protocol'      => 'smtp',
             'smtp_host'     => 'ssl://smtp.googlemail.com',
@@ -145,14 +145,16 @@ class Auth extends REST_Controller
         $this->load->library('email', $config);
 
         $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
-        $this->email->to($this->post('email'));
-        $linkImage = "http://bantuku2020.babelprov.go.id/assets/dist/img/tick.png";
+        $this->email->to($email);
 
         $data['customer'] = $dataCustomer;
-
+    
         if ($type == 'verify') {
             $this->email->subject('Konfirmasi Pendaftaran');
             $this->email->message($this->load->view('template', $data, true));
+        } else if ($type == 'verification code') {
+            $this->email->subject('Kode Verifikasi');
+            $this->email->message($this->load->view('template_verification', $data, true));
         }
 
         if ($this->email->send()) {
@@ -162,35 +164,6 @@ class Auth extends REST_Controller
             die;
         }
     }
-
-    // private function _sendEmail($value, $type) {
-    //     $config = [
-    //         'protocol'      => 'smtp',
-    //         'smtp_host'     => 'ssl://smtp.googlemail.com',
-    //         'smtp_user'     => 'neatinw@gmail.com',
-    //         'smtp_pass'     => '19111998',
-    //         'smtp_port'     => 465,
-    //         'mailtype'      => 'html',
-    //         'charset'       => 'utf-8',
-    //         'newline'       => "\r\n"
-    //     ];
-
-    //     $this->load->library('email', $config);
-    //     $this->email->from('neatinw@gmail.com', 'bantuku');
-    //     $this->email->to($this->post('email'));
-
-    //     if ($type == 'verify') {
-    //         $this->email->subject('Account Verication Code');
-    //         $this->email->message('Silahkan masukkan kode berikut ini: ' . $value);
-    //     }
-
-    //     if ($this->email->send()) {
-    //         return true;
-    //     } else {
-    //         echo $this->email->print_debugger();
-    //         die;
-    //     }
-    // }
     
     public function verifiedEmail_post()
     {
@@ -221,6 +194,45 @@ class Auth extends REST_Controller
                         'message'   => 'Kode Verifikasi Salah'
                     ], REST_Controller::HTTP_NOT_FOUND);
                 }
+            } else {
+                $this->response([
+                    'status'    => false,
+                    'message'   => 'Unauthorized token'
+                 ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $this->response([
+                'status'    => false,
+                'message'   => 'Missing token'
+             ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function reqVerificationCode_post()
+    {
+        $token = $this->post('token');
+        if (isset($token)) {
+            $customerToken = $this->auth->validateToken($token);
+            if ($customerToken) {
+                $customerUniqueID = $this->post('customerUniqueID');
+                $generateCode = generate_code(6);
+                $this->db->set('CustomerVerificationCode', $generateCode);
+                $this->db->where('CustomerUniqueID', $customerUniqueID);
+                $this->db->update('customers');
+                $customer = $this->db->select('CustomerUniqueID, CustomerName, CustomerGender, CustomerEmail, CustomerPhone, CustomerAddress1, CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+                $this->_sendEmail($customer['CustomerEmail'], 'verification code', $customer);
+                $this->response([
+                    'status'    => true,
+                    'data'      => [
+                        'CustomerUniqueID'  => $customer['CustomerUniqueID'],
+                        'CustomerName'      => $customer['CustomerName'],
+                        'CustomerGender'    => $customer['CustomerGender'],
+                        'CustomerEmail'     => $customer['CustomerEmail'],
+                        'CustomerPhone'     => $customer['CustomerPhone'],
+                        'CustomerAddress'   => $customer['CustomerAddress1']
+                    ],
+                    'message'   => 'Kode verifikasi berhasil dikirimkan'
+                ], REST_Controller::HTTP_OK);
             } else {
                 $this->response([
                     'status'    => false,
