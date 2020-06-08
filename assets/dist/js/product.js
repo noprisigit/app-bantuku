@@ -1,9 +1,7 @@
 $(document).ready(function() {
+   getPartner();
+
    var table_product = $('#product').DataTable({
-      // "scrollX":        true,
-      // "scrollCollapse": true,
-      // "width": "100%",
-      // "autoWidth": true,
       "processing": true, 
       "serverSide": true, 
       "order": [], 
@@ -139,7 +137,7 @@ $(document).ready(function() {
       $('#img-product').attr('src', 'assets/dist/img/products/' + image);
       $('#det-product-uniqueID').html(': ' + uniqueID);
       $('#det-product-name').html(': ' + nama);
-      $('#det-product-price').html(': Rp ' + price);
+      $('#det-product-price').html(': ' + formatRupiah(price, "Rp. "));
       $('#det-product-stock').html(': ' + stock + ' buah');
       $('#det-product-weight').html(': ' + weight + ' gram');
       $('#det-product-shop').html(': ' + toko);
@@ -275,25 +273,25 @@ $(document).ready(function() {
             cache: false,
             processData: false,
             success: function(res) {
-                  if (res.status == false) {
-                     e.preventDefault();
-                     toastr.error(res.msg);
-                  } else {
-                     $('[name="product_name"]').val("");
-                     $('[name="product_price"]').val("");
-                     $('[name="product_stock"]').val("");
-                     $('[name="product_weight"]').val("");                    
-                     $('[name="product_image"]').val("");
-                     $('[name="product_desc"]').val("");
+               if (res.status == false) {
+                  e.preventDefault();
+                  toastr.error(res.msg);
+               } else {
+                  $('[name="product_name"]').val("");
+                  $('[name="product_price"]').val("");
+                  $('[name="product_stock"]').val("");
+                  $('[name="product_weight"]').val("");                    
+                  $('[name="product_image"]').val("");
+                  $('[name="product_desc"]').val("");
 
-                     $('#modal-edit-product').modal('hide');
-                     Swal.fire({
-                        title: "Produk",
-                        text: "Produk berhasil diperbaharui",
-                        icon: 'success'
-                     });
-                     table_product.ajax.reload();
-                  }
+                  $('#modal-edit-product').modal('hide');
+                  Swal.fire({
+                     title: "Produk",
+                     text: "Produk berhasil diperbaharui",
+                     icon: 'success'
+                  });
+                  table_product.ajax.reload();
+               }
             }
          });
          return false
@@ -543,4 +541,115 @@ $(document).ready(function() {
          return false
       });
    });
+
+   function getPartner () {
+      $('#product_partner_save').empty();
+      $.ajax({
+         url: 'partner/getPartner',
+         type: 'get',
+         dataType: 'json',
+         success: function(res) {
+            $('#product_partner_save').append('<option selected="selected" disabled="disabled">Nama Toko</option>');
+            
+            for(var i = 0; i < res.length; i++) {
+               $('#product_partner_save').append('<option value="'+ res[i].PartnerID +'">'+ res[i].CompanyName +'</option>')
+               // if ($('#product_partner_save').find("option[value='" + res[i].PartnerID + "']").length) {
+               //    $('#product_partner_save').val(res[i].PartnerID).trigger('change');
+               // }
+            }
+         },
+         errror: function(err) {
+            console.log(err.responseText);
+         }
+      });
+   }
+
+   $('#product_partner_save').select2().on('select2:open', () => {
+      $('.select2-results:not(:has(button))').append('<button id="btnAddPartnerFromProduct" class="btn btn-primary btn-sm ml-2 mt-2 mb-2">Tambah Toko</button>')
+   });
+
+   $('#modal-add-product').on('hidden.bs.modal', function() {
+      $('#product_partner_save').select2('close');
+   });
+
+   $(document).on('click', '#btnAddPartnerFromProduct', function() {
+      $('#modal-add-product').modal('hide');
+      $('#modalTambahToko').modal('show');
+   });
+
+   $('#frmSaveToko').submit(function(e) {
+      var nama_toko = $('#nama_toko').val();
+      var nama_pemilik = $('#nama_pemilik').val();
+      var phone = $('#phone').val();
+      var email = $('#email').val();
+      var alamat = $('#alamat').val();
+      var provinsi = $('#provinsi').val();
+      var kabupaten = $('#kabupaten').val();
+      var kode_pos = $('#kode-pos').val();
+      var gambar = $('#gambar_toko').val();
+
+      if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "" || provinsi == null || kabupaten == null || kode_pos == "" || gambar == "") {
+         e.preventDefault();
+         toastr.error('Harap isi semua kolom');
+      } else {
+         $.ajax({
+            url: 'partner/save-partner',
+            type: 'post',
+            data: new FormData(this),
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(res) {
+               if (res.status == false) {
+                  toastr.error(res.msg);
+               } else {
+                  $('[name="nama_toko"]').val("");
+                  $('[name="nama_pemilik"]').val("");
+                  $('[name="phone"]').val("");
+                  $('[name="email"]').val("");
+                  $('[name="alamat"]').val("");
+                  $('[name="provinsi"]').empty();
+                  $('[name="provinsi"]').append('<option selected disabled>Provinsi</option>');
+                  for (var i = 0; i < res.provinsi.length; i++) {
+                     $('[name="provinsi"]').append('<option value="' + res.provinsi[i]['ProvinceID'] + '">' + res.provinsi[i]['ProvinceName'] + '</option>')
+                  }
+                     
+                  $('[name="kabupaten"]').empty();
+                  $('[name="kabupaten"]').append('<option selected disabled>Kabupaten</option>')
+                  $('[name="kode_pos"]').val("");
+                  $('[name="gambar_toko"]').val("");
+
+                  $('#modalTambahToko').modal('hide');
+                  Swal.fire({
+                     title: "Mitra",
+                     text: "Mitra berhasil ditambahkan",
+                     icon: 'success'
+                  }).then(function() {
+                     getPartner();
+                     $('#modal-add-product').modal('show');
+                  });
+               }
+            }
+         });
+         return false
+      }
+   });
+
+   function formatRupiah(angka, prefix){
+      var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
+      split   		= number_string.split(','),
+      sisa     		= split[0].length % 3,
+      rupiah     		= split[0].substr(0, sisa),
+      ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+    
+      // tambahkan titik jika yang di input sudah menjadi angka ribuan
+      if(ribuan){
+         separator = sisa ? '.' : '';
+         rupiah += separator + ribuan.join('.');
+      }
+    
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+   }
 });

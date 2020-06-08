@@ -42,10 +42,24 @@
             theme: 'bootstrap4'
         });
 
-        // // Tooltips Initialization
-        // $(function () {
-        //     $('[data-toggle="tooltip"]').tooltip()
-        // })
+        getProvince();
+        function getProvince() {
+            $('#provinsi').empty();
+            $.ajax({
+                url: "<?= base_url('partner/getProvince') ?>",
+                type: "get",
+                dataType: "json",
+                success: function(res) {
+                    $('#provinsi').append('<option selected="selected" disabled>Provinsi</option>');
+                    res.forEach((item) => {
+                        $('#provinsi').append(`<option value="${item.ProvinceID}">${item.ProvinceName}</option>`);
+                    })
+                }, 
+                error: function(err) {
+                    console.log(err.responseText);
+                }
+            });
+        }
 
         $('.province').on('change', function() {
             const ProvinceID = $(this).val();

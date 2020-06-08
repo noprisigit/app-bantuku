@@ -175,4 +175,14 @@ class Partner extends CI_Controller {
         $data['kabupaten'] = $this->db->get_where('districts', ['ProvinceID' => $data['provinsi']['ProvinceID']])->result_array();
         echo json_encode($data);
     }
+
+    public function getPartner() {
+        $partners = $this->db->get('partners')->result_array();
+        echo json_encode($partners);
+    }
+
+    public function getProvince() {
+        $province = $this->db->get('provinces')->result_array();
+        echo json_encode($province);
+    }
 }

@@ -36,7 +36,7 @@ $(document).ready(function() {
       var kode_pos = $('#kode-pos').val();
       var gambar = $('#gambar_toko').val();
 
-      if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "" || provinsi == "" || kabupaten == "" || kode_pos == "" || gambar == "") {
+      if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "" || provinsi == null || kabupaten == null || kode_pos == "" || gambar == "") {
          e.preventDefault();
          toastr.error('Harap isi semua kolom');
       } else {
