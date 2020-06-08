@@ -76,4 +76,11 @@ class Transaction_m extends CI_Model {
       $this->db->from($this->table);
       return $this->db->count_all_results();
    }
+
+   public function getOrders($invoiceNumber) {
+      $this->db->select('InvoiceNumber, Invoice, OrderNumber, CustomerUniqueID, ProductUniqueID, OrderProductQuantity, OrderTotalPrice');
+      $this->db->from('orders');
+      $this->db->where('InvoiceNumber', $invoiceNumber);
+      return $this->db->get()->result_array();
+   }
 }

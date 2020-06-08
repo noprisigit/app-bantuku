@@ -6,9 +6,50 @@ class Transaction extends CI_Controller {
    {
       parent::__construct();
       $this->load->model('Transaction_m', 'transaction');
+      $this->load->model('api/Product_m', 'product');
 
       if (!$this->session->userdata('AdminName'))
          redirect('auth');
+   }
+
+   private function _sendEmail($email, $type, $invoice, $dataOrder) {
+      $config= [
+         'protocol'      => 'smtp',
+         'smtp_host'     => 'ssl://smtp.googlemail.com',
+         'smtp_user'     => 'bantuku2020@gmail.com',
+         'smtp_pass'     => '.BantukuBabelProv20',
+         'smtp_port'     => 465,
+         'smtp_timeout'  => '3',
+         'mailtype'      => 'html',
+         'charset'       => 'utf-8',
+         'newline'       => "\r\n"
+      ];
+
+      $this->load->library('email', $config);
+
+      $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
+      $this->email->to($email);
+
+
+      if ($type == "Proses") {
+         $subject = "Pembayaran Anda Diterima dan Pesanan Akan Diproses";
+      } else if ($type == "Kirim") {
+         $subject = "Pesanan Anda Telah Dikirim";
+      } 
+
+      $data['subject'] = $subject;
+      $data['invoice'] = $invoice;
+      $data['orders'] = $dataOrder;
+
+      $this->email->subject($subject);
+      $this->email->message($this->load->view('template_payment', $data, true));
+
+      if ($this->email->send()) {
+         return true;
+     } else {
+         echo $this->email->print_debugger();
+         die;
+     }
    }
 
    public function index()
@@ -25,20 +66,65 @@ class Transaction extends CI_Controller {
       $this->load->view('template/footer', $data);
    }
 
+   public function processOrder()
+   {
+      date_default_timezone_set('Asia/Jakarta');
+      $InvoiceNumber = $this->input->post('invoice');
+      $orders = $this->transaction->getOrders($InvoiceNumber);
+
+      $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+      for ($i = 0; $i < count($orders); $i++) {
+         $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
+         $detailOrder[] = [
+            'OrderNumber'     => $orders[$i]['OrderNumber'],
+            'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
+            'ProductName'     => $product[$i]['ProductName'],
+            'Harga'           => $product[$i]['ProductPrice'],  
+            'Jumlah'          => $orders[$i]['OrderProductQuantity'],
+            'Bayar'           => $orders[$i]['OrderTotalPrice']
+         ];
+      }
+      $this->db->set('OrderStatus', 2);
+      $this->db->set('OrderProcessDate', date('Y-m-d H:i:s'));
+      $this->db->where('InvoiceNumber',$InvoiceNumber);
+      $this->db->update('orders'); 
+      
+      $this->_sendEmail($customer['CustomerEmail'], "Proses", $orders[0]['Invoice'], $detailOrder);
+   }
+
+   public function sendOrder()
+   {
+      date_default_timezone_set('Asia/Jakarta');
+      $InvoiceNumber = $this->input->post('invoice');
+      $orders = $this->transaction->getOrders($InvoiceNumber);
+
+      $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+      for ($i = 0; $i < count($orders); $i++) {
+         $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
+         $detailOrder[] = [
+            'OrderNumber'     => $orders[$i]['OrderNumber'],
+            'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
+            'ProductName'     => $product[$i]['ProductName'],
+            'Harga'           => $product[$i]['ProductPrice'],  
+            'Jumlah'          => $orders[$i]['OrderProductQuantity'],
+            'Bayar'           => $orders[$i]['OrderTotalPrice']
+         ];
+      }
+      $this->db->set('OrderStatus', 3);
+      $this->db->set('OrderSendDate', date('Y-m-d H:i:s'));
+      $this->db->where('InvoiceNumber', $this->input->post('invoice'));
+      $this->db->update('orders'); 
+      $this->_sendEmail($customer['CustomerEmail'], "Kirim", $orders[0]['Invoice'], $detailOrder);
+   }
+
    public function show_list_transactions()
    {
       $list = $this->transaction->get_datatables();
       $data = array();
       $no = $_POST['start'];
       foreach ($list as $field) {
-         // $btn_detail = '<button type="button" class="btn btn-sm btn-primary btn-detail-slider" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-folder"></i> Detail</button>';
-         
-         // $btn_edit = '<button type="button" class="btn btn-sm btn-info btn-edit-slider" data-id="'.$field->SliderID.'" data-name="'.$field->SliderName.'" data-description="'.$field->SliderDescription.'" data-start="'.$field->start_date.'" data-end="'.$field->end_date.'" data-picture="'.$field->SliderPicture.'"><i class="fas fa-pencil-alt"></i> Edit</button>';
-         
-         // $btn_delete = '<a class="btn btn-sm btn-danger btn-delete-slider" data-id="'.$field->SliderID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i> Delete</a>';
-
-         // $date_start = date_create($field->start_date);
-         // $date_end = date_create($field->end_date);
+         $btnProses = '<a href="javascript:void(0)" class="btn btn-success btn-sm btnProsesOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Proses</a>';
+         $btnKirim = '<a href="javascript:void(0)" class="btn btn-info btn-sm btnKirimOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Kirim</a>';
          $date = date_create($field->OrderDate);
 
          $no++;
@@ -50,7 +136,7 @@ class Transaction extends CI_Controller {
          $row[] = $field->CompanyName;
          $row[] = $field->CustomerName;
          $row[] = $field->OrderProductQuantity . " Buah";
-         $row[] = "Rp " . number_format($field->OrderTotalPrice,2,',','.');
+         $row[] = "Rp " . number_format($field->OrderTotalPrice,0,',','.');
          if ($field->OrderStatus == 1) {
             $row[] = '<span class="badge badge-danger">Pending</span>';
          } elseif ($field->OrderStatus == 2) {
@@ -61,9 +147,15 @@ class Transaction extends CI_Controller {
             $row[] = '<span class="badge badge-success">Selesai</span>';
          }
          $row[] = date_format($date, 'd-m-Y H:i:s');
-         // $row[] = date_format($date_start, 'd-m-Y');
-         // $row[] = date_format($date_end, 'd-m-Y');
-         // $row[] = $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;
+         if ($field->OrderStatus > 3) {
+            $row[] = '<span class="badge badge-success">Pesanan Selesai</span>';
+         } elseif ($field->OrderStatus == 1) {
+            $row[] = $btnProses;
+         } elseif ($field->OrderStatus == 2) {
+            $row[] = $btnKirim;
+         } elseif ($field->OrderStatus == 3) {
+            $row[] = '<span class="badge badge-info">Pesanan Dikirim</span>';
+         }
 
          $data[] = $row;
       }

@@ -20,6 +20,7 @@
                                  <th class="text-center">Total Bayar</th>
                                  <th class="text-center">Status Pesanan</th>
                                  <th class="text-center">Tanggal Pesanan</th>
+                                 <th class="text-center">Actions</th>
                               </tr>
                            </thead>
                            <tbody></tbody>
@@ -35,6 +36,7 @@
                                  <th class="text-center">Total Bayar</th>
                                  <th class="text-center">Status Pesanan</th>
                                  <th class="text-center">Tanggal Pesanan</th>
+                                 <th class="text-center">Actions</th>
                               </tr>
                            </tfoot>
                         </table>
