@@ -246,4 +246,32 @@ class Auth extends REST_Controller
              ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function verifiedCustomer_get() {
+        $customerUniqueID = $this->get('customerUniqueID');
+        if ($customerUniqueID) {
+            $cekCustomer = $this->db->get_where('customers', ['CustomerUniqueID' => $customerUniqueID])->num_rows();
+            if ($cekCustomer > 0) {
+                $customer = $this->db->select('CustomerName, CustomerLoginToken')->get_where('customers', ['CustomerUniqueID' => $customerUniqueID])->row_array();
+                $this->response([
+                    'status'    => true,
+                    'data'      => [
+                        'CustomerUniqueID'  => $customerUniqueID,
+                        'CustomerName'      => $customer['CustomerName'],
+                    ],
+                    'token'     => $customer['CustomerLoginToken']
+                ], REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status'    => false,
+                    'message'   => 'Data customer tidak ditemukan'
+                ], REST_Controller::HTTP_OK);
+            }
+        } else {
+            $this->response([
+                'status'    => false,
+                'message'   => 'Missing parameter'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }
