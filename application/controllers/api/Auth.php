@@ -229,7 +229,8 @@ class Auth extends REST_Controller
                         'CustomerGender'    => $customer['CustomerGender'],
                         'CustomerEmail'     => $customer['CustomerEmail'],
                         'CustomerPhone'     => $customer['CustomerPhone'],
-                        'CustomerAddress'   => $customer['CustomerAddress1']
+                        'CustomerAddress'   => $customer['CustomerAddress1'],
+                        'CustomerVerificationCode' => $generateCode
                     ],
                     'message'   => 'Kode verifikasi berhasil dikirimkan'
                 ], REST_Controller::HTTP_OK);
