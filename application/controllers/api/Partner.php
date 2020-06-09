@@ -40,4 +40,30 @@ class Partner extends REST_Controller
          ], REST_Controller::HTTP_BAD_REQUEST);
       }
    }
+
+   public function getPaymentChannel_get()
+   {
+      $token = $this->get('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+
+         if ($customerToken) {
+            $paymentChannel = $this->db->get('paymentchannel')->result_array();
+            $this->response([
+               'status'    => true,
+               'data'      => $paymentChannel
+            ], REST_Controller::HTTP_OK);
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
 }
