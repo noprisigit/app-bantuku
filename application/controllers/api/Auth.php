@@ -171,10 +171,10 @@ class Auth extends REST_Controller
         if (isset($token)) {
             $customerToken = $this->auth->validateToken($token);
             if ($customerToken) {
-                $customer = $this->db->select('CustomerUniqueID, CustomerName, CustomerEmail, CustomerPhone, CustomerAddress1, CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+                $customer = $this->db->select('CustomerUniqueID, CustomerName, CustomerEmail, CustomerPhone, CustomerAddress1, CustomerVerificationCode')->get_where('customers', ['CustomerEmail' => $this->post('customerEmail')])->row_array();
                 if ($this->post('verificationCode') == $customer['CustomerVerificationCode']) {
                     $this->db->set('CustomerVerifiedEmail', 1);
-                    $this->db->where('customerUniqueID', $this->post('customerUniqueID'));
+                    $this->db->where('CustomerEmail', $this->post('customerEmail'));
                     $this->db->update('customers');
 
                     $this->response([
