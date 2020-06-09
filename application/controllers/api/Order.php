@@ -17,9 +17,10 @@ class Order extends REST_Controller
    }
 
    public function createSignature_get() {
+      $invoice = $this->get('invoice');
       $this->response([
-         'signature' => sha1(md5("bot33081p@ssw0rd234648960027"))
-      ]);
+         'signature' => sha1(md5("bot33081p@ssw0rd".$invoice))
+      ], REST_Controller::HTTP_OK);
    }
 
    public function createOrder_post()
