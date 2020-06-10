@@ -1,5 +1,7 @@
 <?php
 use Restserver\Libraries\REST_Controller;
+use GuzzleHttp\Client;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . 'libraries/REST_Controller.php';
@@ -19,7 +21,7 @@ class Order extends REST_Controller
    public function createSignature_get() {
       $invoice = $this->get('invoice');
       $this->response([
-         'signature' => sha1(md5("bot33081p@ssw0rd".$invoice))
+         'signature' => sha1(md5("bot33081p@ssw0rd"))
       ], REST_Controller::HTTP_OK);
    }
 
@@ -38,7 +40,7 @@ class Order extends REST_Controller
                $invoiceNumber = generateInvoiceNumber();
             }
             $billTotal = 0;
-            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerEmail, CustomerPhone, CustomerAddress1')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
             
             for ($i = 0; $i < count($ordersData); $i++) {
                $product[] = $this->product->getProductPrice($ordersData[$i]['productUniqueID']);
@@ -79,15 +81,91 @@ class Order extends REST_Controller
                   'Jumlah'          => $ordersData[$i]['jumlah'],
                   'Bayar'           => $amount[$i]
                ];
+               $billItems[] = [
+                  "product"      => $product[$i]['ProductName'],
+                  "qty"          => $ordersData[$i]['jumlah'],
+                  "amount"       => $product[$i]['ProductPrice'],
+                  "payment_plan" => "01",
+                  "merchant_id"  => "33081",
+                  "tenor"        => "00"
+               ];
                $billTotal = $billTotal + $amount[$i];
             }
             $emailInvoice = "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber;
             $this->_sendEmail($customer['CustomerEmail'], 'Pending', $emailInvoice ,$detailOrder);
 
+            $user_id = "bot33081";
+            $pass = "p@ssw0rd";
+            $varSignature = $user_id.$pass.$invoiceNumber;
+            // dd($varSignature);
+            $signature = sha1(md5($user_id.$pass.$invoiceNumber));
+
+            // dd($signature);
+
+            $client = new Client();
+            $response = $client->request('POST', 'https://dev.faspay.co.id/cvr/300011/10', [
+               'json'   => [
+                  "request"            => "Transmisi Info Detil Pembelian",
+                  "merchant_id"        => "33081",
+                  "merchant"           => "Bantuku",
+                  "bill_no"            => $invoiceNumber,
+                  "bill_reff"          => "123",
+                  "bill_date"          => "2020-06-09 13:34:09",
+                  "bill_expired"       => "2020-06-10 13:34:09",
+                  "bill_desc"          => "Pembayaran #" . $invoiceNumber,
+                  "bill_currency"      => "IDR",
+                  "bill_gross"         => "0",
+                  "bill_miscfee"       => "0",
+                  "bill_total"         => $billTotal,
+                  "cust_no"            => $this->post('customerUniqueID'),
+                  "cust_name"          => $customer['CustomerName'],
+                  "payment_channel"    => "302",
+                  "pay_type"           => "1",
+                  "bank_userid"        => "",
+                  "msisdn"             => $customer['CustomerPhone'],
+                  "email"              => $customer['CustomerEmail'],
+                  "terminal"           => "10",
+                  "billing_name"       => "0",
+                  "billing_lastname"   => "0",
+                  "billing_address"    => "jalan pintu air raya",
+                  "billing_address_city"  => "Jakarta Pusat",
+                  "billing_address_region"   => "DKI Jakarta",
+                  "billing_address_state"    => "Indonesia",
+                  "billing_address_poscode"  => "10710",
+                  "billing_msisdn"           => "",
+                  "billing_address_country_code"   => "ID",
+                  "receiver_name_for_shipping"     => "Faspay Test",
+                  "shipping_lastname"              => "",
+                  "shipping_address"               => "jalan pintu air raya",
+                  "shipping_address_city"          => "Jakarta Pusat",
+                  "shipping_address_region"        => "DKI Jakarta",
+                  "shipping_address_state"         => "Indonesia",
+                  "shipping_address_poscode"       => "10710",
+                  "shipping_msisdn"                => "",
+                  "shipping_address_country_code"  => "ID",
+                  "item"   => $billItems,
+                  "reserve1"  => "",
+                  "reserve2"  => "",
+                  "signature" => $signature
+               ]
+            ]);
+
+            $result = json_decode($response->getBody()->getContents(), true);
+            $trx_id = $result['trx_id'];
+            $bill_no = $result['bill_no'];
+            $url = $result['redirect_url'];
+
+            $this->db->insert('transactions', [
+               'FaspayTransactionID'   => $trx_id,
+               'InvoiceNumber'         => $bill_no,
+               'PaymentUrl'            => $url
+            ]);
+
             if ($order > 0) {
                $this->response([
                   'status'             => true,
                   'message'            => 'Order baru berhasil ditambahkan',
+                  'FaspayTrxID'        => $trx_id,
                   'InvoiceNumber'      => $invoiceNumber,
                   'Invoice'            => "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber,
                   'CustomerUniqueID'   => $this->post('customerUniqueID'),
@@ -95,9 +173,9 @@ class Order extends REST_Controller
                   'items'              => $detailOrder,
                   'TotalBayar'         => $billTotal,
                   'StatusPesanan'      => 'Pending',
-                  'TanggalPesan'       => $orderDate
+                  'TanggalPesan'       => $orderDate,
+                  "RedirectUrl"        => $url
                ], REST_Controller::HTTP_CREATED);
-
             } else {
                $this->response([
                   'status'    => false,

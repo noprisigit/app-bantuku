@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use GuzzleHttp\Client;
 
 class Transaction_m extends CI_Model {
    var $table = 'orders'; //nama tabel dari database
@@ -82,5 +83,22 @@ class Transaction_m extends CI_Model {
       $this->db->from('orders');
       $this->db->where('InvoiceNumber', $invoiceNumber);
       return $this->db->get()->result_array();
+   }
+
+   public function cekStatusPembayaran() {
+      $client = new Client();
+
+      $response = $client->request('POST', 'https://dev.faspay.co.id/cvr/100004/10', [
+         'form_params' => [
+            'request'   => "Pengecekan Status Pembayaran",
+            'trx_id'    => "3308130200000182",
+            'merchant_id'  => "33081",
+            "bill_no"      => "665882170445",
+            "signature"    => "1896ac5079d9dd89f70dda52c44be482da6566a9"
+         ]
+      ]);
+
+      $result = json_decode($response->getBody()->getContents());
+      // return $result;
    }
 }

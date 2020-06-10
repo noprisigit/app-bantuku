@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use GuzzleHttp\Client;
 
 class Transaction extends CI_Controller {
    public function __construct()
@@ -119,6 +120,8 @@ class Transaction extends CI_Controller {
 
    public function show_list_transactions()
    {
+      $orders = $this->db->get_where('orders', ['OrderStatus' => 1])->result_array();
+      dd($orders);
       $list = $this->transaction->get_datatables();
       $data = array();
       $no = $_POST['start'];
@@ -168,5 +171,22 @@ class Transaction extends CI_Controller {
       );
       //output dalam format JSON
       echo json_encode($output);
+   }
+
+   public function cekStatusPembayaran() {
+      $client = new Client();
+
+      $response = $client->request('POST', 'https://dev.faspay.co.id/cvr/100004/10', [
+         'json' => [
+            'request'      => "Pengecekan Status Pembayaran",
+            'trx_id'       => "3308130200000182",
+            'merchant_id'  => "33081",
+            "bill_no"      => "665882170445",
+            "signature"    => "1896ac5079d9dd89f70dda52c44be482da6566a9"
+         ]
+      ]);
+
+      $result = json_decode($response->getBody()->getContents(), true);
+      dd($result['response']);
    }
 }
