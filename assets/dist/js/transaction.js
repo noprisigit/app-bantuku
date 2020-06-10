@@ -84,6 +84,16 @@ $(document).ready(function() {
       var orderNumber = $(this).data('order');
       var statusPesanan;
       $('#modalDetailOrder').modal('show');
+      $('#detailInvoice').html("Invoice: Loading...");
+      $('#detailOrderNumber').html(": Loading...");
+      $('#detailCustomerName').html(": Loading...");
+      $('#detailPartnerName').html(": Loading...");
+      $('#detailProductName').html(": Loading...");
+      $('#detailJumlahPesanan').html(": Loading...");
+      $('#detailTotalBayar').html(": Loading...");
+      $('#detailOrderDate').html(": Loading...");
+      $('#detailOrderStatus').html(": Loading...");
+      $('#detailShippingAddress').html(": Loading...");
       
       $.ajax({
          url: 'transaction/getDetailOrder',
