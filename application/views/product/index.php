@@ -117,7 +117,9 @@
 									<div class="card">
 										<div class="card-body">
 											<div class="row">
-												<div class="col-md-3"></div>
+												<div class="col-md-3">
+													<h6 class="text-bold">Gambar Produk</h6>
+												</div>
 												<div class="col-md-5">
 													<h6 class="text-bold">Detail Produk</h6>
 												</div>
@@ -126,61 +128,61 @@
 												</div>
 											</div>
 											<div class="row">
-													<div class="col-md-3 d-flex justify-content-center align-items-center">
+													<div class="col-md-3">
 														<img class="img-fluid img-thumbnail center-block text-center" id="img-product" alt="Product Image">
 													</div>
 													<div class="col-md-5">                                                            
 														<table class="table table-bordered">
 															<tr>
-																	<td width="30%">Unique ID</td>
-																	<td id="det-product-uniqueID">Loading...</td>
+																<td class="text-bold" width="30%">Unique ID</td>
+																<td id="det-product-uniqueID">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Nama Produk</td>
-																	<td id="det-product-name">Loading...</td>
+																<td class="text-bold">Nama Produk</td>
+																<td id="det-product-name">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Harga Satuan</td>
-																	<td id="det-product-price">Loading...</td>
+																<td class="text-bold">Harga Satuan</td>
+																<td id="det-product-price">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Stock</td>
-																	<td id="det-product-stock">Loading...</td>
+																<td class="text-bold">Stock</td>
+																<td id="det-product-stock">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Berat</td>
-																	<td id="det-product-weight">Loading...</td>
+																<td class="text-bold">Berat</td>
+																<td id="det-product-weight">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Nama Toko</td>
-																	<td id="det-product-shop">Loading...</td>
+																<td class="text-bold">Nama Toko</td>
+																<td id="det-product-shop">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Kategori</td>
-																	<td id="det-product-category">Loading...</td>
+																<td class="text-bold">Kategori</td>
+																<td id="det-product-category">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Deskripsi</td>
-																	<td id="det-product-desc">Loading...</td>
+																<td class="text-bold">Deskripsi</td>
+																<td id="det-product-desc">Loading...</td>
 															</tr>
 														</table>
 													</div>
 													<div class="col-md-4">
 														<table class="table table-bordered">
 															<tr>
-																<td width="50%">Status Promo Produk</td>
+																<td class="text-bold" width="50%">Status Promo Produk</td>
 																<td id="det-product-status-promo">Loading...</td>
 															</tr>
 															<tr>
-																<td width="50%">Nilai Promo Produk</td>
+																<td class="text-bold" width="50%">Nilai Promo Produk</td>
 																<td id="det-product-nilai-promo">Loading...</td>
 															</tr>
 															<tr>
-																<td>Tanggal Mulai Promo</td>
+																<td class="text-bold">Tanggal Mulai Promo</td>
 																<td id="det-product-start-promo">Loading...</td>
 															</tr>
 															<tr>
-																<td>Tanggal Selesai Promo</td>
+																<td class="text-bold">Tanggal Selesai Promo</td>
 																<td id="det-product-end-promo">Loading...</td>
 															</tr>
 														</table>
