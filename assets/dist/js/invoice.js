@@ -66,6 +66,31 @@ $(document).ready(function() {
       }
    });
 
+   $('#inputInvoice').keyup(function() {
+      var query = $(this).val();
+      if (query != "") {
+         $.ajax({
+            url: "invoice/searchInvoice",
+            type: "post",
+            data: { query: query },
+            beforeSend: function() {
+               $('#invoiceList').html('<p class="p-2" style="background-color: #eee">Loading...</p>');
+            },
+            success: function(data) {
+               $('#invoiceList').fadeIn();
+               $('#invoiceList').html(data);
+            }
+         });
+         return false;
+      }
+      $('#invoiceList').fadeOut();
+   })
+
+   $(document).on('click', '.listInvoice', function() {
+      $('#inputInvoice').val($(this).text());
+      $('#invoiceList').fadeOut();
+   })
+
    function formatRupiah(angka, prefix){
       var number_string = angka.replace(/[^,\d]/g, '').toString(),
       split   		= number_string.split(','),

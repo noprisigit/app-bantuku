@@ -40,4 +40,21 @@ class Invoice extends CI_Controller {
       $invoice = $this->invoice->getDetailInvoice($this->input->post('invoiceNumber'));
       echo json_encode($invoice);
    }
+   
+   public function searchInvoice() {
+      if ($this->input->post('query') != "") {
+         $output = '';
+         $invoice = $this->invoice->getInvoiceNumber($this->input->post('query')); 
+         $output = '<ul class="pl-2 list-unstyled" style="background-color: #eee; cursor: pointer">';
+         if (count($invoice) > 0) {
+            foreach($invoice as $row) {
+               $output .= '<li class="p-2 listInvoice">'.$row['InvoiceNumber'].'</li>';
+            }
+         } else {
+            $output .= '<li class="p-2">Nomor invoice tidak ditemukan / Belum dilakukan pembayaran</li>';
+         }
+         $output .= '</ul>';
+         echo $output;
+      }
+   }
 }

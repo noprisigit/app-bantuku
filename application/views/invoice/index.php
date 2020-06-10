@@ -12,8 +12,9 @@
                   <div class="row">
                      <div class="col-md-7">
                         <div class="form-group">
-                           <input type="number" id="inputInvoice" class="form-control" placeholder="ex. 893472947312">
-                        </div>   
+                           <input type="text" id="inputInvoice" class="form-control" placeholder="ex. 893472947312">
+                           <div id="invoiceList"></div>
+                        </div>    
                      </div>
                      <div class="col-md-5">
                         <div class="form-group">
