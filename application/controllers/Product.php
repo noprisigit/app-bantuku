@@ -47,7 +47,7 @@ class Product extends CI_Controller {
             } else {
                 $data = $this->upload->data();
                 resizeImage($data['file_name'], 'products');
-
+                
                 $price = $this->input->post('product_price');
                 $tax = $price * 0.15;
                 $resultPrice = $price + $tax;
@@ -115,7 +115,7 @@ class Product extends CI_Controller {
                 $res['msg'] = $this->upload->display_errors();
             }
         }
-
+        
         $price = $this->input->post('product_price');
         $tax = $price * 0.15;
         $resultPrice = $price + $tax;
@@ -235,28 +235,27 @@ class Product extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_activated = '<a class="btn btn-info btn-activated-product" data-placement="top" data-toggle="tooltip" title="Aktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i></a>';
+            $btn_activated = '<a class="btn btn-info btn-activated-product mt-1" data-placement="top" data-toggle="tooltip" title="Aktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-power-off"></i></a>';
 
-            $btn_deactivated = '<a class="btn btn-danger btn-deactivated-product" data-placement="top" data-toggle="tooltip" title="Nonaktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i></a>';
+            $btn_deactivated = '<a class="btn btn-danger btn-deactivated-product mt-1" data-placement="top" data-toggle="tooltip" title="Nonaktifkan Produk" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-ban"></i></a>';
 
-            $btn_detail = '<button type="button" class="btn btn-primary btn-detail-product" data-placement="top" data-toggle="tooltip" title="Detail" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-folder"></i></button>';
+            $btn_detail = '<button type="button" class="btn btn-primary btn-detail-product mt-1" data-placement="top" data-toggle="tooltip" title="Detail" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-statuspromo="'.$field->ProductStatusPromo.'" data-startpromo="'.$field->ProductPromoDate.'" data-endpromo="'.$field->ProductPromoDateEnd.'"><i class="fas fa-folder"></i></button>';
             
-            $btn_edit = '<button type="button" class="btn btn-info btn-edit-product" data-placement="top" data-toggle="tooltip" title="Edit" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-partnerid="'.$field->PartnerUniqueID.'"><i class="fas fa-pencil-alt"></i></button>';
+            $btn_edit = '<button type="button" class="btn btn-info btn-edit-product mt-1" data-placement="top" data-toggle="tooltip" title="Edit" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-partnerid="'.$field->PartnerUniqueID.'"><i class="fas fa-pencil-alt"></i></button>';
             
-            $btn_delete = '<a class="btn btn-danger btn-delete-product" data-placement="top" data-toggle="tooltip" title="Delete" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
+            $btn_delete = '<a class="btn btn-danger btn-delete-product mt-1" data-placement="top" data-toggle="tooltip" title="Delete" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
 
-            $btn_activated_promo = '<button type="button" class="btn btn-success btn-activated-promo" data-placement="top" data-toggle="tooltip" title="Tambahkan Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-tags"></i></button>';
+            $btn_activated_promo = '<button type="button" class="btn btn-success btn-activated-promo mt-1" data-placement="top" data-toggle="tooltip" title="Tambahkan Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'"><i class="fas fa-tags"></i></button>';
 
-            $btn_deactivated_promo = '<a class="btn btn-danger btn-deactivated-promo" data-placement="top" data-toggle="tooltip" title="Matikan Promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-tags"></i></a>';
+            $btn_deactivated_promo = '<a class="btn btn-danger btn-deactivated-promo mt-1" data-placement="top" data-toggle="tooltip" title="Matikan Promo" data-id="'.$field->ProductUniqueID.'" href="javascript:void(0)"><i class="fas fa-tags"></i></a>';
 
-            $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'" data-tglselesaipromo="'.$field->ProductPromoDateEnd.'"><i class="fas fa-tag"></i></button>';
+            $btn_edit_promo = '<button type="button" class="btn btn-info btn-edit-product-promo mt-1" data-placement="top" data-toggle="tooltip" title="Edit Nilai Promo" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-price="'.$field->ProductPrice.'" data-stock="'.$field->ProductStock.'" data-weight="'.$field->ProductWeight.'" data-desc="'.$field->ProductDesc.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" data-kategori="'.$field->CategoryName.'" data-promo="'.$field->ProductPromo.'" data-tglpromo="'.$field->ProductPromoDate.'" data-tglselesaipromo="'.$field->ProductPromoDateEnd.'"><i class="fas fa-tag"></i></button>';
 
-            $btn_tambah_stok = '<button type="button" data-toggle="tooltip" data-placement="top" title="Tambah Stok Produk" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-stock="'.$field->ProductStock.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" class="btn btn-info btn-tambah-stock"><i class="fas fa-plus"></i></button>';
+            $btn_tambah_stok = '<button type="button" data-toggle="tooltip" data-placement="top" title="Tambah Stok Produk" data-id="'.$field->ProductUniqueID.'" data-nama="'.$field->ProductName.'" data-stock="'.$field->ProductStock.'" data-image="'.$field->ProductImage.'" data-toko="'.$field->CompanyName.'" class="btn btn-info btn-tambah-stock mt-1"><i class="fas fa-plus"></i></button>';
 
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->ProductUniqueID;
             $row[] = $field->ProductName;
             $row[] = "Rp " . number_format($field->ProductPrice,0,',','.');
             $row[] = $field->ProductStock . " buah";
@@ -273,19 +272,19 @@ class Product extends CI_Controller {
                 $row[] = '<span class="badge badge-success">Ada Promo '. $field->ProductPromo .' %</span>';
             }
 
-            if ($field->ProductStatusPromo == 0) {
-                $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
-                $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
-            } elseif ($field->ProductPromoDateEnd < date('Y-m-d')) {
-                $this->db->set('ProductStatusPromo', 0);
-                $this->db->where('ProductUniqueID', $field->ProductUniqueID);
-                $this->db->update('products');
-                $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
-                $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
-            } else {
-                $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDate), 'd-m-Y').'</span>';
-                $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDateEnd), 'd-m-Y').'</span>';
-            }
+            // if ($field->ProductStatusPromo == 0) {
+            //     $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
+            //     $row[] = '<span class="badge badge-danger">Tidak Ada Promo</span>';
+            // } elseif ($field->ProductPromoDateEnd < date('Y-m-d')) {
+            //     $this->db->set('ProductStatusPromo', 0);
+            //     $this->db->where('ProductUniqueID', $field->ProductUniqueID);
+            //     $this->db->update('products');
+            //     $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
+            //     $row[] = '<span class="badge badge-danger">Promo Sudah Berakhir</span>';
+            // } else {
+            //     $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDate), 'd-m-Y').'</span>';
+            //     $row[] = '<span class="badge badge-success">'.date_format(date_create($field->ProductPromoDateEnd), 'd-m-Y').'</span>';
+            // }
 
             if ($field->ProductStatus == 0 && $field->ProductStatusPromo == 0) {
                 $row[] = $btn_activated . "&nbsp" . $btn_detail . "&nbsp" . $btn_edit . "&nbsp" . $btn_delete;

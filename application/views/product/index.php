@@ -6,20 +6,17 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table id="product" class="table table-bordered table-striped nowrap" width="100%">
+								<table id="product" class="table table-bordered table-striped" width="100%">
 									<thead>
 										<tr>
-											<th class="text-center">#</th>
-											<th class="text-center">Unique ID</th>
-											<th class="text-center">Nama Produk</th>
-											<th class="text-center">Harga per Satuan</th>
-											<th class="text-center">Stock</th>
-											<th class="text-center">Nama Toko</th>
-											<th class="text-center">Status Produk</th>
-											<th class="text-center">Status Promo Produk</th>
-											<th class="text-center">Tanggal Mulai Promo</th>
-											<th class="text-center">Tanggal Selesai Promo</th>
-											<th class="text-center">Actions</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">#</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Nama Produk</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Harga Satuan</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Stock</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Nama Toko</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Status Produk</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Status Promo Produk</th>
+											<th class="text-center" style="vertical-align: middle; text-align: center;">Actions</th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -120,10 +117,19 @@
 									<div class="card">
 										<div class="card-body">
 											<div class="row">
-													<div class="col-md-4 d-flex justify-content-center align-items-center">
+												<div class="col-md-3"></div>
+												<div class="col-md-5">
+													<h6 class="text-bold">Detail Produk</h6>
+												</div>
+												<div class="col-md-4">
+													<h6 class="text-bold">Status Promo</h6>
+												</div>
+											</div>
+											<div class="row">
+													<div class="col-md-3 d-flex justify-content-center align-items-center">
 														<img class="img-fluid img-thumbnail center-block text-center" id="img-product" alt="Product Image">
 													</div>
-													<div class="col-md-8">                                                            
+													<div class="col-md-5">                                                            
 														<table class="table table-bordered">
 															<tr>
 																	<td width="30%">Unique ID</td>
@@ -134,7 +140,7 @@
 																	<td id="det-product-name">Loading...</td>
 															</tr>
 															<tr>
-																	<td>Harga per Satuan</td>
+																	<td>Harga Satuan</td>
 																	<td id="det-product-price">Loading...</td>
 															</tr>
 															<tr>
@@ -156,6 +162,26 @@
 															<tr>
 																	<td>Deskripsi</td>
 																	<td id="det-product-desc">Loading...</td>
+															</tr>
+														</table>
+													</div>
+													<div class="col-md-4">
+														<table class="table table-bordered">
+															<tr>
+																<td width="50%">Status Promo Produk</td>
+																<td id="det-product-status-promo">Loading...</td>
+															</tr>
+															<tr>
+																<td width="50%">Nilai Promo Produk</td>
+																<td id="det-product-nilai-promo">Loading...</td>
+															</tr>
+															<tr>
+																<td>Tanggal Mulai Promo</td>
+																<td id="det-product-start-promo">Loading...</td>
+															</tr>
+															<tr>
+																<td>Tanggal Selesai Promo</td>
+																<td id="det-product-end-promo">Loading...</td>
 															</tr>
 														</table>
 													</div>

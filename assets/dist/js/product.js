@@ -13,13 +13,20 @@ $(document).ready(function() {
          { 
             "targets": [ 0 ], 
             "orderable": false,
-            "width": "100px", 
             "className": "text-center"
          },
          {
-            "targets": [ 3,4,6,7,8,9 ],
-            "className": "text-center"
+            "targets": [ 2 ],
+            "width": "60px"
          },
+         {
+            "targets": [3],
+            "width": "50px"
+         },
+         {
+            "targets": [5,6,7],
+            "className": "text-center"
+         }
       ],
    });
 
@@ -122,15 +129,19 @@ $(document).ready(function() {
    });
 
    $(document).on('click', '.btn-detail-product', function() {
-      const uniqueID = $(this).data('id');
-      const nama = $(this).data('nama');
-      const price = $(this).data('price');
-      const stock = $(this).data('stock');
-      const weight = $(this).data('weight');
-      const desc = $(this).data('desc');
-      const image = $(this).data('image');
-      const toko = $(this).data('toko');
-      const kategori = $(this).data('kategori');       
+      var uniqueID = $(this).data('id');
+      var nama = $(this).data('nama');
+      var price = $(this).data('price');
+      var stock = $(this).data('stock');
+      var weight = $(this).data('weight');
+      var desc = $(this).data('desc');
+      var image = $(this).data('image');
+      var toko = $(this).data('toko');
+      var kategori = $(this).data('kategori');  
+      var promo = $(this).data('promo');
+      var statuspromo = $(this).data('statuspromo');
+      var startpromo = $(this).data('startpromo');
+      var endpromo = $(this).data('endpromo');     
             
       $('#modal-detail-product').modal('show');
 
@@ -143,6 +154,18 @@ $(document).ready(function() {
       $('#det-product-shop').html(': ' + toko);
       $('#det-product-category').html(': ' + kategori);
       $('#det-product-desc').html(': ' + desc);
+      $('#det-product-status-promo').html(': ' + statuspromo);
+      if (statuspromo == 1) {
+         $('#det-product-status-promo').html(': ' + '<span class="badge badge-success">Ada Promo</span>');
+         $('#det-product-nilai-promo').html(': ' + promo + ' %');
+         $('#det-product-start-promo').html(': ' + changeDateFormat(startpromo));
+         $('#det-product-end-promo').html(': ' + changeDateFormat(endpromo));
+      } else {
+         $('#det-product-status-promo').html(': ' + '<span class="badge badge-danger">Tidak Ada Promo</span>');
+         $('#det-product-nilai-promo').html(': Tidak Ada Promo');
+         $('#det-product-start-promo').html(': Tidak Ada Promo');
+         $('#det-product-end-promo').html(': Tidak Ada Promo');
+      }
    });
 
    $(document).on('click', '.btn-activated-product', function() {
@@ -635,6 +658,12 @@ $(document).ready(function() {
          return false
       }
    });
+
+   function changeDateFormat(tanggal) {
+      var parseTanggal = tanggal.split("-");
+      var newDate = parseTanggal[2] + "-" + parseTanggal[1] + "-" + parseTanggal[0];
+      return newDate;
+   }
 
    function formatRupiah(angka, prefix){
       var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
