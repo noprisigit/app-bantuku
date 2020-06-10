@@ -118,16 +118,34 @@ class Transaction extends CI_Controller {
       $this->_sendEmail($customer['CustomerEmail'], "Kirim", $orders[0]['Invoice'], $detailOrder);
    }
 
+   public function getDetailOrder()
+   {
+      $orderNumber = $this->input->post('orderNumber');
+      if ($orderNumber != ""){
+         $order = $this->transaction->getDetailOrder($orderNumber);
+         echo json_encode($order);
+      }
+   }
+
+   public function deleteOrder() {
+      $invNumber = $this->input->post('invNumber');
+      $this->db->delete('orders', ['InvoiceNumber' => $invNumber]);
+      $this->db->delete('orders_address', ['InvoiceNumber' => $invNumber]);
+      $this->db->delete('transactions', ['InvoiceNumber' => $invNumber]);
+   }
+
    public function show_list_transactions()
    {
       $orders = $this->db->get_where('orders', ['OrderStatus' => 1])->result_array();
-      dd($orders);
+      // dd($orders);
       $list = $this->transaction->get_datatables();
       $data = array();
       $no = $_POST['start'];
       foreach ($list as $field) {
-         $btnProses = '<a href="javascript:void(0)" class="btn btn-success btn-sm btnProsesOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Proses</a>';
-         $btnKirim = '<a href="javascript:void(0)" class="btn btn-info btn-sm btnKirimOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Kirim</a>';
+         $btnDetail = '<button type="button" title="Detail Pesanan" class="btn btn-primary mt-1 btnDetailOrder" data-order="'.$field->OrderNumber.'"><i class="fas fa-folder"></i></button>';
+         $btnDelete = '<a href="javascript:void(0)" class="btn btn-danger mt-1 btnDeleteOrder" data-invnumber="'.$field->InvoiceNumber.'" data-invoice="'.$field->Invoice.'" data-order="'.$field->OrderNumber.'"><i class="fas fa-trash-alt"></i></a>';
+         $btnProses = '<a href="javascript:void(0)" class="btn btn-success mt-1 btnProsesOrder'.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Proses</a>';
+         $btnKirim = '<a href="javascript:void(0)" class="btn btn-info mt-1 btnKirimOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Kirim</a>';
          $date = date_create($field->OrderDate);
 
          $no++;
@@ -149,15 +167,14 @@ class Transaction extends CI_Controller {
          } else {
             $row[] = '<span class="badge badge-success">Selesai</span>';
          }
-         $row[] = date_format($date, 'd-m-Y H:i:s');
          if ($field->OrderStatus > 3) {
-            $row[] = '<span class="badge badge-success">Pesanan Selesai</span>';
+            $row[] = $btnDetail;
          } elseif ($field->OrderStatus == 1) {
-            $row[] = $btnProses;
+            $row[] = $btnDetail. "&nbsp". $btnDelete . "&nbsp" . $btnProses;
          } elseif ($field->OrderStatus == 2) {
-            $row[] = $btnKirim;
+            $row[] = $btnDetail. "&nbsp". $btnDelete . "&nbsp" . $btnKirim;
          } elseif ($field->OrderStatus == 3) {
-            $row[] = '<span class="badge badge-info">Pesanan Dikirim</span>';
+            $row[] = $btnDetail;
          }
 
          $data[] = $row;

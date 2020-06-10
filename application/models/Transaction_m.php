@@ -16,7 +16,7 @@ class Transaction_m extends CI_Model {
 
    private function _get_datatables_query()
    {
-      $this->db->select('InvoiceNumber, OrderNumber, ProductName, CompanyName, CustomerName, OrderProductQuantity, OrderTotalPrice, OrderStatus, OrderDate');
+      $this->db->select('InvoiceNumber, Invoice, OrderNumber, ProductName, CompanyName, CustomerName, OrderProductQuantity, OrderTotalPrice, OrderStatus, OrderDate');
       $this->db->from($this->table);
       $this->db->join('products', 'products.ProductUniqueId = orders.ProductUniqueID');
       $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
@@ -100,5 +100,16 @@ class Transaction_m extends CI_Model {
 
       $result = json_decode($response->getBody()->getContents());
       // return $result;
+   }
+
+   public function getDetailOrder($orderNumber) {
+      $this->db->select('orders.InvoiceNumber, orders.Invoice, customers.CustomerName, partners.CompanyName, products.PartnerID, products.ProductName, orders.OrderProductQuantity, orders.OrderTotalPrice, orders.OrderStatus, orders.OrderDate, orders_address.ShippingAddress');
+      $this->db->from('orders');
+      $this->db->join('customers', 'orders.CustomerUniqueID = customers.CustomerUniqueID');
+      $this->db->join('products', 'orders.ProductUniqueID = products.ProductUniqueID');
+      $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
+      $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
+      $this->db->where('orders.OrderNumber', $orderNumber);
+      return $this->db->get()->row_array();
    }
 }

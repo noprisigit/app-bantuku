@@ -96,11 +96,7 @@ class Order extends REST_Controller
 
             $user_id = "bot33081";
             $pass = "p@ssw0rd";
-            $varSignature = $user_id.$pass.$invoiceNumber;
-            // dd($varSignature);
             $signature = sha1(md5($user_id.$pass.$invoiceNumber));
-
-            // dd($signature);
 
             $client = new Client();
             $response = $client->request('POST', 'https://dev.faspay.co.id/cvr/300011/10', [
@@ -161,6 +157,11 @@ class Order extends REST_Controller
                'PaymentUrl'            => $url
             ]);
 
+            $this->db->insert('orders_address', [
+               'InvoiceNumber'   => $invoiceNumber,
+               'ShippingAddress' => $this->post('address')
+            ]);
+
             if ($order > 0) {
                $this->response([
                   'status'             => true,
@@ -174,7 +175,8 @@ class Order extends REST_Controller
                   'TotalBayar'         => $billTotal,
                   'StatusPesanan'      => 'Pending',
                   'TanggalPesan'       => $orderDate,
-                  "RedirectUrl"        => $url
+                  'AlamatPengiriman'   => $this->post('address'),
+                  'RedirectUrl'        => $url
                ], REST_Controller::HTTP_CREATED);
             } else {
                $this->response([
