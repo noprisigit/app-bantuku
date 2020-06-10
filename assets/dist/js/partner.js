@@ -13,12 +13,17 @@ $(document).ready(function() {
             "orderable": false, 
             "className": "text-center"
          },
-         {
-            "targets": [4],
-            "className": "text-center"
+         { 
+            "targets": [ 1 ], 
+            "width": "200px",
+         },
+         { 
+            "targets": [ 2 ], 
+            "width": "200px",
          },
          {
             "targets": [-1],
+            "width": "150px",
             "className": "text-center"
          }
       ],
@@ -33,6 +38,8 @@ $(document).ready(function() {
       var alamat = $('#alamat').val();
       var provinsi = $('#provinsi').val();
       var kabupaten = $('#kabupaten').val();
+      var latitude = $('#latitude').val();
+      var longitude = $('#longitude').val();
       var kode_pos = $('#kode-pos').val();
       var gambar = $('#gambar_toko').val();
 
@@ -57,6 +64,8 @@ $(document).ready(function() {
                   $('[name="phone"]').val("");
                   $('[name="email"]').val("");
                   $('[name="alamat"]').val("");
+                  $('[name="latitude"]').val("");
+                  $('[name="longitude"]').val("");
                   $('[name="provinsi"]').empty();
                   $('[name="provinsi"]').append('<option selected disabled>Provinsi</option>');
                   for (var i = 0; i < res.provinsi.length; i++) {
@@ -83,16 +92,18 @@ $(document).ready(function() {
    });
 
    $(document).on('click', '.btn-detail-partner', function() {
-      const uniqueID = $(this).data('uniqueid');
-      const nama_toko = $(this).data('nama_toko');
-      const nama_pemilik = $(this).data('nama_pemilik');
-      const alamat = $(this).data('alamat');
-      const phone = $(this).data('phone');
-      const email = $(this).data('email');
-      const provinsi = $(this).data('provinsi');
-      const kabupaten = $(this).data('kabupaten');
-      const pos = $(this).data('pos');
-      const gambar = $(this).data('gambar');
+      var uniqueID = $(this).data('uniqueid');
+      var nama_toko = $(this).data('nama_toko');
+      var nama_pemilik = $(this).data('nama_pemilik');
+      var alamat = $(this).data('alamat');
+      var phone = $(this).data('phone');
+      var email = $(this).data('email');
+      var latitude = $(this).data('latitude');
+      var longitude = $(this).data('longitude');
+      var provinsi = $(this).data('provinsi');
+      var kabupaten = $(this).data('kabupaten');
+      var pos = $(this).data('pos');
+      var gambar = $(this).data('gambar');
 
       $('#det-part-uniqueID').empty();
       $('#det-part-nama-toko').empty();
@@ -100,6 +111,8 @@ $(document).ready(function() {
       $('#det-part-alamat').empty();
       $('#det-part-phone').empty();
       $('#det-part-email').empty();
+      $('#det-part-latitude').empty();
+      $('#det-part-longitude').empty();
 
       $('#det-part-uniqueID').html(": " + uniqueID);
       $('#det-part-nama-toko').html(": " + nama_toko);
@@ -107,21 +120,30 @@ $(document).ready(function() {
       $('#det-part-alamat').html(": " + alamat + " " + kabupaten + " " + provinsi + " " + pos);
       $('#det-part-phone').html(": " + phone);
       $('#det-part-email').html(": " + email);
+      if (latitude === "" && longitude === "") {
+         $('#det-part-latitude').html(": Belum ada data");
+         $('#det-part-longitude').html(": Belum ada data");
+      } else {
+         $('#det-part-latitude').html(": " + latitude);
+         $('#det-part-longitude').html(": " + longitude);
+      }
       $('#shop-picture').attr('src', 'assets/dist/img/partners/' + gambar);
    });
 
    $(document).on('click', '.btn-edit-partner', function() {
-      const id = $(this).data('id');
-      const uniqueID = $(this).data('uniqueid');
-      const nama_toko = $(this).data('nama_toko');
-      const nama_pemilik = $(this).data('nama_pemilik');
-      const alamat = $(this).data('alamat');
-      const phone = $(this).data('phone');
-      const email = $(this).data('email');
-      const provinsi = $(this).data('provinsi');
-      const kabupaten = $(this).data('kabupaten');
-      const pos = $(this).data('pos');
-      const gambar = $(this).data('gambar');
+      var id = $(this).data('id');
+      var uniqueID = $(this).data('uniqueid');
+      var nama_toko = $(this).data('nama_toko');
+      var nama_pemilik = $(this).data('nama_pemilik');
+      var alamat = $(this).data('alamat');
+      var phone = $(this).data('phone');
+      var email = $(this).data('email');
+      var provinsi = $(this).data('provinsi');
+      var kabupaten = $(this).data('kabupaten');
+      var pos = $(this).data('pos');
+      var gambar = $(this).data('gambar');
+      var latitude = $(this).data('latitude');
+      var longitude = $(this).data('longitude');
 
       $.ajax({
          url: 'partner/province_get_by_name',
@@ -132,21 +154,21 @@ $(document).ready(function() {
             $('#partner_provinsi_edit').empty();
             $('#partner_provinsi_edit').append('<option selected disabled>Provinsi</option>');
             for (var i = 0; i < res.all_provinsi.length; i++) {
-                  if (res.all_provinsi[i]['ProvinceID'] == res.provinsi['ProvinceID']) {
-                     $('#partner_provinsi_edit').append('<option value="'+ res.all_provinsi[i]['ProvinceID'] +'" selected>'+ res.all_provinsi[i]['ProvinceName'] +'</option>');
-                  } else {
-                     $('#partner_provinsi_edit').append('<option value="'+ res.all_provinsi[i]['ProvinceID'] +'">'+ res.all_provinsi[i]['ProvinceName'] +'</option>');
-                  }
+               if (res.all_provinsi[i]['ProvinceID'] == res.provinsi['ProvinceID']) {
+                  $('#partner_provinsi_edit').append('<option value="'+ res.all_provinsi[i]['ProvinceID'] +'" selected>'+ res.all_provinsi[i]['ProvinceName'] +'</option>');
+               } else {
+                  $('#partner_provinsi_edit').append('<option value="'+ res.all_provinsi[i]['ProvinceID'] +'">'+ res.all_provinsi[i]['ProvinceName'] +'</option>');
+               }
             }
             
             $('#partner_kabupaten_edit').empty();
             $('#partner_kabupaten_edit').append('<option selected disabled>Kabupaten</option>');
             for (var i = 0; i < res.kabupaten.length; i++) {
-                  if (res.kabupaten[i]['DistrictName'] == kabupaten) {
-                     $('#partner_kabupaten_edit').append('<option value="'+ res.kabupaten[i]['DistrictName'] +'" selected>'+ res.kabupaten[i]['DistrictName'] +'</option>');
-                  } else {
-                     $('#partner_kabupaten_edit').append('<option value="'+ res.kabupaten[i]['DistrictName'] +'">'+ res.kabupaten[i]['DistrictName'] +'</option>');
-                  }
+               if (res.kabupaten[i]['DistrictName'] == kabupaten) {
+                  $('#partner_kabupaten_edit').append('<option value="'+ res.kabupaten[i]['DistrictName'] +'" selected>'+ res.kabupaten[i]['DistrictName'] +'</option>');
+               } else {
+                  $('#partner_kabupaten_edit').append('<option value="'+ res.kabupaten[i]['DistrictName'] +'">'+ res.kabupaten[i]['DistrictName'] +'</option>');
+               }
             }
          }
       });
@@ -160,6 +182,8 @@ $(document).ready(function() {
       $('[name="partner_phone_edit"]').val(phone);
       $('[name="partner_email_edit"]').val(email);
       $('[name="partner_kode_pos_edit"]').val(pos);
+      $('[name="partner_latitude_edit"]').val(latitude);
+      $('[name="partner_longitude_edit"]').val(longitude);
    });
 
    $('#form-edit-partner').submit(function(e) {
@@ -170,6 +194,8 @@ $(document).ready(function() {
       var phone = $('#partner_phone_edit').val();
       var email = $('#partner_email_edit').val();
       var alamat = $('#partner_alamat_edit').val();
+      var latitude = $('#partner_latitude_edit').val();
+      var longitude = $('#partner_longitude_edit').val();
       var provinsi = $('#partner_provinsi_edit').val();
       var kabupaten = $('#partner_kabupaten_edit').val();
       var kode_pos = $('#partner_kode_pos_edit').val();
@@ -187,32 +213,34 @@ $(document).ready(function() {
             cache: false,
             processData: false,
             success: function(res) {
-                  if(res.status == false) {
-                     toastr.error(res.msg);
-                  } else {
-                     $('[name="partner_id"]').val("");
-                     $('[name="partner_uniqueid_edit"]').val("");
-                     $('[name="partner_nama_toko_edit"]').val("");
-                     $('[name="partner_nama_pemilik_edit"]').val("");
-                     $('[name="partner_alamat_edit"]').val("");
-                     $('[name="partner_phone_edit"]').val("");
-                     $('[name="partner_email_edit"]').val("");
-                     $('[name="partner_kode_pos_edit"]').val("");
-                     $('[name="partner_provinsi_edit"]').empty();
-                     $('[name="partner_kabupaten_edit"]').empty();
-                     $('[name="partner_gambar_toko_edit"]').val("");
+               if(res.status == false) {
+                  toastr.error(res.msg);
+               } else {
+                  $('[name="partner_id"]').val("");
+                  $('[name="partner_uniqueid_edit"]').val("");
+                  $('[name="partner_nama_toko_edit"]').val("");
+                  $('[name="partner_nama_pemilik_edit"]').val("");
+                  $('[name="partner_alamat_edit"]').val("");
+                  $('[name="partner_phone_edit"]').val("");
+                  $('[name="partner_email_edit"]').val("");
+                  $('[name="partner_kode_pos_edit"]').val("");
+                  $('[name="partner_latitude_edit"]').val("");
+                  $('[name="partner_longitude_edit"]').val("");
+                  $('[name="partner_provinsi_edit"]').empty();
+                  $('[name="partner_kabupaten_edit"]').empty();
+                  $('[name="partner_gambar_toko_edit"]').val("");
 
-                     $('#modal-edit-partner').modal('hide');
-                     Swal.fire({
-                        title: "Mitra",
-                        text: "Mitra berhasil diperbaharui",
-                        icon: 'success'
-                     });
-                     table_partner.ajax.reload();
-                  }
+                  $('#modal-edit-partner').modal('hide');
+                  Swal.fire({
+                     title: "Mitra",
+                     text: "Mitra berhasil diperbaharui",
+                     icon: 'success'
+                  });
+                  table_partner.ajax.reload();
+               }
             },
             error: function(err) {
-                  console.log(err);
+               console.log(err);
             }
          });
          return false

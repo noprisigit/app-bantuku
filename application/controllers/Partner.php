@@ -57,6 +57,8 @@ class Partner extends CI_Controller {
                     'PostalCode'        => $this->input->post('kode_pos'),
                     'Phone'             => $this->input->post('phone'),
                     'Email'             => $this->input->post('email'),
+                    'Latitude'          => $this->input->post('latitude'),
+                    'Longitude'         => $this->input->post('longitude'),
                     'ShopPicture'       => $data['file_name'],
                     'ShopThumbnail'     => $data['raw_name'] . '_thumb' . $data['file_ext']
                 ];
@@ -107,6 +109,8 @@ class Partner extends CI_Controller {
         $this->db->set('Address', $this->input->post('partner_alamat_edit'));
         $this->db->set('Phone', $this->input->post('partner_phone_edit'));
         $this->db->set('Email', $this->input->post('partner_email_edit'));
+        $this->db->set('Latitude', $this->input->post('partner_latitude_edit'));
+        $this->db->set('Longitude', $this->input->post('partner_longitude_edit'));
         $this->db->set('Province', $province['ProvinceName']);
         $this->db->set('District', $this->input->post('partner_kabupaten_edit'));
         $this->db->set('PostalCode', $this->input->post('partner_kode_pos_edit'));
@@ -131,16 +135,16 @@ class Partner extends CI_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $field) {
-            $btn_detail = '<span data-toggle="modal" data-target="#modal-detail-partner"><button type="button" data-toggle="tooltip" data-placement="top" title="Detail" class="btn btn-primary btn-detail-partner" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'"><i class="fas fa-folder"></i></button></span>';
+            $btn_detail = '<span data-toggle="modal" data-target="#modal-detail-partner"><button type="button" data-toggle="tooltip" data-placement="top" title="Detail" class="btn btn-primary btn-detail-partner mt-1" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" data-latitude="'.$field->Latitude.'" data-longitude="'.$field->Longitude.'"><i class="fas fa-folder"></i></button></span>';
             
-            $btn_edit = '<button type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-id="'.$field->PartnerID.'" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" class="btn btn-info btn-edit-partner"><i class="fas fa-pencil-alt"></i></button>';
+            $btn_edit = '<button type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-id="'.$field->PartnerID.'" data-uniqueID="'.$field->PartnerUniqueID.'" data-nama_toko="'.$field->CompanyName.'" data-nama_pemilik="'.$field->PartnerName.'" data-alamat="'.$field->Address.'" data-kabupaten="'.$field->District.'" data-provinsi="'.$field->Province.'" data-pos="'.$field->PostalCode.'" data-gambar="'.$field->ShopPicture.'" data-phone="'.$field->Phone.'" data-email="'.$field->Email.'" data-latitude="'.$field->Latitude.'" data-longitude="'.$field->Longitude.'" class="btn btn-info btn-edit-partner mt-1"><i class="fas fa-pencil-alt"></i></button>';
             
-            $btn_delete = '<a class="btn btn-danger btn-delete-partner" data-toggle="tooltip" data-placement="top" title="Delete" data-id="'.$field->PartnerID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
+            $btn_delete = '<a class="btn btn-danger btn-delete-partner mt-1" data-toggle="tooltip" data-placement="top" title="Delete" data-id="'.$field->PartnerID.'" href="javascript:void(0)" ><i class="fas fa-trash-alt"></i></a>';
             
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->PartnerUniqueID;
+            // $row[] = $field->PartnerUniqueID;
             $row[] = $field->CompanyName;
             $row[] = $field->PartnerName;
             $row[] = $field->Phone;
