@@ -756,6 +756,46 @@ class Order extends REST_Controller
       }
    }
 
+   public function deleteOrder_delete()
+   {
+      $token = $this->delete('token');
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $invoiceNumber = $this->delete('invoiceNumber');
+            $cekInvoice = $this->db->get_where('orders', ['InvoiceNumber' => $invoiceNumber])->num_rows();
+            $order = $this->db->select('Invoice')->get_where('orders', ['InvoiceNumber' => $invoiceNumber])->row_array();
+            if ($cekInvoice > 0) {
+               $this->db->delete('orders', ['InvoiceNumber' => $invoiceNumber]);
+               $this->db->delete('orders_address', ['InvoiceNumber' => $invoiceNumber]);
+               $this->db->delete('transactions', ['InvoiceNumber' => $invoiceNumber]);
+
+               $this->response([
+                  'status'          => true,
+                  'InvoiceNumber'   => $invoiceNumber,
+                  'Invoice'         => $order['Invoice'],
+                  'message'         => 'Pesanan berhasil dibatalkan'
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Data tidak ditemukan'
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
+
    private function _sendEmail($email, $type, $invoice, $dataOrder) {
       $config= [
          'protocol'      => 'smtp',

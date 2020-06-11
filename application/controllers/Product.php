@@ -49,8 +49,8 @@ class Product extends CI_Controller {
                 resizeImage($data['file_name'], 'products');
                 
                 $price = $this->input->post('product_price');
-                $tax = $price * 0.15;
-                $resultPrice = $price + $tax;
+                // $tax = $price * 1.2;
+                $resultPrice = $price * 1.2;
 
                 $uniqueID = random_strings(4) . date('YmdHis');
                 $input = [
@@ -117,8 +117,8 @@ class Product extends CI_Controller {
         }
         
         $price = $this->input->post('product_price');
-        $tax = $price * 0.15;
-        $resultPrice = $price + $tax;
+        // $tax = $price * 0.15;
+        $resultPrice = $price * 1.2;
 
         $this->db->set('ProductName', $this->input->post('product_name'));
         $this->db->set('ProductPrice', $resultPrice);

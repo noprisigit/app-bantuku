@@ -144,7 +144,7 @@ class Transaction extends CI_Controller {
       foreach ($list as $field) {
          $btnDetail = '<button type="button" title="Detail Pesanan" class="btn btn-primary mt-1 btnDetailOrder" data-order="'.$field->OrderNumber.'"><i class="fas fa-folder"></i></button>';
          $btnDelete = '<a href="javascript:void(0)" class="btn btn-danger mt-1 btnDeleteOrder" data-invnumber="'.$field->InvoiceNumber.'" data-invoice="'.$field->Invoice.'" data-order="'.$field->OrderNumber.'"><i class="fas fa-trash-alt"></i></a>';
-         $btnProses = '<a href="javascript:void(0)" class="btn btn-success mt-1 btnProsesOrder'.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Proses</a>';
+         $btnProses = '<a href="javascript:void(0)" class="btn btn-success mt-1 btnProsesOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Proses</a>';
          $btnKirim = '<a href="javascript:void(0)" class="btn btn-info mt-1 btnKirimOrder '.$field->InvoiceNumber.'" data-invoice="'.$field->InvoiceNumber.'">Kirim</a>';
          $date = date_create($field->OrderDate);
 
