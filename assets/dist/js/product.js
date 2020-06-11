@@ -610,6 +610,8 @@ $(document).ready(function() {
       var kabupaten = $('#kabupaten').val();
       var kode_pos = $('#kode-pos').val();
       var gambar = $('#gambar_toko').val();
+      var latitude = $('#latitutde').val();
+      var longitude = $('#longitude').val();
 
       if (nama_toko == "" || nama_pemilik == "" || phone == "" || email == "" || alamat == "" || provinsi == null || kabupaten == null || kode_pos == "" || gambar == "") {
          e.preventDefault();
@@ -631,6 +633,8 @@ $(document).ready(function() {
                   $('[name="nama_pemilik"]').val("");
                   $('[name="phone"]').val("");
                   $('[name="email"]').val("");
+                  $('[name="latitude"]').val("");
+                  $('[name="longitude"]').val("");
                   $('[name="alamat"]').val("");
                   $('[name="provinsi"]').empty();
                   $('[name="provinsi"]').append('<option selected disabled>Provinsi</option>');

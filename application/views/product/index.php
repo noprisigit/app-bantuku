@@ -538,7 +538,7 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
-
+				
 				<div class="modal fade" id="modalTambahToko">
 					<div class="modal-dialog modal-xl">
 						<div class="modal-content">
@@ -549,60 +549,87 @@
 							</div>
 							<form id="frmSaveToko" type="post">
 								<div class="modal-body">
-									<div class="card">
+									<div class="card mb-0">
 										<div class="card-body">
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-																<label for="nama-toko">Nama Toko</label>
-																<input type="text" class="form-control" name="nama_toko" id="nama_toko" placeholder="Nama Toko">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="nama-toko">Nama Toko</label>
+														<input type="text" class="form-control" name="nama_toko" id="nama_toko" placeholder="Nama Toko">
+													</div>
+													
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="phone">Phone</label>
+																<input type="text" class="form-control" name="phone" id="phone" placeholder="No. Handphone">
+															</div>
 														</div>
-														<div class="form-group">
-																<label for="nama-pemilik">Nama Pemilik</label>
-																<input type="text" class="form-control" name="nama_pemilik" id="nama_pemilik" placeholder="Nama Pemilik">
-														</div>
-														<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="phone">Phone</label>
-																		<input type="text" class="form-control" name="phone" id="phone" placeholder="No. Handphone">
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="email">Email</label>
-																		<input type="email" class="form-control" name="email" id="email" placeholder="Email">
-																	</div>
-																</div>
-														</div>                                                
-														<div class="form-group">
-																<label for="email">Alamat</label>
-																<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="email">Email</label>
+																<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+															</div>
 														</div>
 													</div>
-													<div class="col-md-6">
-														<div class="form-group">
+													<div class="row">
+														<div class="col-md-4">
+															<div class="form-group">
+																<label for="phone">Kode Pos</label>
+																<input type="text" class="form-control" name="kode_pos" id="kode-pos" placeholder="Kode Pos">
+															</div>
+														</div>
+														<div class="col-md-8">
+															<div class="form-group">
+																<label for="email">Gambar Toko (Maksimal 5 MB)</label>
+																<input type="file" class="form-control" name="gambar_toko" id="gambar_toko">
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label for="nama-pemilik">Nama Pemilik</label>
+														<input type="text" class="form-control" name="nama_pemilik" id="nama_pemilik" placeholder="Nama Pemilik">
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
 																<label for="nama-toko">Provinsi</label>
 																<select class="form-control select2bs4 province" name="provinsi" id="provinsi" style="width: 100%;">
-																	<option selected="selected" disabled>Provinsi</option>                
+																	<option selected="selected" disabled>Provinsi</option>                 
 																</select>
+															</div>
 														</div>
-														<div class="form-group">
+														<div class="col-md-6">
+															<div class="form-group">
 																<label for="nama-pemilik">Kabupaten</label>
 																<select class="form-control select2bs4 district" name="kabupaten" id="kabupaten" style="width: 100%;">
 																	<option selected="selected" disabled>Kabupaten</option>
 																</select>
+															</div>
 														</div>
-														<div class="form-group">
-																<label for="phone">Kode Pos</label>
-																<input type="text" class="form-control" name="kode_pos" id="kode-pos" placeholder="Kode Pos">
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="">Latitude</label>
+																<input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude boleh dikosongkan">
+															</div>
 														</div>
-														<div class="form-group">
-																<label for="email">Gambar Toko (Maksimal 5 MB)</label>
-																<input type="file" class="form-control" name="gambar_toko" id="gambar_toko">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="">Longitude</label>
+																<input type="text" class="form-control" name="longitude" id="longitude" placeholder="Longitude boleh dikosongkan">
+															</div>
 														</div>
 													</div>
 												</div>
+											</div>
+											<div class="form-group">
+												<label for="email">Alamat</label>
+												<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat">
+											</div>
 										</div>
 									</div>
 								</div>
@@ -612,8 +639,5 @@
 								</div>
 							</form>
 						</div>
-						<!-- /.modal-content -->
 					</div>
-					<!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
