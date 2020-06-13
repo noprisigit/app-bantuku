@@ -41,6 +41,39 @@ class Partner extends REST_Controller
       }
    }
 
+   public function getAllPartners_get() {
+      $token = $this->get('token');
+
+      if (isset($token)) {
+         $customerToken = $this->auth->validateToken($token);
+         if ($customerToken) {
+            $partners = $this->partner->getAllPartners();
+            if ($partners) {
+               $this->response([
+                  'status'    => true,
+                  'data'      => $partners
+               ], REST_Controller::HTTP_OK);
+            } else {
+               $this->response([
+                  'status'    => false,
+                  'message'   => 'Belum ada toko',
+                  'data'      => $partners
+               ], REST_Controller::HTTP_OK);
+            }
+         } else {
+            $this->response([
+               'status'    => false,
+               'message'   => 'Unauthorized token'
+            ], REST_Controller::HTTP_NOT_FOUND);
+         }
+      } else {
+         $this->response([
+            'status'    => false,
+            'message'   => 'Missing token'
+         ], REST_Controller::HTTP_BAD_REQUEST);
+      }
+   }
+
    public function getPaymentChannel_get()
    {
       $token = $this->get('token');
