@@ -98,8 +98,6 @@ $(document).ready(function() {
             type: 'get',
             dataType: 'json',
             success: function(res) {
-                // var obj = JSON.parse(res);
-                console.log(res);
                 var data_jumlah = [];
 
                 for (i = 0; i < res.length; i++) {

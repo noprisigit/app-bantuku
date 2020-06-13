@@ -112,4 +112,12 @@ class Transaction_m extends CI_Model {
       $this->db->where('orders.OrderNumber', $orderNumber);
       return $this->db->get()->row_array();
    }
+
+   public function getTransactionsData() {
+      $this->db->from('orders');
+      $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
+      $this->db->join('transactions', 'orders.InvoiceNumber = transactions.InvoiceNumber');
+      $this->db->where('orders.OrderStatus',1);
+      return $this->db->get()->result_array();
+   }
 }

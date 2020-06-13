@@ -41,6 +41,10 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });
+        // inquiryPaymentStatus();
+        setInterval(() => {
+            // inquiryPaymentStatus();
+        }, 60000);
 
         getProvince();
         function getProvince() {
@@ -77,7 +81,18 @@
                     }
                 }
             });
-        })
+        });
+
+        // function inquiryPaymentStatus() {
+        //     $.ajax({
+        //         url: "<?= base_url('transaction/inquiryPaymentStatus') ?>",
+        //         type: "get",
+        //         dataType: "json",
+        //         success: function(data) {
+        //             console.log(data);
+        //         }
+        //     });
+        // }
     </script>
 </body>
 

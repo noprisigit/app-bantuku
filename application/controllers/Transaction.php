@@ -134,6 +134,93 @@ class Transaction extends CI_Controller {
       $this->db->delete('transactions', ['InvoiceNumber' => $invNumber]);
    }
 
+   // public function inquiryPaymentStatus() {
+   //    $orders = $this->transaction->getTransactionsData();
+   //    for ($i=0; $i < count($orders); $i++) { 
+   //       $client = new Client();
+   //       $response = $client->request('POST', 'https://dev.faspay.co.id/cvr/100004/10', [
+   //          'json'   => [
+   //             "request"      => "Pengecekan Status Pembayaran",
+   //             "trx_id"       => $orders[$i]['FaspayTransactionID'],
+   //             "merchant_id"  => "33081",
+   //             "bill_no"      => $orders[$i]["InvoiceNumber"],
+   //             "signature"    => sha1(md5("bot33081p@ssw0rd".$orders[$i]['InvoiceNumber']))
+   //          ]
+   //       ]);
+   //       $result = json_decode($response->getBody()->getContents(), true);
+         
+   //       if ($result['payment_status_code'] == "0") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "1") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "2") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "3") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "4") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "5") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "7") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif ($result['payment_status_code'] == "8") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       } elseif($result['payment_status_code'] == "9") {
+   //          $res[$i] = [
+   //             'trx_id'                => $orders[$i]['FaspayTransactionID'],
+   //             'invoice_number'        => $orders[$i]['InvoiceNumber'],
+   //             'productUniqueID'       => $orders[$i]['ProductUniqueID'],
+   //             'payment_status_desc'   => $result['payment_status_desc'],
+   //          ];
+   //       }
+
+   //       if ($orders[$i]['InvoiceNumber'] == $orders[$i-1]['InvoiceNumber']) {
+   //          $i++;
+   //       }
+   //    }
+   //    echo json_encode($res);
+   // }
+
    public function show_list_transactions()
    {
       $orders = $this->db->get_where('orders', ['OrderStatus' => 1])->result_array();
