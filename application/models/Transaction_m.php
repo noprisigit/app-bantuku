@@ -4,7 +4,7 @@ use GuzzleHttp\Client;
 
 class Transaction_m extends CI_Model {
    var $table = 'orders'; //nama tabel dari database
-   var $column_order = array(null, 'InvoiceNumber, OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang ada di table user
+   var $column_order = array(null, 'InvoiceNumber', 'OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang ada di table user
    var $column_search = array('InvoiceNumber, OrderNumber', 'ProductName', 'CompanyName', 'CustomerName', 'OrderProductQuantity', 'OrderTotalPrice', 'OrderStatus', 'OrderDate'); //field yang diizin untuk pencarian 
    var $order = array('OrderID' => 'asc'); // default order 
 
