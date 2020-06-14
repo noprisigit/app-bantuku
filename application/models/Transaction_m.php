@@ -120,4 +120,15 @@ class Transaction_m extends CI_Model {
       $this->db->where('orders.OrderStatus',1);
       return $this->db->get()->result_array();
    }
+
+   public function getDetailOrderByInvoice($invoice) {
+      $this->db->select('orders.InvoiceNumber, orders.Invoice, orders.CustomerUniqueID, customers.CustomerName, customers.CustomerPhone, partners.CompanyName, products.PartnerID, products.ProductName, products.ProductPrice, orders.OrderProductQuantity, orders.OrderTotalPrice, orders.OrderStatus, orders.OrderDate, orders_address.ShippingAddress');
+      $this->db->from('orders');
+      $this->db->join('customers', 'orders.CustomerUniqueID = customers.CustomerUniqueID');
+      $this->db->join('products', 'orders.ProductUniqueID = products.ProductUniqueID');
+      $this->db->join('partners', 'partners.PartnerID = products.PartnerID');
+      $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
+      $this->db->where('orders.InvoiceNumber', $invoice);
+      return $this->db->get()->result_array();
+   }
 }
