@@ -157,9 +157,23 @@ class Order extends REST_Controller
                'PaymentUrl'            => $url
             ]);
 
+            if ($this->post('latitude') == "") {
+               $latitude = null;
+            } else {
+               $latitude = $this->post('latidude');
+            }
+
+            if ($this->post('longitude') == "") {
+               $longitude = null;
+            } else {
+               $longitude = $this->post('longitude');
+            }
+
             $this->db->insert('orders_address', [
                'InvoiceNumber'   => $invoiceNumber,
-               'ShippingAddress' => $this->post('address')
+               'ShippingAddress' => $this->post('address'),
+               'Latitude'        => $latitude,
+               'Longitude'       => $longitude
             ]);
 
             if ($order > 0) {
@@ -176,6 +190,8 @@ class Order extends REST_Controller
                   'StatusPesanan'      => 'Pending',
                   'TanggalPesan'       => $orderDate,
                   'AlamatPengiriman'   => $this->post('address'),
+                  'Latitude'           => $latitude,
+                  'Longitude'          => $longitude,
                   'RedirectUrl'        => $url
                ], REST_Controller::HTTP_CREATED);
             } else {
