@@ -756,13 +756,13 @@ class Order extends REST_Controller
       }
    }
 
-   public function deleteOrder_delete()
+   public function deleteOrder_post()
    {
-      $token = $this->delete('token');
+      $token = $this->post('token');
       if (isset($token)) {
          $customerToken = $this->auth->validateToken($token);
          if ($customerToken) {
-            $invoiceNumber = $this->delete('invoiceNumber');
+            $invoiceNumber = $this->post('invoiceNumber');
             $cekInvoice = $this->db->get_where('orders', ['InvoiceNumber' => $invoiceNumber])->num_rows();
             $order = $this->db->select('Invoice')->get_where('orders', ['InvoiceNumber' => $invoiceNumber])->row_array();
             if ($cekInvoice > 0) {
