@@ -205,6 +205,7 @@ class Order extends REST_Controller
                   'StatusPesanan'      => 'Pending',
                   'TanggalPesan'       => $orderDate,
                   'AlamatPengiriman'   => $this->post('address'),
+                  'CatatanPengiriman'  => $this->post('note_address'),
                   'Latitude'           => $latitude,
                   'Longitude'          => $longitude,
                   'RedirectUrl'        => $url
