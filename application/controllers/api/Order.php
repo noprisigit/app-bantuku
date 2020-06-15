@@ -341,20 +341,29 @@ class Order extends REST_Controller
          $customerToken = $this->auth->validateToken($token);
 
          if ($customerToken) {
-            $orders = $this->db->get_where('orders', ['InvoiceNumber' => $this->post('invoiceNumber')])->result_array();
+            $this->db->from('orders');
+            $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
+            $this->db->where('orders.InvoiceNumber', $this->post('invoiceNumber'));
+            $orders = $this->db->get()->result_array();
             $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $sendOrderDate = date('Y-m-d H:i:s');
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
                $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
                $billTotal = $billTotal + $orders[$i]['OrderTotalPrice'];
+               if ($orders[$i]['OrderNote'] == "" || $orders[$i]['OrderNote'] == null) {
+                    $noteOrder[] = "Tidak ada catatan";
+                } else {
+                    $noteOrder[] = $orders[$i]['OrderNote'];
+                }
                $detailOrder[] = [
                   'OrderNumber'     => $orders[$i]['OrderNumber'],
                   'ProductUniqueID' => $orders[$i]['ProductUniqueID'],
                   'ProductName'     => $product[$i]['ProductName'],
                   'Harga'           => $product[$i]['ProductPrice'],  
                   'Jumlah'          => $orders[$i]['OrderProductQuantity'],
-                  'Bayar'           => $orders[$i]['OrderTotalPrice']
+                  'Bayar'           => $orders[$i]['OrderTotalPrice'],
+                  'Catatan'         => $noteOrder[$i]
                ];
             }
             $this->db->set('OrderStatus', 3);
@@ -362,6 +371,21 @@ class Order extends REST_Controller
             $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
             $this->_sendEmail($customer['CustomerEmail'], 'Kirim', $orders[0]['Invoice'] ,$detailOrder);
+            if ($orders[0]['Latitude'] == "" || $orders[0]['Latitude'] == null) {
+                $latitude = "";
+            } else {
+                $latitude = $orders[0]['Latitude'];
+            }
+            if ($orders[0]['Longitude'] == "" || $orders[0]['Longitude'] == null) {
+                $longitude = "";
+            } else {
+                $longitude = $orders[0]['Longitude'];
+            }
+            if ($orders[0]['NoteAddress'] == "" || $orders[0]['NoteAddress'] == null) {
+                $noteAddress = "Tidak ada catatan";
+            } else {
+                $noteAddress = $orders[0]['NoteAddress'];
+            }
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda telah dikirim',
@@ -372,7 +396,11 @@ class Order extends REST_Controller
                'items'              => $detailOrder,
                'TotalBayar'         => $billTotal,
                'StatusPesanan'      => 'Kirim',
-               'TanggalProses'      => $sendOrderDate
+               'TanggalKirim'       => $sendOrderDate,
+               'AlamatPengiriman'   => $orders[0]['ShippingAddress'],
+               'CatatanAlamat'      => $noteAddress,
+               'Latitude'           => $latitude,
+               'Longitude'          => $longitude
             ], REST_Controller::HTTP_OK);
          } else {
             $this->response([
