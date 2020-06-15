@@ -109,27 +109,33 @@
          <tr>
             <td style="padding: 0 20px 0 20px;">
                <table align="center" cellpading="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                  <tr>
+                     <td style="padding: 5px 0 5px 0; font-weight: bold; font-size: 17px;">Nama Barang</td>
+                     <td style="padding: 5px 0 5px 0; font-weight: bold; font-size: 17px;">Subtotal</td>
+                     <td style="padding: 5px 0 5px 0; font-weight: bold; font-size: 17px;">Catatan</td>
+                  </tr>
                   <?php $subTotal = 0; ?>
                   <?php foreach($orders as $row) : ?>
                      <tr>
-                        <td style="padding-top: 0; padding-bottom: 0;" width="80%"><?= $row['ProductName'] ?></td>
-                        <td style="padding-top: 5px; padding-left: 10px;" align="right" rowspan="2">Rp <?= number_format($row['OrderTotalPrice']) ?></td>
+                        <td style="padding-top: 5px;" width="50%"><?= $row['ProductName'] ?></td>
+                        <td style="padding-top: 10px; padding-bottom: 10px;" align="left" rowspan="2" width="20%">Rp <?= number_format($row['OrderTotalPrice'],0,',','.') ?></td>
+                        <td style="padding-top: 10px; padding-bottom: 10px;" rowspan="2"><?= ($row['OrderNote'] == "" || $row['OrderNote'] == null) ? "Tidak ada catatan" : $row['OrderNote'] ?></td>
                      </tr>
                      <tr>
-                        <td style="padding-top: 5px; padding-bottom: 15px;"><?= $row['OrderProductQuantity'] ?> x Rp <?= number_format($row['ProductPrice']) ?></td>
+                        <td style="padding-bottom: 5px;"><?= $row['OrderProductQuantity'] ?> x Rp <?= number_format($row['ProductPrice'],0,',','.') ?></td>
                      </tr>
                      <?php $subTotal = $subTotal + $row['OrderTotalPrice'] ?>
                   <?php endforeach; ?>
                   <tr style="border-top: 2px solid black;">
-                     <td style="font-weight: 600; padding-top: 10px; padding-bottom: 5px;">Total Pembayaran</td>
-                     <td align="right" style="padding-top: 10px; padding-left: 10px; font-weight: 600;">Rp <?= number_format($subTotal) ?></td>
+                     <td style="font-weight: 600; padding-top: 5px; padding-bottom: 5px;">Total Pembayaran</td>
+                     <td style="padding-top: 5px; padding-bottom: 5px; font-weight: 600;">Rp <?= number_format($subTotal,0,',','.') ?></td>
                   </tr>
                </table>
             </td>
          </tr>
          <tr>
             <td align="center" style="padding-top: 40px; padding-bottom: 30px">
-               <a href="<?= base_url('order/sendOrderPage?invoice=') . $orders[0]['InvoiceNumber'] . '&customer=' . $orders[0]['CustomerUniqueID'] ?>" style="text-decoration: none; font-size: 22px; padding: 5px; text-transform: uppercase;">Klik Link Ini Untuk Mengantar</a>
+               <a href="<?= base_url('order/sendOrderPage?invoice=') . $orders[0]['InvoiceNumber'] . '&customer=' . $orders[0]['CustomerUniqueID'] ?>" style="text-decoration: none; font-size: 22px; padding: 5px; text-transform: uppercase;">Klik Disini Untuk Mengantar</a>
             </td>
          </tr>
          <tr>
