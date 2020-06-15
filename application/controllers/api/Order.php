@@ -69,10 +69,16 @@ class Order extends REST_Controller
                      'ProductUniqueID'       => $ordersData[$i]['productUniqueID'],
                      'OrderProductQuantity'  => $ordersData[$i]['jumlah'],
                      'OrderTotalPrice'       => $amount[$i],
+                     'OrderNote'             => $ordersData[$i]['order_note'],
                      'OrderStatus'           => 1,
                      'OrderDate'             => $orderDate
                   ];
                   $order = $this->order->createOrder($input);
+               }
+               if ($ordersData[$i]['order_note'] == "" || $ordersData[$i]['order_note'] == null) {
+                  $noteOrder[] = "Tidak ada catatan";
+               } else {
+                  $noteOrder[] = $ordersData[$i]['order_note'];
                }
                $detailOrder[] = [
                   'OrderNumber'     => $orderNumber,
@@ -80,7 +86,8 @@ class Order extends REST_Controller
                   'ProductName'     => $product[$i]['ProductName'],
                   'Harga'           => $product[$i]['ProductPrice'],  
                   'Jumlah'          => $ordersData[$i]['jumlah'],
-                  'Bayar'           => $amount[$i]
+                  'Bayar'           => $amount[$i],
+                  'Catatan'         => $noteOrder[$i]
                ];
                $billItems[] = [
                   "product"      => $product[$i]['ProductName'],
