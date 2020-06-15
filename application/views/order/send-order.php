@@ -15,10 +15,10 @@
       <!-- Google Font: Source Sans Pro -->
       <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
    </head>
-      <div class="container my-2">
+      <div class="container my-2">         
          <div class="row">
-            <div class="col-12">
-               <h3 class="text-center">Detail Pesanan</h3>
+            <div class="col-sm-12 col-md-6">
+               <h4 class="text-bold">Detail Customer</h4>
                <table class="table">
                   <tr>
                      <td width="40%" class="text-bold">Invoice</td>
@@ -36,7 +36,36 @@
                      <td class="text-bold">Alamat</td>
                      <td><?= $order[0]['ShippingAddress'] ?></td>
                   </tr>
+                  <tr>
+                     <td class="text-bold">Catatan Alamat</td>
+                     <td><?= $order[0]['NoteAddress'] ?></td>
+                  </tr>
                </table>
+            </div>
+            <div class="col-sm-12 col-md-6">
+               <h4 class="text-bold">Detail Toko</h4>
+               <table class="table">
+                  <tr>
+                     <td width="40%" class="text-bold">Nama Toko</td>
+                     <td><?= $order[0]['CompanyName'] ?></td>
+                  </tr>
+                  <tr>
+                     <td class="text-bold">Nama Pemilik</td>
+                     <td><?= $order[0]['PartnerName'] ?></td>
+                  </tr>
+                  <tr>
+                     <td class="text-bold">No. Telpon</td>
+                     <td><?= $order[0]['Phone'] ?></td>
+                  </tr>
+                  <tr>
+                     <td class="text-bold">Alamat</td>
+                     <td><?= $order[0]['Address'] . " " . $order[0]['District'] . " " . $order[0]['Province'] . " " . $order[0]['PostalCode'] ?></td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-12">               
                <table class="table mt-4">
                   <thead>
                      <tr>

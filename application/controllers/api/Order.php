@@ -170,9 +170,16 @@ class Order extends REST_Controller
                $longitude = $this->post('longitude');
             }
 
+            if ($this->post('note_address') == "") {
+               $noteAddress = null;
+            } else {
+               $noteAddress = $this->post('note_address');
+            }
+
             $this->db->insert('orders_address', [
                'InvoiceNumber'   => $invoiceNumber,
                'ShippingAddress' => $this->post('address'),
+               'NoteAddress'     => $noteAddress, 
                'Latitude'        => $latitude,
                'Longitude'       => $longitude
             ]);

@@ -122,7 +122,7 @@ class Transaction_m extends CI_Model {
    }
 
    public function getDetailOrderByInvoice($invoice) {
-      $this->db->select('orders.InvoiceNumber, orders.Invoice, orders.CustomerUniqueID, customers.CustomerName, customers.CustomerPhone, partners.CompanyName, products.PartnerID, products.ProductName, products.ProductPrice, orders.OrderProductQuantity, orders.OrderTotalPrice, orders.OrderStatus, orders.OrderDate, orders_address.ShippingAddress');
+      $this->db->select('orders.InvoiceNumber, orders.Invoice, orders.CustomerUniqueID, customers.CustomerName, customers.CustomerPhone, partners.CompanyName, partners.PartnerName, partners.Phone, partners.Address, partners.District, partners.Province, partners.PostalCode, products.PartnerID, products.ProductName, products.ProductPrice, orders.OrderProductQuantity, orders.OrderTotalPrice, orders.OrderStatus, orders.OrderDate, orders_address.ShippingAddress, orders_address.NoteAddress');
       $this->db->from('orders');
       $this->db->join('customers', 'orders.CustomerUniqueID = customers.CustomerUniqueID');
       $this->db->join('products', 'orders.ProductUniqueID = products.ProductUniqueID');

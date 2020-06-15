@@ -62,6 +62,10 @@
                      <td style="padding: 8px; font-weight: bold;">Alamat Pengiriman</td>
                      <td style="padding: 8px;"><?= $orders[0]['ShippingAddress'] ?></td>
                   </tr>
+                  <tr>
+                     <td style="padding: 8px; font-weight: bold;">Catatan Alamat</td>
+                     <td style="padding: 8px;"><?= ($orders[0]['NoteAddress'] == "" || $orders[0]['NoteAddress'] == null) ? "Tidak Ada Catatan" : $orders[0]['NoteAddress'] ?></td>
+                  </tr>
                </table>
             </td>
          </tr>
