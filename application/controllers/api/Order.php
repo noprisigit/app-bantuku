@@ -16,6 +16,7 @@ class Order extends REST_Controller
       $this->load->model('api/Auth_m', 'auth');
       $this->load->model('api/Product_m', 'product');
       $this->load->model('api/Partner_m', 'partner');
+      $this->load->model('Invoice_m', 'invoice');
    }
 
    public function createSignature_get() {

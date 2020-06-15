@@ -56,41 +56,45 @@
                   </tr>
                   <tr>
                      <td style="padding: 8px; font-weight: bold;">No. Telpon</td>
-                     <td style="padding: 8px;"><?= $orders[0]['CustomerPhone'] ?></td>
+                     <td style="padding: 8px;"><a style="text-decoration: none;" href="tel:<?= $orders[0]['CustomerPhone'] ?>"><?= $orders[0]['CustomerPhone'] ?></a></td>
                   </tr>
                   <tr>
-                     <td style="padding: 8px; font-weight: bold;">Alamat</td>
-                     <td style="padding: 8px;"><?= $orders[0]['CustomerAddress1'] ?></td>
+                     <td style="padding: 8px; font-weight: bold;">Alamat Pengiriman</td>
+                     <td style="padding: 8px;"><?= $orders[0]['ShippingAddress'] ?></td>
                   </tr>
                </table>
             </td>
          </tr>
-         <!-- <tr>
-            <td style="padding-left: 20px; padding-top: 30px;">
-               <h4 style="margin-top: 5px; margin-bottom: 5px;">Ringkasan Pembayaran</h4>
+         <tr>
+            <td style="padding-left: 20px;">
+               <h4 style="margin-top: 30px; margin-bottom: 5px; font-size: 22px;">Detail Toko</h4>
             </td>
-         </tr> -->
-         <!-- <tr>
-            <td style="padding-left: 20px; padding-right: 20px;">
+         </tr>
+         <tr>
+            <td style="padding-left: 20px; padding-right: 20px;"">
                <table width="100%" cellspacing="0" cellpading="0" style="border-collapse: collapse;">
                   <tr>
-                     <td style="padding: 8px 0 8px 0;">Total Harga (6 Barang)</td>
-                     <td align="right">Rp 30.000</td>
+                     <td style="padding: 8px; font-weight: bold;" width="30%">Nama Toko</td>
+                     <td><?= $orders[0]['CompanyName'] ?></td>
                   </tr>
                   <tr>
-                     <td style="padding: 8px 0 8px 0;">Total Ongkos Kirim</td>
-                     <td align="right">Rp 30.000</td>
+                     <td style="padding: 8px; font-weight: bold;" width="30%">Nama Pemilik</td>
+                     <td><?= $orders[0]['PartnerName'] ?></td>
                   </tr>
-                  <tr style="border-top: 2px solid black;">
-                     <td style="font-weight: 600;padding: 8px 0 8px 0;">Total Tagihan</td>
-                     <td align="right" style="font-weight: 600;">Rp 33.000</td>
+                  <tr>
+                     <td style="padding: 8px; font-weight: bold;">No. Telpon</td>
+                     <td><a style="text-decoration: none;" href="tel:<?= $orders[0]['Phone'] ?>"><?= $orders[0]['Phone'] ?></a></td>
+                  </tr>
+                  <tr>
+                     <td style="padding: 8px; font-weight: bold;">Alamat Toko</td>
+                     <td><?= $orders[0]['Address'] . " " . $orders[0]['District'] . " " . $orders[0]['Province'] . " " . $orders[0]['PostalCode'] ?></td>
                   </tr>
                </table>
             </td>
-         </tr> -->
+         </tr>
          <tr>
             <td style="padding-left: 20px;">
-               <h4 style="margin-top: 30px; margin-bottom: 5px;">Rincian Pesanan</h4>
+               <h4 style="margin-top: 30px; margin-bottom: 5px; font-size: 22px">Rincian Pesanan</h4>
             </td>
          </tr>
          <tr>
@@ -119,8 +123,11 @@
                </table>
             </td>
          </tr>
-      </table>
-      <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 20px;">
+         <tr>
+            <td align="center" style="padding-top: 40px; padding-bottom: 30px">
+               <a href="<?= base_url('order/sendOrderPage?invoice=') . $orders[0]['InvoiceNumber'] . '&customer=' . $orders[0]['CustomerUniqueID'] ?>" style="text-decoration: none; font-size: 22px; padding: 5px; text-transform: uppercase;">Klik Link Ini Untuk Mengantar</a>
+            </td>
+         </tr>
          <tr>
             <td align="center"
                style="padding: 10px 10px 10px 10px; background-image: radial-gradient(#00C6FF, #0072FF); color: #FFFFFF; font-size: 14px; font-weight: 400;">
