@@ -41,6 +41,14 @@ class Dashboard extends CI_Controller {
 		$this->load->view('template_payment', $data);
 	}
 
+	public function template_driver() 
+	{
+		$invoice = $this->input->get('inv');
+		$data['orders'] = $this->invoice->getDetailInvoice($invoice);
+		// dd($data['orders']);
+		$this->load->view('template_driver', $data);
+	}
+
 	public function getDashboardData()
 	{
 		$res['countPartners'] = $this->dashboard->countingPartner();

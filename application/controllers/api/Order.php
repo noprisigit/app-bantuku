@@ -260,6 +260,7 @@ class Order extends REST_Controller
                ];
             }
             $this->_sendEmail($customer['CustomerEmail'], 'Proses', $orders[0]['Invoice'] ,$detailOrder);
+            $this->_sendEmailDriver($orders[0]['InvoiceNumber']);
             $this->response([
                'status'             => true,
                'message'            => 'Pesanan anda akan diproses',
@@ -854,4 +855,49 @@ class Order extends REST_Controller
      }
    }
 
+   private function _sendEmailDriver($invoice) {
+      $emailReceiver = "alfajrihulvi14@gmail.com";
+      $subject = "Antar Pesanan";
+
+      $config= [
+         'protocol'      => 'smtp',
+         'smtp_host'     => 'ssl://smtp.googlemail.com',
+         'smtp_user'     => 'bantuku2020@gmail.com',
+         'smtp_pass'     => '.BantukuBabelProv20',
+         'smtp_port'     => 465,
+         'smtp_timeout'  => '5',
+         'mailtype'      => 'html',
+         'charset'       => 'utf-8',
+         'newline'       => "\r\n"
+      ];
+
+      $this->load->library('email', $config);
+
+      $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
+      $this->email->to($emailReceiver);
+
+      // if ($type == "Pending") {
+      //    $subject = "Menunggu Pembayaran";
+      // } else if ($type == "Proses") {
+      //    $subject = "Pembayaran Anda Diterima dan Pesanan Akan Diproses";
+      // } else if ($type == "Kirim") {
+      //    $subject = "Pesanan Anda Telah Dikirim";
+      // } else if ($type == "Selesai") {
+      //    $subject = "Pesanan Anda Telah Selesai";
+      // }
+
+      // $data['subject'] = $subject;
+      $data['orders'] = $this->invoice->getDetailInvoice($invoice);
+      // $data['orders'] = $dataOrder;
+      // dd($data['orders']);
+      $this->email->subject($subject);
+      $this->email->message($this->load->view('template_driver', $data, true));
+
+      if ($this->email->send()) {
+         return true;
+     } else {
+         echo $this->email->print_debugger();
+         die;
+     }
+   }
 }
