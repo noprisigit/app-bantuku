@@ -23,7 +23,17 @@ class Transaction extends REST_Controller
 
          if ($customerToken) {
             $transactions = $this->transaction->getAllTransactionsCustomer($this->get('customerUniqueID'));
-
+            for($i = 0; $i < count($transactions); $i++) {
+               if ($transactions[$i]['OrderStatus'] == "1" || $transactions[$i]['OrderStatus'] == 1) {
+                  $transactions[$i]['StatusPesanan'] = "Pending";
+               } else if ($transactions[$i]['OrderStatus'] == "2" || $transactions[$i]['OrderStatus'] == 2) {
+                  $transactions[$i]['StatusPesanan'] = "Proses";
+               } else if ($transactions[$i]['OrderStatus'] == "3" || $transactions[$i]['OrderStatus'] == 3) {
+                  $transactions[$i]['StatusPesanan'] = "Kirim";
+               } else if ($transactions[$i]['OrderStatus'] == "4" || $transactions[$i]['OrderStatus'] == 4) {
+                  $transactions[$i]['StatusPesanan'] = "Selesai";
+               }
+            }
             $this->response([
                'status'    => true,
                'jumlah'    => count($transactions),
