@@ -30,7 +30,7 @@
                   </tr>
                   <tr>
                      <td class="text-bold">No. Telpon</td>
-                     <td><?= $order[0]['CustomerPhone'] ?></td>
+                     <td><a href="tel:<?= $order[0]['CustomerPhone'] ?>"><?= $order[0]['CustomerPhone'] ?></a></td>
                   </tr>
                   <tr>
                      <td class="text-bold">Alamat</td>
@@ -38,7 +38,7 @@
                   </tr>
                   <tr>
                      <td class="text-bold">Catatan Alamat</td>
-                     <td><?= $order[0]['NoteAddress'] ?></td>
+                     <td><?= ($order[0]['NoteAddress'] == "" or $order[0]['NoteAddress'] == null) ? "Tidak ada catatan" : $order[0]['NoteAddress'] ?></td>
                   </tr>
                </table>
             </div>
@@ -55,7 +55,7 @@
                   </tr>
                   <tr>
                      <td class="text-bold">No. Telpon</td>
-                     <td><?= $order[0]['Phone'] ?></td>
+                     <td><a href="tel:<?= $order[0]['Phone'] ?>"><?= $order[0]['Phone'] ?></a></td>
                   </tr>
                   <tr>
                      <td class="text-bold">Alamat</td>
@@ -65,14 +65,13 @@
             </div>
          </div>
          <div class="row">
-            <div class="col-12">               
-               <table class="table mt-4">
+            <div class="col-sm-12 col-md-12">               
+               <table width="100%">
                   <thead>
                      <tr>
-                        <th class="p-1" style="vertical-align: middle; text-align: center;">Nama Barang</th>
-                        <th class="p-1" style="vertical-align: middle; text-align: center;">Jumlah</th>
-                        <th class="p-1" style="vertical-align: middle; text-align: center;">Harga Barang</th>
-                        <th class="p-1" style="vertical-align: middle; text-align: center;">Subtotal</th>
+                        <th style="vertical-align: middle;">Nama Barang</th>
+                        <th style="vertical-align: middle;">Subtotal</th>
+                        <th style="vertical-align: middle;">Catatan</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -82,25 +81,24 @@
                      ?>
                      <?php foreach($order as $row) : ?>
                         <tr>
-                           <td width="30%" class="p-1"><?= $row['ProductName'] ?></td>
-                           <td class="text-center p-1"><?= $row['OrderProductQuantity'] ?></td>
-                           <td class="p-1">Rp <?= number_format($row['ProductPrice'],0,',','.') ?></td>
-                           <td class="p-1">Rp <?= number_format($row['OrderTotalPrice'],0,',','.') ?></td>
+                           <td width="45%"><?= $row['ProductName'] ?></td>
+                           <td width="25%" rowspan="2">Rp <?= number_format($row['OrderTotalPrice'],0,',','.') ?></td>
+                           <td rowspan="2"><?= ($row['OrderNote'] == "" || $row['OrderNote'] == null) ? "Tidak ada catatan" : $row['OrderNote'] ?></td>
+                        </tr>
+                        <tr>
+                           <td style="padding-bottom: 8px"><?= $row['OrderProductQuantity'] ?> x Rp <?= number_format($row['ProductPrice'],0,',','.') ?></td>
                         </tr>
                         <?php 
-                           $jumlah = $jumlah + $row['OrderProductQuantity']; 
                            $subTotal = $subTotal + $row['OrderTotalPrice']
                         ?>
                      <?php endforeach; ?>
                      <tr>
-                        <td class="text-bold p-1">Jumlah</td>
-                        <td class="text-bold p-1 text-center"><?= $jumlah ?></td>
-                        <td></td>
-                        <td class="text-bold p-1">Rp <?= number_format($subTotal,0,',','.') ?></td>
+                        <td class="text-bold">Jumlah</td>
+                        <td class="text-bold">Rp <?= number_format($subTotal,0,',','.') ?></td>
                      </tr>
                   </tbody>
                </table>
-               <div class="text-center">               
+               <div class="text-center mt-4">               
                   <a href="<?= base_url('order/sendOrder?invoice=') . $order[0]['InvoiceNumber'] .'&customer=' . $order[0]['CustomerUniqueID'] ?>" class="btn btn-primary align-items-center">Antar Pesanan</a>
                </div>
             </div>
