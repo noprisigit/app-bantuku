@@ -6,6 +6,37 @@ class Order extends CI_Controller {
       $this->load->model('Transaction_m', 'transaction');
    }
 
+   private function _emailSendOrder($invoice, $emailReceiver) {
+      $subject = "PESANAN DIANTAR - ".$invoice;
+
+      $config= [
+         'protocol'      => 'smtp',
+         'smtp_host'     => 'ssl://smtp.googlemail.com',
+         'smtp_user'     => 'bantuku2020@gmail.com',
+         'smtp_pass'     => '.BantukuBabelProv20',
+         'smtp_port'     => 465,
+         'smtp_timeout'  => '5',
+         'mailtype'      => 'html',
+         'charset'       => 'utf-8',
+         'newline'       => "\r\n"
+      ];
+
+      $this->load->library('email', $config);
+
+      $this->email->from('bantuku2020@gmail.com', 'Bantuku Support');
+      $this->email->to($emailReceiver);
+
+      $this->email->subject($subject);
+      $this->email->message($this->load->view('template_sendOrder', true));
+
+      if ($this->email->send()) {
+         return true;
+      } else {
+         echo $this->email->print_debugger();
+         die;
+      }   
+   }
+
    public function sendOrderPage() {
       $invoice = $this->input->get('invoice');
       $customerUniqueID = $this->input->get('customer');
@@ -24,6 +55,8 @@ class Order extends CI_Controller {
             $this->db->set('OrderStatus', 3);
             $this->db->where('InvoiceNumber', $invoice);
             $this->db->update('orders');
+
+            $this->_emailSendOrder($order[0]['Invoice'], $order[0]['CustomerEmail']);
 
             $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible">
                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
