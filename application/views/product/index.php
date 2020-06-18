@@ -132,7 +132,7 @@
 														<img class="img-fluid img-thumbnail center-block text-center" id="img-product" alt="Product Image">
 													</div>
 													<div class="col-md-5">                                                            
-														<table class="table table-bordered">
+														<table class="table">
 															<tr>
 																<td class="text-bold" width="30%">Unique ID</td>
 																<td id="det-product-uniqueID">Loading...</td>
@@ -168,7 +168,7 @@
 														</table>
 													</div>
 													<div class="col-md-4">
-														<table class="table table-bordered">
+														<table class="table">
 															<tr>
 																<td class="text-bold" width="50%">Status Promo Produk</td>
 																<td id="det-product-status-promo">Loading...</td>

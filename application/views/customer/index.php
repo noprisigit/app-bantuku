@@ -106,33 +106,33 @@
                   <div class="modal-body">
                      <div class="card">
                         <div class="card-body">
-                           <table class="table table-bordered">
+                           <table class="table">
                               <tr>
-                                 <td width="30%">UniqueID</td>
+                                 <td class="text-bold" width="30%">UniqueID</td>
                                  <td id="detCustomerUniqID"></td>
                               </tr>
                               <tr>
-                                 <td>Nama Customer</td>
+                                 <td class="text-bold">Nama Customer</td>
                                  <td id="detCustomerName"></td>
                               </tr>
                               <tr>
-                                 <td>Email</td>
+                                 <td class="text-bold">Email</td>
                                  <td id="detCustomerEmail"></td>
                               </tr>
                               <tr>
-                                 <td>No. Telphone</td>
+                                 <td class="text-bold">No. Telphone</td>
                                  <td id="detCustomerPhone"></td>
                               </tr>
                               <tr>
-                                 <td>Alamat</td>
+                                 <td class="text-bold">Alamat</td>
                                  <td id="detCustomerAddress"></td>
                               </tr>
                               <tr>
-                                 <td>Status Email</td>
+                                 <td class="text-bold">Status Email</td>
                                  <td id=detCustomerEmailVerified></td>
                               </tr>
                               <tr>
-                                 <td>Tanggal Registrasi</td>
+                                 <td class="text-bold">Tanggal Registrasi</td>
                                  <td id="detCustomerRegistrationDate"></td>
                               </tr>
                            </table>
