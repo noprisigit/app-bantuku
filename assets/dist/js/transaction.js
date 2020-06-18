@@ -93,7 +93,11 @@ $(document).ready(function() {
       $('#detailTotalBayar').html(": Loading...");
       $('#detailOrderDate').html(": Loading...");
       $('#detailOrderStatus').html(": Loading...");
+      $('#detailOrderNote').html(": Loading...");
       $('#detailShippingAddress').html(": Loading...");
+      $('#detailLatitude').html(": Loading...");
+      $('#detailLongitude').html(": Loading...");
+      $('#detailAddressNote').html(": Loading...");
       
       $.ajax({
          url: 'transaction/getDetailOrder',
@@ -106,6 +110,11 @@ $(document).ready(function() {
             if (data.OrderStatus === "3") statusPesanan = '<span class="badge badge-info">Kirim</span>';
             if (data.OrderStatus === "4") statusPesanan = '<span class="badge badge-success">Selesai</span>';
 
+            let orderNote = (data.OrderNote === "" || data.OrderNote === null) ? "Tidak ada catatan" : data.OrderNote;
+            let addressNote = (data.NoteAddress === "" || data.NoteAddress === null) ? "Tidak ada catatan" : data.NoteAddress;
+            let latitude = (data.Latitude === "" || data.Latitude === null) ? "Tidak ada" : data.Latitude;
+            let longitude = (data.Longitude === "" || data.Longitude === null) ? "Tidak ada" : data.Longitude;
+
             $('#detailInvoice').html("Invoice: " + data.Invoice);
             $('#detailOrderNumber').html(": " + orderNumber);
             $('#detailCustomerName').html(": " + data.CustomerName);
@@ -115,7 +124,11 @@ $(document).ready(function() {
             $('#detailTotalBayar').html(": " + formatRupiah(data.OrderTotalPrice, "Rp "));
             $('#detailOrderDate').html(": " + changeDateFormat(data.OrderDate));
             $('#detailOrderStatus').html(": " + statusPesanan);
+            $('#detailLatitude').html(": " + latitude);
+            $('#detailLongitude').html(": " + longitude);
+            $('#detailOrderNote').html(": " + orderNote);
             $('#detailShippingAddress').html(": " + data.ShippingAddress);
+            $('#detailAddressNote').html(": " + addressNote);
          }
       });
       return false;

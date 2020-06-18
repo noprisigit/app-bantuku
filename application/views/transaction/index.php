@@ -25,7 +25,7 @@
 </section>
 
 <div class="modal fade" id="modalDetailOrder">
-   <div class="modal-dialog modal-lg">
+   <div class="modal-dialog modal-xl">
       <div class="modal-content">
          <div class="modal-header bg-primary" style="background-image: linear-gradient(to right bottom, #00C6FF, #0072FF)">
             <h4 class="modal-title">Detail Pesanan</h4>
@@ -75,15 +75,33 @@
                               <td class="text-bold">Status Pesanan</td>
                               <td id="detailOrderStatus">: Loading...</td>
                            </tr>
+                           <tr>
+                              <td class="text-bold">Catatan Pesanan</td>
+                              <td id="detailOrderNote">: Loading...</td>
+                           </tr>
                         </table>
                      </div>
                   </div>
                   <div class="row">
-                     <div class="col-md-12">
+                     <div class="col-md-6">
                         <table class="table">
                            <tr>
-                              <td class="text-bold" width="20%">Alamat Pengiriman</td>
+                              <td class="text-bold" width="30%">Alamat Pengiriman</td>
                               <td id="detailShippingAddress">: Loading...</td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="col-md-6">
+                        <table class="table">
+                           <tr>
+                              <td class="text-bold" width="25%">Latitude</td>
+                              <td id="detailLatitude">: Loading...</td>
+                              <td class="text-bold"">Longitude</td>
+                              <td id="detailLongitude">: Loading...</td>
+                           </tr>
+                           <tr>
+                              <td class="text-bold">Catatan Pengiriman</td>
+                              <td id="detailAddressNote" colspan="3">: Loading...</td>
                            </tr>
                         </table>
                      </div>
