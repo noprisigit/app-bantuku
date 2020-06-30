@@ -101,6 +101,10 @@ class Order extends REST_Controller
             }
             $emailInvoice = "INV/" . date('Ymd') . "/#" . "/" . $invoiceNumber;
             $this->_sendEmail($customer['CustomerEmail'], 'Pending', $emailInvoice ,$detailOrder);
+            $arrName = explode(' ', $customer['CustomerName']);
+
+            $message = "Hai " . strtolower($arrName[0]) . ", pesananmu sudah kami terima. Silahkan lakukan pembayaran terlebih dahulu ya. BANTUKU";
+            sendMessage($customer['CustomerPhone'], $message);
 
             $user_id = "bot33081";
             $pass = "p@ssw0rd";
@@ -242,7 +246,7 @@ class Order extends REST_Controller
             $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
             $this->db->where('orders.InvoiceNumber', $this->post('invoiceNumber'));
             $orders = $this->db->get()->result_array();
-            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerPhone, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $billTotal = 0;
             for($i = 0; $i < count($orders); $i++) {
                $product[] = $this->product->getProductPrice($orders[$i]['ProductUniqueID']);
@@ -285,6 +289,10 @@ class Order extends REST_Controller
                ];
             }
             $this->_sendEmail($customer['CustomerEmail'], 'Proses', $orders[0]['Invoice'] ,$detailOrder);
+            $arrName = explode(' ', $customer['CustomerName']);
+
+            $message = "Hai " . strtolower($arrName[0]) . ", pembayaranmu sudah kami terima. Kami akan segera mengirimkan pesanan kamu. Ditunggu yaaa :). BANTUKU";
+            sendMessage($customer['CustomerPhone'], $message);
             $this->_sendEmailDriver($orders[0]['InvoiceNumber']);
             $this->_sendEmailDriver($orders[0]['InvoiceNumber']);
             
@@ -346,7 +354,7 @@ class Order extends REST_Controller
             $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
             $this->db->where('orders.InvoiceNumber', $this->post('invoiceNumber'));
             $orders = $this->db->get()->result_array();
-            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerPhone, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $sendOrderDate = date('Y-m-d H:i:s');
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
@@ -372,6 +380,10 @@ class Order extends REST_Controller
             $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
             $this->_sendEmail($customer['CustomerEmail'], 'Kirim', $orders[0]['Invoice'] ,$detailOrder);
+            $arrName = explode(' ', $customer['CustomerName']);
+
+            $message = "Hai " . strtolower($arrName[0]) . ", driver kami akan mengirimkan pesananmu ya. Stay tune ya :). BANTUKU";
+            sendMessage($customer['CustomerPhone'], $message);
             if ($orders[0]['Latitude'] == "" || $orders[0]['Latitude'] == null) {
                 $latitude = "";
             } else {
@@ -428,7 +440,7 @@ class Order extends REST_Controller
             $this->db->join('orders_address', 'orders.InvoiceNumber = orders_address.InvoiceNumber');
             $this->db->where('orders.InvoiceNumber', $this->post('invoiceNumber'));
             $orders = $this->db->get()->result_array();
-            $customer = $this->db->select('CustomerName, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
+            $customer = $this->db->select('CustomerName, CustomerPhone, CustomerEmail')->get_where('customers', ['CustomerUniqueID' => $orders[0]['CustomerUniqueID']])->row_array();
             $completeOrderDate = date('Y-m-d H:i:s');
             $billTotal = 0;
             for ($i = 0; $i < count($orders); $i++) {
@@ -455,6 +467,10 @@ class Order extends REST_Controller
             $this->db->where('InvoiceNumber', $this->post('invoiceNumber'));
             $this->db->update('orders');
             $this->_sendEmail($customer['CustomerEmail'], 'Selesai', $orders[0]['Invoice'] ,$detailOrder);
+            $arrName = explode(' ', $customer['CustomerName']);
+
+            $message = "Hai " . strtolower($arrName[0]) . ", pesananmu sudah sampai nih, selamat menikmati ya :). Terima kasih telah berbenlanja pada aplikasi BANTUKU";
+            sendMessage($customer['CustomerPhone'], $message);
             if ($orders[0]['Latitude'] == "" || $orders[0]['Latitude'] == null) {
                 $latitude = "";
             } else {

@@ -15,6 +15,21 @@ $(document).ready(function() {
                 $('#countCategory').html(res.countCategories.toString() + ' Kategori');
                 $('#countAccount').html(res.countAccount.toString() + ' Akun');
                 $('#countOrdersThisMonth').html(res.countOrdersThisMonth.jumlah.toString() + ' Pesanan');
+
+                $('.info-box-number').map(function() {
+                    let idNumber = $(this).attr('id');
+                    $('#'+idNumber).prop('Counter', 0).animate({
+                        Counter: $('#'+idNumber).text()
+                    }, {
+                        duration: 4000,
+                        easing: 'swing',
+                        step: function (now) {
+                            $('#'+idNumber).text(Math.ceil(now));
+                        }
+                    });
+                })
+                
+
                 if (res.jumlahPendapatan.total_bayar == null) {
                     $('#jumlahPendapatan').html("Rp 0");
                 } else {
@@ -43,6 +58,19 @@ $(document).ready(function() {
             }
         });
     }
+
+    // $('.info-box-number').each(function () {
+    //     console.log(this);
+    //     $(this).prop('Counter', 1).animate({
+    //         Counter: $(this).text()
+    //     }, {
+    //         duration: 4000,
+    //         easing: 'swing',
+    //         step: function (now) {
+    //             $(this).text(Math.ceil(now));
+    //         }
+    //     });
+    // });
 
     function showChartCustomers() {
         $.ajax({

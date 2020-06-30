@@ -103,6 +103,8 @@ class Auth extends REST_Controller
                 ];
     
                 $this->_sendEmail($email, 'verify', $data);
+                $message = "Terima kasih " .$full_name. ", kamu telah telah terdaftar pada aplikasi Bantuku. Silahkan masukkan kode berikut ini untuk memverifikasi akun anda. kode PIN anda : " . $generateCode . ". Harap jangan sebarkan kode PIN anda ke orang lain.";
+                sendMessage($phone, $message);
     
                 if ($this->auth->registration($data) > 0) {
                     $this->response([
@@ -164,6 +166,10 @@ class Auth extends REST_Controller
             die;
         }
     }
+
+    // public function sendMessage_get() {
+    //     sendMessage();
+    // }
     
     public function verifiedEmail_post()
     {
@@ -221,6 +227,10 @@ class Auth extends REST_Controller
                 $this->db->update('customers');
                 $customer = $this->db->select('CustomerUniqueID, CustomerName, CustomerGender, CustomerEmail, CustomerPhone, CustomerAddress1, CustomerVerificationCode')->get_where('customers', ['CustomerUniqueID' => $this->post('customerUniqueID')])->row_array();
                 $this->_sendEmail($customer['CustomerEmail'], 'verification code', $customer);
+                $arrName = explode(' ', $customer['CustomerName']);
+
+                $message = "HAI " . strtoupper($arrName[0]) . ", KODE PIN ANDA ADALAH " . $generateCode . ". HARAP JANGAN MEMBERITAHUKAN PIN ANDA KE ORANG LAIN";
+                sendMessage($customer['CustomerPhone'], $message);
                 $this->response([
                     'status'    => true,
                     'data'      => [

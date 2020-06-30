@@ -70,3 +70,28 @@ function resizeImage($filename, $folder_name)
 
     $th->image_lib->clear();
 }
+
+function sendMessage($phone, $message) {
+    $userkey = "53ab867e7aa5";
+    $passkey = "100e821ffc195a7cafc73cf5";
+    $telp = $phone;
+    $text = $message;
+    $url = "https://masking.zenziva.net/api/sendsms/";
+
+    $curlHandler = curl_init();
+    curl_setopt($curlHandler, CURLOPT_URL, $url);
+    curl_setopt($curlHandler, CURLOPT_HEADER, 0);
+    curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curlHandler, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($curlHandler, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($curlHandler, CURLOPT_TIMEOUT,30);
+    curl_setopt($curlHandler, CURLOPT_POST, 1);
+    curl_setopt($curlHandler, CURLOPT_POSTFIELDS, array(
+        'userkey' => $userkey,
+        'passkey' => $passkey,
+        'nohp' => $telp,
+        'pesan' => $text
+    ));
+    $results = json_decode(curl_exec($curlHandler), true);
+    curl_close($curlHandler);
+}
